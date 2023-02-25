@@ -19,9 +19,9 @@ class Login extends Controller
     {
         if (Session()->get('email')) {
             if (Session()->get('status') === 'User') {
-                return redirect()->route('home');
+                return redirect()->route('dashboardUser');
             } else {
-                return redirect()->route('dashboard');
+                return redirect()->route('dashboardAdmin');
             }
         }
 
@@ -30,23 +30,6 @@ class Login extends Controller
         ];
 
         return view('auth.login', $data);
-    }
-
-    public function admin()
-    {
-        if (Session()->get('email')) {
-            if (Session()->get('status') === 'User') {
-                return redirect()->route('home');
-            } else {
-                return redirect()->route('dashboard');
-            }
-        }
-
-        $data = [
-            'title' => 'Login Admin'
-        ];
-
-        return view('auth.loginAdmin', $data);
     }
 
     public function prosesLogin()

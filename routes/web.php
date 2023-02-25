@@ -22,20 +22,20 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'revalidate'], function () {
 
     // Home
-    Route::get('/', [Home::class, 'index'])->name('landing');
+    // Route::get('/', [Home::class, 'index'])->name('landing');
 
     // Register
     Route::get('/register', [Register::class, 'index'])->name('register');
     Route::post('/register', [Register::class, 'prosesRegister']);
 
     // Login User
-    Route::get('/login', [Login::class, 'index'])->name('login');
+    Route::get('/', [Login::class, 'index'])->name('login');
     Route::post('/login', [Login::class, 'prosesLogin']);
 
     // Logout
     Route::get('/logout', [Login::class, 'logout'])->name('logout');
 
-    Route::group(['middleware' => 'mahasiswa'], function () {
+    Route::group(['middleware' => 'user'], function () {
     });
 
     Route::group(['middleware' => 'admin'], function () {
