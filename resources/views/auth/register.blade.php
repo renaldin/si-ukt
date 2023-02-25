@@ -45,7 +45,7 @@
                             <div class="col-lg-6">
                                <div class="form-group">
                                   <label for="nama" class="form-label">Nama Lengkap</label>
-                                  <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" id="nama" aria-describedby="nama" placeholder=" " autofocus>
+                                  <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" id="nama" aria-describedby="nama" placeholder=" " value="{{ old('nama') }}" autofocus>
                                   @error('nama')
                                   <div class="invalid-feedback">
                                     {{ $message }}
@@ -56,7 +56,7 @@
                             <div class="col-lg-6">
                                <div class="form-group">
                                   <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
-                                  <input type="number" class="form-control @error('nomor_telepon') is-invalid @enderror" name="nomor_telepon" id="nomor_telepon" aria-describedby="nomor_telepon" placeholder=" " autofocus>
+                                  <input type="number" class="form-control @error('nomor_telepon') is-invalid @enderror" name="nomor_telepon" id="nomor_telepon" aria-describedby="nomor_telepon" placeholder=" " value="{{ old('nomor_telepon') }}" autofocus>
                                   @error('nomor_telepon')
                                   <div class="invalid-feedback">
                                     {{ $message }}
@@ -67,7 +67,7 @@
                             <div class="col-lg-6">
                                <div class="form-group">
                                   <label for="email" class="form-label">Email</label>
-                                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" placeholder=" ">
+                                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" placeholder=" " value="{{ old('email') }}">
                                   @error('email')
                                   <div class="invalid-feedback">
                                     {{ $message }}

@@ -32,50 +32,36 @@ class Register extends Controller
         return view('auth.register', $data);
     }
 
-    public function prosesRegister()
+    public function registerProcess()
     {
         Request()->validate([
             'nama'              => 'required',
             'nomor_telepon'     => 'required|numeric',
-            'alamat'            => 'required',
-            'nama_perusahaan'   => 'required',
-            'alamat_perusahaan' => 'required',
             'email'             => 'required|unique:user,email|email',
-            'password'          => 'min:6|required',
-            'foto_perusahaan'   => 'required|mimes:jpeg,png,jpg|max:2048',
+            'password'          => 'required|min:6',
+            'confirm_password'   => 'required|min:6|same:password'
         ], [
             'nama.required'             => 'Nama lengkap harus diisi!',
             'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
-            'alamat.required'           => 'Alamat harus diisi!',
-            'nama_perusahaan.required'  => 'Nama perusahaan harus diisi!',
-            'alamat_perusahaan.required' => 'Alamat perusahaan harus diisi!',
             'email.required'            => 'Email harus diisi!',
             'email.unique'              => 'Email sudah digunakan!',
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
             'password.required'         => 'Password harus diisi!',
             'password.min'              => 'Password minimal 6 karakter!',
-            'foto_perusahaan.required'  => 'Logo Perusahaan harus diisi!',
-            'foto_perusahaan.mimes'     => 'Format Logo Perusahaan harus jpg/jpeg/png!',
-            'foto_perusahaan.max'       => 'Ukuran Logo Perusahaan maksimal 2 mb',
+            'confirm_password.same'     => 'Ulangi Password  harus sama dengan Password!',
+            'confirm_password.required'  => 'Ulangi Password harus diisi!',
+            'confirm_password.min'       => 'Ulangi Password  minimal 6 karakter!',
         ]);
-
-        $file = Request()->foto_perusahaan;
-        $fileName = date('mdYHis') . Request()->nama_perusahaan . '.' . $file->extension();
-        $file->move(public_path('foto_perusahaan'), $fileName);
 
         $data = [
             'nama'              => Request()->nama,
             'nomor_telepon'     => Request()->nomor_telepon,
-            'alamat'            => Request()->alamat,
-            'nama_perusahaan'   => Request()->nama_perusahaan,
-            'alamat_perusahaan' => Request()->alamat_perusahaan,
-            'foto_perusahaan'   => $fileName,
             'email'             => Request()->email,
             'password'          => Hash::make(Request()->password),
         ];
 
         $this->ModelAuth->register($data);
-        return redirect()->route('login')->with('berhasil', 'Anda berhasil membuat akun !');
+        return redirect()->route('login')->with('success', 'Anda berhasil membuat akun!');
     }
 }

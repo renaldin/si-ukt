@@ -26,7 +26,7 @@ Route::group(['middleware' => 'revalidate'], function () {
 
     // Register
     Route::get('/register', [Register::class, 'index'])->name('register');
-    Route::post('/register', [Register::class, 'prosesRegister']);
+    Route::post('/register', [Register::class, 'registerProcess']);
 
     // Login User
     Route::get('/', [Login::class, 'index'])->name('login');
