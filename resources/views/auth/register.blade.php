@@ -1,146 +1,125 @@
-@extends('layoutUser.main')
+@extends('auth.main')
 
 @section('content')
-<section class="info-area padding-top-50px padding-bottom-70px">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 responsive-column">
-                <div class="card box-shadow" style="box-shadow: 3px 3px 3px #e8e7e7;">
-                    <div class="card-header">
-                        <div>
-                            <h5 class="modal-title title" id="exampleModalLongTitle">Register</h5>
-                            <p class="font-size-14">Hello! Silahkan untuk membuat akun baru!</p>
+<section class="login-content">
+    <div class="row m-0 align-items-center bg-white vh-100">     
+        <div class="col-md-6 d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden">
+            <img src="{{ asset('template/html/assets/images/auth/05.png') }}" class="img-fluid gradient-main animated-scaleX" alt="images">
+         </div>       
+       <div class="col-md-6">
+          <div class="row justify-content-center">
+             <div class="col-md-10">
+                <div class="card card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
+                   <div class="card-body">
+                      <a href="{{ asset('template/html/dashboard/index.html') }}" class="navbar-brand d-flex align-items-center mb-3">
+                         <!--Logo start-->
+                         <img src="{{ asset('gambar/logo.png') }}" width="175" alt="Logo Jawer.id">
+                      </a>
+                      <h2 class="mb-2 text-center">Register</h2>
+                      <p class="text-center">Silahkan isi sesuai dengan data Anda</p>
+                      <form action="/register" method="POST">
+                        @csrf
+                        <div class="row">
+                            @if (session('success'))
+                                <div class="col-lg-12">
+                                    <div class="alert bg-primary text-white alert-dismissible">
+                                        <span>
+                                            <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.9846 21.606C11.9846 21.606 19.6566 19.283 19.6566 12.879C19.6566 6.474 19.9346 5.974 19.3196 5.358C18.7036 4.742 12.9906 2.75 11.9846 2.75C10.9786 2.75 5.26557 4.742 4.65057 5.358C4.03457 5.974 4.31257 6.474 4.31257 12.879C4.31257 19.283 11.9846 21.606 11.9846 21.606Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M9.38574 11.8746L11.2777 13.7696L15.1757 9.86963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>                            
+                                             {{ session('success') }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @endif
+                            @if (session('fail'))
+                                <div class="col-lg-12">
+                                    <div class="alert bg-danger text-white alert-dismissible">
+                                        <span>
+                                            <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9852 21.606C11.9852 21.606 19.6572 19.283 19.6572 12.879C19.6572 6.474 19.9352 5.974 19.3192 5.358C18.7042 4.742 12.9912 2.75 11.9852 2.75C10.9792 2.75 5.26616 4.742 4.65016 5.358C4.03516 5.974 4.31316 6.474 4.31316 12.879C4.31316 19.283 11.9852 21.606 11.9852 21.606Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M13.864 13.8249L10.106 10.0669" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M10.106 13.8249L13.864 10.0669" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                            
+                                            {{ session('fail') }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="contact-form-action">
-                            <form action="/register" method="Post" enctype="multipart/form-data">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="input-box">
-                                            <label class="label-text">Nama Lengkap</label>
-                                            <div class="form-group">
-                                                <span class="la la-circle form-icon"></span>
-                                                <input class="form-control" type="text" name="nama" placeholder="Masukkan Nama Lengkap" value="{{ old('nama') }}" autofocus>
-                                            </div>
-                                            @error('nama')
-                                            <div style="margin-top: -16px">
-                                                <small class="text-danger">{{ $message }}</small>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="input-box">
-                                            <label class="label-text">No. Telepon</label>
-                                            <div class="form-group">
-                                                <span class="la la-circle form-icon"></span>
-                                                <input class="form-control" type="text" name="nomor_telepon" placeholder="Masukkan Nomor Telepon" value="{{ old('nomor_telepon') }}">
-                                            </div>
-                                            @error('nomor_telepon')
-                                            <div style="margin-top: -16px">
-                                                <small class="text-danger">{{ $message }}</small>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="input-box">
-                                            <label class="label-text">Alamat</label>
-                                            <div class="form-group">
-                                                <span class="la la-circle form-icon"></span>
-                                                <input class="form-control" type="text" name="alamat" placeholder="Masukkan Alamat" value="{{ old('alamat') }}">
-                                            </div>
-                                            @error('alamat')
-                                            <div style="margin-top: -16px">
-                                                <small class="text-danger">{{ $message }}</small>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="input-box">
-                                            <label class="label-text">Nama Perusahaan</label>
-                                            <div class="form-group">
-                                                <span class="la la-circle form-icon"></span>
-                                                <input class="form-control" type="text" name="nama_perusahaan" placeholder="Masukkan Nama Perusahaan" value="{{ old('nama_perusahaan') }}">
-                                            </div>
-                                            @error('nama_perusahaan')
-                                            <div style="margin-top: -16px">
-                                                <small class="text-danger">{{ $message }}</small>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="input-box">
-                                            <label class="label-text">Alamat Perusahaan</label>
-                                            <div class="form-group">
-                                                <span class="la la-circle form-icon"></span>
-                                                <input class="form-control" type="text" name="alamat_perusahaan" placeholder="Masukkan Alamat Perusahaan" value="{{ old('alamat_perusahaan') }}">
-                                            </div>
-                                            @error('alamat_perusahaan')
-                                            <div style="margin-top: -16px">
-                                                <small class="text-danger">{{ $message }}</small>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="input-box">
-                                            <label class="label-text">Logo Perusahaan</label>
-                                            <div class="form-group">
-                                                <span class="la la-circle form-icon"></span>
-                                                <input class="form-control" type="file" name="foto_perusahaan">
-                                            </div>
-                                            @error('foto_perusahaan')
-                                            <div style="margin-top: -16px">
-                                                <small class="text-danger">{{ $message }}</small>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="input-box">
-                                            <label class="label-text">Email</label>
-                                            <div class="form-group">
-                                                <span class="la la-circle form-icon"></span>
-                                                <input class="form-control" type="email" name="email" placeholder="Masukkan Email" value="{{ old('email') }}">
-                                            </div>
-                                            @error('email')
-                                            <div style="margin-top: -16px">
-                                                <small class="text-danger">{{ $message }}</small>
-                                            </div>
-                                            @enderror
-                                        </div>          
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="input-box">
-                                            <label class="label-text">Password</label>
-                                            <div class="form-group">
-                                                <span class="la la-circle form-icon"></span>
-                                                <input class="form-control" type="password" name="password" placeholder="Masukkan Password">
-                                            </div>
-                                            @error('password')
-                                            <div style="margin-top: -16px">
-                                                <small class="text-danger">{{ $message }}</small>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="btn-box pt-3 pb-4">
-                                    <center>
-                                        <button type="submit" class="theme-btn w-50">Register</button>
-                                    </center>
-                                </div>
-                            </form>
-                        </div><!-- end contact-form-action -->
-                    </div>
+                         <div class="row">
+                            <div class="col-lg-6">
+                               <div class="form-group">
+                                  <label for="nama" class="form-label">Nama Lengkap</label>
+                                  <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" id="nama" aria-describedby="nama" placeholder=" " autofocus>
+                                  @error('nama')
+                                  <div class="invalid-feedback">
+                                    {{ $message }}
+                                  </div>
+                                  @enderror
+                               </div>
+                            </div>
+                            <div class="col-lg-6">
+                               <div class="form-group">
+                                  <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
+                                  <input type="number" class="form-control @error('nomor_telepon') is-invalid @enderror" name="nomor_telepon" id="nomor_telepon" aria-describedby="nomor_telepon" placeholder=" " autofocus>
+                                  @error('nomor_telepon')
+                                  <div class="invalid-feedback">
+                                    {{ $message }}
+                                  </div>
+                                  @enderror
+                               </div>
+                            </div>
+                            <div class="col-lg-6">
+                               <div class="form-group">
+                                  <label for="email" class="form-label">Email</label>
+                                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" placeholder=" ">
+                                  @error('email')
+                                  <div class="invalid-feedback">
+                                    {{ $message }}
+                                  </div>
+                                  @enderror
+                               </div>
+                            </div>
+                            <div class="col-lg-6">
+                               <div class="form-group">
+                                  <label for="password" class="form-label">Password</label>
+                                  <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" aria-describedby="password" placeholder=" ">
+                                  @error('password')
+                                  <div class="invalid-feedback">
+                                    {{ $message }}
+                                  </div>
+                                  @enderror
+                               </div>
+                            </div>
+                            <div class="col-lg-6">
+                               <div class="form-group">
+                                  <label for="confirm_password" class="form-label">Ulangi Password</label>
+                                  <input type="password" class="form-control @error('confirm_password') is-invalid @enderror" name="confirm_password" id="confirm_password" aria-describedby="confirm_password" placeholder=" ">
+                                  @error('confirm_password')
+                                  <div class="invalid-feedback">
+                                    {{ $message }}
+                                  </div>
+                                  @enderror
+                               </div>
+                            </div>
+                         </div>
+                         <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                         </div>
+                         <p class="mt-3 text-center">
+                            Sudah punya akun? <a href="/" class="text-underline">Klik untuk Login</a>
+                         </p>
+                      </form>
+                   </div>
                 </div>
-            </div>
-        </div><!-- end row -->
-    </div><!-- end container -->
-</section>
+             </div>
+          </div>
+          <div class="sign-bg">
+             <svg width="280" height="230" viewBox="0 0 431 398" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g opacity="0.05">
+                <rect x="-157.085" y="193.773" width="543" height="77.5714" rx="38.7857" transform="rotate(-45 -157.085 193.773)" fill="#3B8AFF"/>
+                <rect x="7.46875" y="358.327" width="543" height="77.5714" rx="38.7857" transform="rotate(-45 7.46875 358.327)" fill="#3B8AFF"/>
+                <rect x="61.9355" y="138.545" width="310.286" height="77.5714" rx="38.7857" transform="rotate(45 61.9355 138.545)" fill="#3B8AFF"/>
+                <rect x="62.3154" y="-190.173" width="543" height="77.5714" rx="38.7857" transform="rotate(45 62.3154 -190.173)" fill="#3B8AFF"/>
+                </g>
+             </svg>
+          </div>
+       </div>
+    </div>
+ </section>
 @endsection

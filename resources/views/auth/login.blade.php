@@ -65,10 +65,10 @@
                                <a href="/lupa-password">Lupa Password?</a>
                             </div>
                          </div>
-                         <div class="d-flex justify-content-start">
+                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Login</button>
                          </div>
-                         <p class="mt-3">
+                         <p class="mt-3 text-center">
                             Tidak punya akun? <a href="/register" class="text-underline">Klik untuk Register</a>
                          </p>
                       </form>

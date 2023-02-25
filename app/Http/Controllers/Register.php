@@ -19,9 +19,9 @@ class Register extends Controller
     {
         if (Session()->get('email')) {
             if (Session()->get('status') === 'User') {
-                return redirect()->route('home');
+                return redirect()->route('dashboardUser');
             } else {
-                return redirect()->route('dashboard');
+                return redirect()->route('dashboardAdmin');
             }
         }
 
