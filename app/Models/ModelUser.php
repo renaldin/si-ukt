@@ -15,9 +15,9 @@ class ModelUser extends Model
         return DB::table('user')->orderBy('id_member', 'DESC')->get();
     }
 
-    public function detail($id_member)
+    public function detail($id_user)
     {
-        return DB::table('user')->where('id_member', $id_member)->first();
+        return DB::table('user')->where('id_user', $id_user)->first();
     }
 
     public function tambah($data)

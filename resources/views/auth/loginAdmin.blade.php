@@ -12,7 +12,7 @@
                          <!--Logo start-->
                          <img src="{{ asset('gambar/logo.png') }}" width="175" alt="Logo Jawer.id">
                       </a>
-                      <h2 class="mb-2 text-center">Login</h2>
+                      <h2 class="mb-2 text-center">Login Admin</h2>
                       <p class="text-center">Silahkan login dengan akun Anda.</p>
                       <form action="/login" method="POST">
                         @csrf
@@ -42,8 +42,8 @@
                             <div class="col-lg-12">
                                <div class="form-group">
                                   <label for="email" class="form-label">Email</label>
-                                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" placeholder=" " value="{{ old('email') }}" autofocus>
-                                  <input type="hidden" class="form-control" name="status"  value="User">
+                                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" placeholder=" " autofocus>
+                                  <input type="hidden" class="form-control" name="status"  value="Admin">
                                   @error('email')
                                   <div class="invalid-feedback">
                                     {{ $message }}

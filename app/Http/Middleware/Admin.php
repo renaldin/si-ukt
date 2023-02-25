@@ -19,7 +19,7 @@ class Admin
         if (Session()->get('status') === 'Admin') {
             return $next($request);
         } else {
-            return redirect()->route('login');
+            return redirect()->route('admin');
         }
     }
 }

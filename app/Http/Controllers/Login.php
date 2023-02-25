@@ -32,7 +32,24 @@ class Login extends Controller
         return view('auth.login', $data);
     }
 
-    public function prosesLogin()
+    public function admin()
+    {
+        if (Session()->get('email')) {
+            if (Session()->get('status') === 'User') {
+                return redirect()->route('dashboardUser');
+            } else {
+                return redirect()->route('dashboardAdmin');
+            }
+        }
+
+        $data = [
+            'title' => 'Login Admin'
+        ];
+
+        return view('auth.loginAdmin', $data);
+    }
+
+    public function loginProcess()
     {
         Request()->validate([
             'email'             => 'required|email',
@@ -49,22 +66,19 @@ class Login extends Controller
 
             if ($cekEmail) {
                 if (Hash::check(Request()->password, $cekEmail->password)) {
-                    Session()->put('id_member', $cekEmail->id_member);
+                    Session()->put('id_user', $cekEmail->id_user);
                     Session()->put('nama', $cekEmail->nama);
                     Session()->put('email', $cekEmail->email);
-                    Session()->put('nama_perusahaan', $cekEmail->nama_perusahaan);
-                    Session()->put('alamat_perusahaan', $cekEmail->alamat_perusahaan);
-                    Session()->put('foto_perusahaan', $cekEmail->foto_perusahaan);
                     Session()->put('status', $cekEmail->status);
-                    Session()->put('foto_user', $cekEmail->foto_user);
+                    Session()->put('foto', $cekEmail->foto);
                     Session()->put('log', true);
 
-                    return redirect()->route('home');
+                    return redirect()->route('dashboardUser');
                 } else {
-                    return back()->with('gagal', 'Login gagal! Password tidak sesuai.');
+                    return back()->with('fail', 'Login gagal! Password tidak sesuai.');
                 }
             } else {
-                return back()->with('gagal', 'Login gagal! Email belum terdaftar.');
+                return back()->with('fail', 'Login gagal! Email belum terdaftar.');
             }
         } else if (Request()->status === "Admin") {
             $cekEmail = $this->ModelAuth->cekEmailAdmin(Request()->email);
@@ -78,12 +92,12 @@ class Login extends Controller
                     Session()->put('foto', $cekEmail->foto);
                     Session()->put('log', true);
 
-                    return redirect()->route('dashboard');
+                    return redirect()->route('dashboardAdmin');
                 } else {
-                    return back()->with('gagal', 'Login gagal! Password tidak sesuai.');
+                    return back()->with('fail', 'Login gagal! Password tidak sesuai.');
                 }
             } else {
-                return back()->with('gagal', 'Login gagal! Email belum terdaftar.');
+                return back()->with('fail', 'Login gagal! Email belum terdaftar.');
             }
         }
     }
@@ -91,16 +105,13 @@ class Login extends Controller
     public function logout()
     {
         if (Session()->get('status') === "User") {
-            Session()->forget('id_member');
+            Session()->forget('id_user');
             Session()->forget('nama');
-            Session()->forget('nama_perusahaan');
-            Session()->forget('alamat_perusahaan');
-            Session()->forget('foto_perusahaan');
             Session()->forget('email');
             Session()->forget('status');
-            Session()->forget('foto_user');
+            Session()->forget('foto');
             Session()->forget('log');
-            return redirect()->route('login')->with('berhasil', 'Logout berhasil!');
+            return redirect()->route('login')->with('success', 'Logout berhasil!');
         } else if (Session()->get('status') === 'Admin') {
             Session()->forget('id_admin');
             Session()->forget('nama');
@@ -108,7 +119,7 @@ class Login extends Controller
             Session()->forget('status');
             Session()->forget('foto');
             Session()->forget('log');
-            return redirect()->route('admin')->with('berhasil', 'Logout berhasil!');
+            return redirect()->route('admin')->with('success', 'Logout berhasil!');
         }
     }
 }

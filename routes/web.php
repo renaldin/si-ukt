@@ -30,16 +30,18 @@ Route::group(['middleware' => 'revalidate'], function () {
 
     // Login User
     Route::get('/', [Login::class, 'index'])->name('login');
-    Route::post('/login', [Login::class, 'prosesLogin']);
+    Route::get('/admin', [Login::class, 'admin'])->name('admin');
+    Route::post('/login', [Login::class, 'loginProcess']);
 
     // Logout
     Route::get('/logout', [Login::class, 'logout'])->name('logout');
 
     Route::group(['middleware' => 'user'], function () {
+        Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboardUser');
     });
 
     Route::group(['middleware' => 'admin'], function () {
-        Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard');
+        Route::get('/dashboardAdmin', [Dashboard::class, 'admin'])->name('dashboardAdmin');
 
         // Kelola Admin
         Route::get('/kelola-admin', [KelolaAdmin::class, 'index'])->name('kelola-admin');
