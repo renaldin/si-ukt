@@ -37,11 +37,11 @@ Route::group(['middleware' => 'revalidate'], function () {
     Route::get('/logout', [Login::class, 'logout'])->name('logout');
 
     Route::group(['middleware' => 'user'], function () {
-        Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboardUser');
+        Route::get('/dashboard-user', [Dashboard::class, 'index'])->name('dashboard-user');
     });
 
     Route::group(['middleware' => 'admin'], function () {
-        Route::get('/dashboardAdmin', [Dashboard::class, 'admin'])->name('dashboardAdmin');
+        Route::get('/dashboard-admin', [Dashboard::class, 'admin'])->name('dashboard-admin');
 
         // Kelola Admin
         Route::get('/kelola-admin', [KelolaAdmin::class, 'index'])->name('kelola-admin');
@@ -52,7 +52,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/hapus-admin/{id}', [KelolaAdmin::class, 'prosesHapus']);
 
         // Kelola User
-        Route::get('/kelola-user', [KelolaUser::class, 'index'])->name('kelola-user');
+        Route::get('/daftar-user', [KelolaUser::class, 'index'])->name('kelola-user');
         Route::get('/tambah-user', [KelolaUser::class, 'tambah'])->name('tambah-user');
         Route::post('/tambah-user', [KelolaUser::class, 'prosesTambah']);
         Route::get('/edit-user/{id}', [KelolaUser::class, 'edit'])->name('edit-user');

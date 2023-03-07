@@ -43,6 +43,7 @@ class Dashboard extends Controller
 
         $data = [
             'title'                 => null,
+            'user'                  => $this->ModelAdmin->detail(Session()->get('id_admin')),
             'subTitle'              => 'Dashboard',
         ];
         return view('admin.dashboard', $data);

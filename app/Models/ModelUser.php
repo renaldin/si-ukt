@@ -12,7 +12,7 @@ class ModelUser extends Model
 
     public function dataUser()
     {
-        return DB::table('user')->orderBy('id_member', 'DESC')->get();
+        return DB::table('user')->orderBy('id_user', 'DESC')->get();
     }
 
     public function detail($id_user)
@@ -27,12 +27,12 @@ class ModelUser extends Model
 
     public function edit($data)
     {
-        DB::table('user')->where('id_member', $data['id_member'])->update($data);
+        DB::table('user')->where('id_user', $data['id_user'])->update($data);
     }
 
-    public function hapus($id_member)
+    public function hapus($id_user)
     {
-        DB::table('user')->where('id_member', $id_member)->delete();
+        DB::table('user')->where('id_user', $id_user)->delete();
     }
 
     public function jumlahUser()

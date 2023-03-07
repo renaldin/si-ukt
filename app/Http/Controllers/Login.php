@@ -36,9 +36,9 @@ class Login extends Controller
     {
         if (Session()->get('email')) {
             if (Session()->get('status') === 'User') {
-                return redirect()->route('dashboardUser');
+                return redirect()->route('dashboard-user');
             } else {
-                return redirect()->route('dashboardAdmin');
+                return redirect()->route('dashboard-admin');
             }
         }
 
@@ -67,13 +67,11 @@ class Login extends Controller
             if ($cekEmail) {
                 if (Hash::check(Request()->password, $cekEmail->password)) {
                     Session()->put('id_user', $cekEmail->id_user);
-                    Session()->put('nama', $cekEmail->nama);
                     Session()->put('email', $cekEmail->email);
                     Session()->put('status', $cekEmail->status);
-                    Session()->put('foto', $cekEmail->foto);
                     Session()->put('log', true);
 
-                    return redirect()->route('dashboardUser');
+                    return redirect()->route('dashboard-user');
                 } else {
                     return back()->with('fail', 'Login gagal! Password tidak sesuai.');
                 }
@@ -86,13 +84,11 @@ class Login extends Controller
             if ($cekEmail) {
                 if (Hash::check(Request()->password, $cekEmail->password)) {
                     Session()->put('id_admin', $cekEmail->id_admin);
-                    Session()->put('nama', $cekEmail->nama);
                     Session()->put('email', $cekEmail->email);
                     Session()->put('status', $cekEmail->status);
-                    Session()->put('foto', $cekEmail->foto);
                     Session()->put('log', true);
 
-                    return redirect()->route('dashboardAdmin');
+                    return redirect()->route('dashboard-admin');
                 } else {
                     return back()->with('fail', 'Login gagal! Password tidak sesuai.');
                 }
@@ -106,18 +102,14 @@ class Login extends Controller
     {
         if (Session()->get('status') === "User") {
             Session()->forget('id_user');
-            Session()->forget('nama');
             Session()->forget('email');
             Session()->forget('status');
-            Session()->forget('foto');
             Session()->forget('log');
             return redirect()->route('login')->with('success', 'Logout berhasil!');
         } else if (Session()->get('status') === 'Admin') {
             Session()->forget('id_admin');
-            Session()->forget('nama');
             Session()->forget('email');
             Session()->forget('status');
-            Session()->forget('foto');
             Session()->forget('log');
             return redirect()->route('admin')->with('success', 'Logout berhasil!');
         }

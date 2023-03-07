@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ModelUser;
-use Illuminate\Contracts\Session\Session;
+use App\Models\ModelAdmin;
 
 class KelolaUser extends Controller
 {
 
     private $ModelUser;
+    private $ModelAdmin;
 
     public function __construct()
     {
         $this->ModelUser = new ModelUser();
+        $this->ModelAdmin = new ModelAdmin();
     }
 
     public function index()
@@ -25,8 +26,9 @@ class KelolaUser extends Controller
 
         $data = [
             'title'     => 'Data User',
-            'subTitle'  => 'Kelola User',
-            'user'      => $this->ModelUser->dataUser()
+            'subTitle'  => 'Daftar User',
+            'daftarUser' => $this->ModelUser->dataUser(),
+            'user'      => $this->ModelAdmin->detail(Session()->get('id_admin')),
         ];
 
         return view('admin.kelolaUser.dataUser', $data);
