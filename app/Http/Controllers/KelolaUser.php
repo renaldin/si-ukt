@@ -88,103 +88,57 @@ class KelolaUser extends Controller
         return redirect()->route('daftar-user')->with('success', 'Data user berhasil ditambahkan !');
     }
 
-    public function edit($id_member)
+    public function edit($id_user)
     {
         if (!Session()->get('email')) {
             return redirect()->route('admin');
         }
 
         $data = [
-            'title'     => 'Data User',
-            'subTitle'  => 'Edit User',
-            'disabled'  => FALSE,
-            'user'      => $this->ModelUser->detail($id_member)
+            'title'         => 'Data User',
+            'subTitle'      => 'Edit User',
+            'form'          => 'Edit',
+            'user'          => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'detailUser'    => $this->ModelUser->detail($id_user)
         ];
 
-        return view('admin.kelolaUser.edit', $data);
+        return view('admin.kelolaUser.form', $data);
     }
 
-    public function prosesEdit($id_member)
+    public function prosesEdit($id_user)
     {
         Request()->validate([
             'nama'              => 'required',
             'nomor_telepon'     => 'required|numeric',
-            'alamat'            => 'required',
-            'nama_perusahaan'   => 'required',
-            'alamat_perusahaan' => 'required',
             'email'             => 'required|email',
-            'foto_perusahaan'   => 'mimes:jpeg,png,jpg|max:2048',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
         ], [
             'nama.required'             => 'Nama lengkap harus diisi!',
             'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
-            'alamat.required'           => 'Alamat harus diisi!',
-            'nama_perusahaan.required'  => 'Nama perusahaan harus diisi!',
-            'alamat_perusahaan.required' => 'Alamat perusahaan harus diisi!',
             'email.required'            => 'Email harus diisi!',
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
-            'foto_perusahaan.mimes'     => 'Format Logo Perusahaan harus jpg/jpeg/png!',
-            'foto_perusahaan.max'       => 'Ukuran Logo Perusahaan maksimal 2 mb',
             'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
             'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
         ]);
 
         if (Request()->password) {
 
-            $user = $this->ModelUser->detail($id_member);
-
-            if (Request()->foto_perusahaan <> "") {
-                if ($user->foto_perusahaan <> "") {
-                    unlink(public_path('foto_perusahaan') . '/' . $user->foto_perusahaan);
-                }
-
-                $file1 = Request()->foto_perusahaan;
-                $filePerusahaan = date('mdYHis') . Request()->nama_perusahaan . '.' . $file1->extension();
-                $file1->move(public_path('foto_perusahaan'), $filePerusahaan);
-
-                $data = [
-                    'id_member'         => $id_member,
-                    'nama'              => Request()->nama,
-                    'nomor_telepon'     => Request()->nomor_telepon,
-                    'alamat'            => Request()->alamat,
-                    'nama_perusahaan'   => Request()->nama_perusahaan,
-                    'alamat_perusahaan' => Request()->alamat_perusahaan,
-                    'email'             => Request()->email,
-                    'foto_perusahaan'   => $filePerusahaan,
-                    'password'          => Hash::make(Request()->password),
-                ];
-                $this->ModelUser->edit($data);
-            } else {
-                $data = [
-                    'id_member'         => $id_member,
-                    'nama'              => Request()->nama,
-                    'nomor_telepon'     => Request()->nomor_telepon,
-                    'alamat'            => Request()->alamat,
-                    'nama_perusahaan'   => Request()->nama_perusahaan,
-                    'alamat_perusahaan' => Request()->alamat_perusahaan,
-                    'email'             => Request()->email,
-                    'password'          => Hash::make(Request()->password),
-                ];
-                $this->ModelUser->edit($data);
-            }
+            $user = $this->ModelUser->detail($id_user);
 
             if (Request()->foto_user <> "") {
                 if ($user->foto_user <> "") {
                     unlink(public_path('foto_user') . '/' . $user->foto_user);
                 }
 
-                $file2 = Request()->foto_user;
-                $fileUser = date('mdYHis') . Request()->nama_perusahaan . '.' . $file2->extension();
-                $file2->move(public_path('foto_user'), $fileUser);
+                $file = Request()->foto_user;
+                $fileUser = date('mdYHis') . Request()->nama . '.' . $file->extension();
+                $file->move(public_path('foto_user'), $fileUser);
 
                 $data = [
-                    'id_member'         => $id_member,
+                    'id_user'           => $id_user,
                     'nama'              => Request()->nama,
                     'nomor_telepon'     => Request()->nomor_telepon,
-                    'alamat'            => Request()->alamat,
-                    'nama_perusahaan'   => Request()->nama_perusahaan,
-                    'alamat_perusahaan' => Request()->alamat_perusahaan,
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
                     'password'          => Hash::make(Request()->password),
@@ -192,103 +146,45 @@ class KelolaUser extends Controller
                 $this->ModelUser->edit($data);
             } else {
                 $data = [
-                    'id_member'         => $id_member,
+                    'id_user'           => $id_user,
                     'nama'              => Request()->nama,
                     'nomor_telepon'     => Request()->nomor_telepon,
-                    'alamat'            => Request()->alamat,
-                    'nama_perusahaan'   => Request()->nama_perusahaan,
-                    'alamat_perusahaan' => Request()->alamat_perusahaan,
                     'email'             => Request()->email,
                     'password'          => Hash::make(Request()->password),
                 ];
                 $this->ModelUser->edit($data);
             }
         } else {
-            $user = $this->ModelUser->detail($id_member);
-
-            if (Request()->foto_perusahaan <> "") {
-                if ($user->foto_perusahaan <> "") {
-                    unlink(public_path('foto_perusahaan') . '/' . $user->foto_perusahaan);
-                }
-
-                $file1 = Request()->foto_perusahaan;
-                $filePerusahaan = date('mdYHis') . Request()->nama_perusahaan . '.' . $file1->extension();
-                $file1->move(public_path('foto_perusahaan'), $filePerusahaan);
-
-                $data = [
-                    'id_member'         => $id_member,
-                    'nama'              => Request()->nama,
-                    'nomor_telepon'     => Request()->nomor_telepon,
-                    'alamat'            => Request()->alamat,
-                    'nama_perusahaan'   => Request()->nama_perusahaan,
-                    'alamat_perusahaan' => Request()->alamat_perusahaan,
-                    'email'             => Request()->email,
-                    'foto_perusahaan'   => $filePerusahaan,
-                ];
-                $this->ModelUser->edit($data);
-            } else {
-                $data = [
-                    'id_member'         => $id_member,
-                    'nama'              => Request()->nama,
-                    'nomor_telepon'     => Request()->nomor_telepon,
-                    'alamat'            => Request()->alamat,
-                    'nama_perusahaan'   => Request()->nama_perusahaan,
-                    'alamat_perusahaan' => Request()->alamat_perusahaan,
-                    'email'             => Request()->email,
-                ];
-                $this->ModelUser->edit($data);
-            }
+            $user = $this->ModelUser->detail($id_user);
 
             if (Request()->foto_user <> "") {
                 if ($user->foto_user <> "") {
                     unlink(public_path('foto_user') . '/' . $user->foto_user);
                 }
 
-                $file2 = Request()->foto_user;
-                $fileUser = date('mdYHis') . Request()->nama_perusahaan . '.' . $file2->extension();
-                $file2->move(public_path('foto_user'), $fileUser);
+                $file = Request()->foto_user;
+                $fileUser = date('mdYHis') . Request()->nama . '.' . $file->extension();
+                $file->move(public_path('foto_user'), $fileUser);
 
                 $data = [
-                    'id_member'         => $id_member,
+                    'id_user'           => $id_user,
                     'nama'              => Request()->nama,
                     'nomor_telepon'     => Request()->nomor_telepon,
-                    'alamat'            => Request()->alamat,
-                    'nama_perusahaan'   => Request()->nama_perusahaan,
-                    'alamat_perusahaan' => Request()->alamat_perusahaan,
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
                 ];
                 $this->ModelUser->edit($data);
             } else {
                 $data = [
-                    'id_member'         => $id_member,
+                    'id_user'           => $id_user,
                     'nama'              => Request()->nama,
                     'nomor_telepon'     => Request()->nomor_telepon,
-                    'alamat'            => Request()->alamat,
-                    'nama_perusahaan'   => Request()->nama_perusahaan,
-                    'alamat_perusahaan' => Request()->alamat_perusahaan,
                     'email'             => Request()->email,
                 ];
                 $this->ModelUser->edit($data);
             }
         }
-        return redirect()->route('kelola-user')->with('berhasil', 'Data user berhasil diedit !');
-    }
-
-    public function detail($id_member)
-    {
-        if (!Session()->get('email')) {
-            return redirect()->route('admin');
-        }
-
-        $data = [
-            'title'     => 'Data User',
-            'subTitle'  => 'Detail User',
-            'disabled'  => TRUE,
-            'user'      => $this->ModelUser->detail($id_member)
-        ];
-
-        return view('admin.kelolaUser.edit', $data);
+        return redirect()->route('daftar-user')->with('success', 'Data user berhasil diedit !');
     }
 
     public function prosesHapus($id_member)
