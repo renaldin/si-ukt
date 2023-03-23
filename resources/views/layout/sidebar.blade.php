@@ -71,7 +71,7 @@
                     </a>
                     <ul class="sub-nav collapse" id="sidebar-user" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link @if($subTitle === 'Tambah User') active @endif" href="{{ asset('template/') }}html/dashboard/app/user-add.html">
+                            <a class="nav-link @if($subTitle === 'Tambah User') active @endif" href="/tambah-user">
                                 <i class="icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                         <g>

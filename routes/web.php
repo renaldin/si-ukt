@@ -52,7 +52,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/hapus-admin/{id}', [KelolaAdmin::class, 'prosesHapus']);
 
         // Kelola User
-        Route::get('/daftar-user', [KelolaUser::class, 'index'])->name('kelola-user');
+        Route::get('/daftar-user', [KelolaUser::class, 'index'])->name('daftar-user');
         Route::get('/tambah-user', [KelolaUser::class, 'tambah'])->name('tambah-user');
         Route::post('/tambah-user', [KelolaUser::class, 'prosesTambah']);
         Route::get('/edit-user/{id}', [KelolaUser::class, 'edit'])->name('edit-user');

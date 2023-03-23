@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 02 Mar 2023 pada 00.09
+-- Waktu pembuatan: 19 Mar 2023 pada 11.33
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -34,14 +34,14 @@ CREATE TABLE `admin` (
   `password` text NOT NULL,
   `nomor_telepon` varchar(30) NOT NULL,
   `status` enum('Admin') NOT NULL DEFAULT 'Admin',
-  `foto` text DEFAULT NULL
+  `foto_user` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `admin`
 --
 
-INSERT INTO `admin` (`id_admin`, `nama`, `email`, `password`, `nomor_telepon`, `status`, `foto`) VALUES
+INSERT INTO `admin` (`id_admin`, `nama`, `email`, `password`, `nomor_telepon`, `status`, `foto_user`) VALUES
 (1, 'Admin Sistem', 'admin122@gmail.com', '$2y$10$FOLMcTQ.ZQmG4XkXHemNkuvTur77scCIzvFMyQyRV9SdbHXGYN0iy', '08989786444', 'Admin', '02162023154704Admin Sistem.jpg'),
 (2, 'Admin Sistem Booking', 'admin@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', '089677565', 'Admin', '02162023160429Admin Sistem Booking.jpg');
 
@@ -59,15 +59,18 @@ CREATE TABLE `user` (
   `nomor_telepon` varchar(30) NOT NULL,
   `status` enum('User') NOT NULL DEFAULT 'User',
   `tanggal_daftar` date NOT NULL DEFAULT current_timestamp(),
-  `foto` text DEFAULT NULL
+  `foto_user` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`id_user`, `nama`, `email`, `password`, `nomor_telepon`, `status`, `tanggal_daftar`, `foto`) VALUES
-(1, 'Renaldi Noviandi', 'renaldi@gmail.com', '$2y$10$vzrKNhhSzXkTTfdtqZ0eZOY5dYf/BOI4.PvjNt73XNNkTuXEbo/bS', '0897675575476', 'User', '2023-02-25', NULL);
+INSERT INTO `user` (`id_user`, `nama`, `email`, `password`, `nomor_telepon`, `status`, `tanggal_daftar`, `foto_user`) VALUES
+(1, 'Renaldi Noviandi', 'renaldi@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', '0897675575476', 'User', '2023-02-25', NULL),
+(2, 'Renaldi Noviandi', 'renaldinoviandi0@gmail.com', '$2y$10$6RW4YRcSmr9qJJZbmYYMM.j9K/zk9W3v9t1EZ37ZLdviEnaXm5DqO', '08989786444', 'User', '2023-03-19', '03192023102405Renaldi Noviandi.jpg'),
+(3, 'Renaldi 2', 'renaldi2@gmail.com', '$2y$10$sKYmuD2NggMKFMKBiL1FjO1/1kKDIh1G6EN93Ddye/Yhfa1u2ab.S', '08989786444', 'User', '2023-03-19', '03192023102554Renaldi 2.jpg'),
+(4, 'Renaldi 3', 'renaldi3@gmail.com', '$2y$10$fBJMARlR3pY7bKDv1FVJc.OB0Fi72nGgnRv/PHZgafV3EU7bKn4ki', '08989786444', 'User', '2023-03-19', '03192023102749Renaldi 3.jpg');
 
 --
 -- Indexes for dumped tables
@@ -99,7 +102,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

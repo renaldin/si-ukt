@@ -37,7 +37,8 @@
     <div id="loading">
       <div class="loader simple-loader">
           <div class="loader-body"></div>
-      </div>    </div>
+      </div>    
+    </div>
     <!-- loader END -->
     
     {{-- sidebar --}}
@@ -76,7 +77,7 @@
               <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
                 <li class="nav-item dropdown">
                   <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="@if($user->foto === null) {{ asset('foto/default.jpg') }} @else {{ asset('foto/'.$user->foto) }} @endif" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
+                    <img src="@if($user->foto_user === null) {{ asset('foto_user/default.jpg') }} @else {{ asset('foto_user/'.$user->foto_user) }} @endif" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
                     <div class="caption ms-3 d-none d-md-block ">
                         <h6 class="mb-0 caption-title">{{$user->nama}}</h6>
                         <p class="mb-0 caption-sub-title">{{$user->email}}</p>
