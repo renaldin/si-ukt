@@ -187,20 +187,16 @@ class KelolaUser extends Controller
         return redirect()->route('daftar-user')->with('success', 'Data user berhasil diedit !');
     }
 
-    public function prosesHapus($id_member)
+    public function prosesHapus($id_user)
     {
-        $user = $this->ModelUser->detail($id_member);
+        $user = $this->ModelUser->detail($id_user);
 
         if ($user->foto_user <> "") {
             unlink(public_path('foto_user') . '/' . $user->foto_user);
         }
 
-        if ($user->foto_perusahaan <> "") {
-            unlink(public_path('foto_perusahaan') . '/' . $user->foto_perusahaan);
-        }
-
-        $this->ModelUser->hapus($id_member);
-        return redirect()->route('kelola-user')->with('berhasil', 'Data user berhasil dihapus !');
+        $this->ModelUser->hapus($id_user);
+        return redirect()->route('daftar-user')->with('success', 'Data user berhasil dihapus !');
     }
 
     public function profil()
