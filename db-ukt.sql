@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Mar 2023 pada 11.33
+-- Waktu pembuatan: 23 Mar 2023 pada 16.57
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -63,16 +63,6 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `user`
---
-
-INSERT INTO `user` (`id_user`, `nama`, `email`, `password`, `nomor_telepon`, `status`, `tanggal_daftar`, `foto_user`) VALUES
-(1, 'Renaldi Noviandi', 'renaldi@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', '0897675575476', 'User', '2023-02-25', NULL),
-(2, 'Renaldi Noviandi', 'renaldinoviandi0@gmail.com', '$2y$10$6RW4YRcSmr9qJJZbmYYMM.j9K/zk9W3v9t1EZ37ZLdviEnaXm5DqO', '08989786444', 'User', '2023-03-19', '03192023102405Renaldi Noviandi.jpg'),
-(3, 'Renaldi 2', 'renaldi2@gmail.com', '$2y$10$sKYmuD2NggMKFMKBiL1FjO1/1kKDIh1G6EN93Ddye/Yhfa1u2ab.S', '08989786444', 'User', '2023-03-19', '03192023102554Renaldi 2.jpg'),
-(4, 'Renaldi 3', 'renaldi3@gmail.com', '$2y$10$fBJMARlR3pY7bKDv1FVJc.OB0Fi72nGgnRv/PHZgafV3EU7bKn4ki', '08989786444', 'User', '2023-03-19', '03192023102749Renaldi 3.jpg');
-
---
 -- Indexes for dumped tables
 --
 
@@ -102,7 +92,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
