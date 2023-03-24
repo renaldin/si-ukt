@@ -12,7 +12,7 @@
                          <!--Logo start-->
                          <img src="{{ asset('gambar/logo.png') }}" width="175" alt="Logo Jawer.id">
                       </a>
-                      <h2 class="mb-2 text-center">Login Admin</h2>
+                      <h2 class="mb-2 text-center">{{$title}}</h2>
                       <p class="text-center">Silahkan login dengan akun Anda.</p>
                       <form action="/login" method="POST">
                         @csrf
@@ -69,9 +69,6 @@
                          <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Login</button>
                          </div>
-                         <p class="mt-3 text-center">
-                            Tidak punya akun? <a href="/register" class="text-underline">Klik untuk Register</a>
-                         </p>
                       </form>
                    </div>
                 </div>

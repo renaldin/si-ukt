@@ -5,21 +5,21 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class User
+class Staff
 {
     /**
      * Handle an incoming request.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Session()->get('status') === 'User') {
+        if (Session()->get('status') === 'Staff Keuangan') {
             return $next($request);
         } else {
-            return redirect()->route('login');
+            return redirect()->route('staff');
         }
     }
 }

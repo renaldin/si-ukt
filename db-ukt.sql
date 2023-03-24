@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Mar 2023 pada 16.57
+-- Waktu pembuatan: 24 Mar 2023 pada 08.58
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db-jawer`
+-- Database: `db-ukt`
 --
 
 -- --------------------------------------------------------
@@ -32,7 +32,6 @@ CREATE TABLE `admin` (
   `nama` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` text NOT NULL,
-  `nomor_telepon` varchar(30) NOT NULL,
   `status` enum('Admin') NOT NULL DEFAULT 'Admin',
   `foto_user` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -41,25 +40,40 @@ CREATE TABLE `admin` (
 -- Dumping data untuk tabel `admin`
 --
 
-INSERT INTO `admin` (`id_admin`, `nama`, `email`, `password`, `nomor_telepon`, `status`, `foto_user`) VALUES
-(1, 'Admin Sistem', 'admin122@gmail.com', '$2y$10$FOLMcTQ.ZQmG4XkXHemNkuvTur77scCIzvFMyQyRV9SdbHXGYN0iy', '08989786444', 'Admin', '02162023154704Admin Sistem.jpg'),
-(2, 'Admin Sistem Booking', 'admin@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', '089677565', 'Admin', '02162023160429Admin Sistem Booking.jpg');
+INSERT INTO `admin` (`id_admin`, `nama`, `email`, `password`, `status`, `foto_user`) VALUES
+(1, 'Admin Sistem', 'admin122@gmail.com', '$2y$10$FOLMcTQ.ZQmG4XkXHemNkuvTur77scCIzvFMyQyRV9SdbHXGYN0iy', 'Admin', '02162023154704Admin Sistem.jpg'),
+(2, 'Admin Sistem Booking', 'admin@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', 'Admin', '02162023160429Admin Sistem Booking.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Struktur dari tabel `mahasiswa`
 --
 
-CREATE TABLE `user` (
-  `id_user` int(11) NOT NULL,
+CREATE TABLE `mahasiswa` (
+  `id_mahasiswa` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
+  `nim` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` text NOT NULL,
-  `nomor_telepon` varchar(30) NOT NULL,
-  `status` enum('User') NOT NULL DEFAULT 'User',
-  `tanggal_daftar` date NOT NULL DEFAULT current_timestamp(),
+  `status` enum('Mahasiswa') NOT NULL DEFAULT 'Mahasiswa',
   `foto_user` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `staff`
+--
+
+CREATE TABLE `staff` (
+  `id_staff` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `nik` varchar(30) NOT NULL,
+  `password` text NOT NULL,
+  `status` enum('Staff Keuangan') NOT NULL,
+  `foto_user` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -73,10 +87,16 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`);
 
 --
--- Indeks untuk tabel `user`
+-- Indeks untuk tabel `mahasiswa`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`);
+ALTER TABLE `mahasiswa`
+  ADD PRIMARY KEY (`id_mahasiswa`);
+
+--
+-- Indeks untuk tabel `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`id_staff`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -89,10 +109,16 @@ ALTER TABLE `admin`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
-ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `mahasiswa`
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT untuk tabel `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `id_staff` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

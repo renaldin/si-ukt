@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use App\Models\ModelAdmin;
-use App\Models\ModelUser;
+use App\Models\ModelMahasiswa;
+use App\Models\ModelStaff;
 
 class Dashboard extends Controller
 {
 
     private $ModelAdmin;
-    private $ModelUser;
+    private $ModelMahasiswa;
+    private $ModelStaff;
 
     public function __construct()
     {
         $this->ModelAdmin = new ModelAdmin();
-        $this->ModelUser = new ModelUser();
+        $this->ModelMahasiswa = new ModelMahasiswa();
+        $this->ModelStaff = new ModelStaff();
     }
 
     public function index()
@@ -28,10 +31,10 @@ class Dashboard extends Controller
 
         $data = [
             'title'                 => null,
-            'user'                  => $this->ModelUser->detail(Session()->get('id_user')),
+            'user'                  => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
             'subTitle'              => 'Dashboard',
         ];
-        return view('user.dashboard', $data);
+        return view('mahasiswa.dashboard', $data);
     }
 
     public function admin()
@@ -47,5 +50,20 @@ class Dashboard extends Controller
             'subTitle'              => 'Dashboard',
         ];
         return view('admin.dashboard', $data);
+    }
+
+    public function staff()
+    {
+
+        if (!Session()->get('email')) {
+            return redirect()->route('staff');
+        }
+
+        $data = [
+            'title'                 => null,
+            'user'                  => $this->ModelStaff->detail(Session()->get('id_staff')),
+            'subTitle'              => 'Dashboard',
+        ];
+        return view('staff.dashboard', $data);
     }
 }

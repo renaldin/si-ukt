@@ -24,13 +24,10 @@ Route::group(['middleware' => 'revalidate'], function () {
     // Home
     // Route::get('/', [Home::class, 'index'])->name('landing');
 
-    // Register
-    Route::get('/register', [Register::class, 'index'])->name('register');
-    Route::post('/register', [Register::class, 'registerProcess']);
-
     // Login User
     Route::get('/', [Login::class, 'index'])->name('login');
     Route::get('/admin', [Login::class, 'admin'])->name('admin');
+    Route::get('/staff', [Login::class, 'staff'])->name('staff');
     Route::post('/login', [Login::class, 'loginProcess']);
 
     // Logout
@@ -59,5 +56,9 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/edit-user/{id}', [KelolaUser::class, 'prosesEdit']);
         Route::get('/detail-user/{id}', [KelolaUser::class, 'detail'])->name('detail-user');
         Route::get('/hapus-user/{id}', [KelolaUser::class, 'prosesHapus']);
+    });
+
+    Route::group(['middleware' => 'staff'], function () {
+        Route::get('/dashboard-staff', [Dashboard::class, 'staff'])->name('dashboard-staff');
     });
 });

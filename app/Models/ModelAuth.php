@@ -24,4 +24,9 @@ class ModelAuth extends Model
     {
         return DB::table('admin')->where('email', $email)->first();
     }
+
+    public function cekEmailStaff($email)
+    {
+        return DB::table('staff')->where('email', $email)->first();
+    }
 }
