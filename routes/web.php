@@ -3,7 +3,7 @@
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\KelolaAdmin;
-use App\Http\Controllers\KelolaUser;
+use App\Http\Controllers\KelolaMahasiswa;
 use App\Http\Controllers\Register;
 use App\Http\Controllers\Login;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +33,8 @@ Route::group(['middleware' => 'revalidate'], function () {
     // Logout
     Route::get('/logout', [Login::class, 'logout'])->name('logout');
 
-    Route::group(['middleware' => 'user'], function () {
-        Route::get('/dashboard-user', [Dashboard::class, 'index'])->name('dashboard-user');
+    Route::group(['middleware' => 'mahasiswa'], function () {
+        Route::get('/dashboard-mahasiswa', [Dashboard::class, 'index'])->name('dashboard-mahasiswa');
     });
 
     Route::group(['middleware' => 'admin'], function () {
@@ -48,14 +48,14 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/edit-admin/{id}', [KelolaAdmin::class, 'prosesEdit']);
         Route::get('/hapus-admin/{id}', [KelolaAdmin::class, 'prosesHapus']);
 
-        // Kelola User
-        Route::get('/daftar-user', [KelolaUser::class, 'index'])->name('daftar-user');
-        Route::get('/tambah-user', [KelolaUser::class, 'tambah'])->name('tambah-user');
-        Route::post('/tambah-user', [KelolaUser::class, 'prosesTambah']);
-        Route::get('/edit-user/{id}', [KelolaUser::class, 'edit'])->name('edit-user');
-        Route::post('/edit-user/{id}', [KelolaUser::class, 'prosesEdit']);
-        Route::get('/detail-user/{id}', [KelolaUser::class, 'detail'])->name('detail-user');
-        Route::get('/hapus-user/{id}', [KelolaUser::class, 'prosesHapus']);
+        // Kelola mahasiswa
+        Route::get('/daftar-mahasiswa', [KelolaMahasiswa::class, 'index'])->name('daftar-mahasiswa');
+        Route::get('/tambah-mahasiswa', [KelolaMahasiswa::class, 'tambah'])->name('tambah-mahasiswa');
+        Route::post('/tambah-mahasiswa', [KelolaMahasiswa::class, 'prosesTambah']);
+        Route::get('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'edit'])->name('edit-mahasiswa');
+        Route::post('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEdit']);
+        Route::get('/detail-mahasiswa/{id}', [KelolaMahasiswa::class, 'detail'])->name('detail-mahasiswa');
+        Route::get('/hapus-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesHapus']);
     });
 
     Route::group(['middleware' => 'staff'], function () {

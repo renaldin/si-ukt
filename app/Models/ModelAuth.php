@@ -10,14 +10,9 @@ class ModelAuth extends Model
 {
     use HasFactory;
 
-    public function register($data)
+    public function cekNimMahasiswa($nim)
     {
-        DB::table('user')->insert($data);
-    }
-
-    public function cekEmailUser($email)
-    {
-        return DB::table('user')->where('email', $email)->first();
+        return DB::table('mahasiswa')->where('nim', $nim)->first();
     }
 
     public function cekEmailAdmin($email)
@@ -25,8 +20,8 @@ class ModelAuth extends Model
         return DB::table('admin')->where('email', $email)->first();
     }
 
-    public function cekEmailStaff($email)
+    public function cekNikStaff($nik)
     {
-        return DB::table('staff')->where('email', $email)->first();
+        return DB::table('staff')->where('nik', $nik)->first();
     }
 }

@@ -18,11 +18,11 @@ class Login extends Controller
     public function index()
     {
         if (Session()->get('email')) {
-            if (Session()->get('status') === 'User') {
-                return redirect()->route('dashboard-user');
+            if (Session()->get('status') === 'Mahasiswa') {
+                return redirect()->route('dashboard-mahasiswa');
             } elseif (Session()->get('status') === 'Admin') {
                 return redirect()->route('dashboard-admin');
-            } elseif (Session()->get('status') === 'Staff Keuangan') {
+            } elseif (Session()->get('status') === 'Staff') {
                 return redirect()->route('dashboard-staff');
             }
         }
@@ -37,11 +37,11 @@ class Login extends Controller
     public function admin()
     {
         if (Session()->get('email')) {
-            if (Session()->get('status') === 'User') {
-                return redirect()->route('dashboard-user');
+            if (Session()->get('status') === 'Mahasiswa') {
+                return redirect()->route('dashboard-mahasiswa');
             } elseif (Session()->get('status') === 'Admin') {
                 return redirect()->route('dashboard-admin');
-            } elseif (Session()->get('status') === 'Staff Keuangan') {
+            } elseif (Session()->get('status') === 'Staff') {
                 return redirect()->route('dashboard-staff');
             }
         }
@@ -56,11 +56,11 @@ class Login extends Controller
     public function staff()
     {
         if (Session()->get('email')) {
-            if (Session()->get('status') === 'User') {
-                return redirect()->route('dashboard-user');
+            if (Session()->get('status') === 'Mahasiswa') {
+                return redirect()->route('dashboard-mahasiswa');
             } elseif (Session()->get('status') === 'Admin') {
                 return redirect()->route('dashboard-admin');
-            } elseif (Session()->get('status') === 'Staff Keuangan') {
+            } elseif (Session()->get('status') === 'Staff') {
                 return redirect()->route('dashboard-staff');
             }
         }
@@ -85,17 +85,17 @@ class Login extends Controller
                 'password.min'              => 'Password minimal 6 karakter!',
             ]);
 
-            $cekEmail = $this->ModelAuth->cekEmailUser(Request()->email);
+            $cekNim = $this->ModelAuth->cekNimMahasiswa(Request()->nim);
 
-            if ($cekEmail) {
-                if (Hash::check(Request()->password, $cekEmail->password)) {
-                    Session()->put('id_mahasiswa', $cekEmail->id_mahasiswa);
-                    Session()->put('nim', $cekEmail->nim);
-                    Session()->put('email', $cekEmail->email);
-                    Session()->put('status', $cekEmail->status);
+            if ($cekNim) {
+                if (Hash::check(Request()->password, $cekNim->password)) {
+                    Session()->put('id_mahasiswa', $cekNim->id_mahasiswa);
+                    Session()->put('nim', $cekNim->nim);
+                    Session()->put('email', $cekNim->email);
+                    Session()->put('status', $cekNim->status);
                     Session()->put('log', true);
 
-                    return redirect()->route('dashboard-user');
+                    return redirect()->route('dashboard-mahasiswa');
                 } else {
                     return back()->with('fail', 'Login gagal! Password tidak sesuai.');
                 }
@@ -129,7 +129,7 @@ class Login extends Controller
             } else {
                 return back()->with('fail', 'Login gagal! Email belum terdaftar.');
             }
-        } else if (Request()->status === "Staff keuangan") {
+        } else if (Request()->status === "Staff") {
             Request()->validate([
                 'nik'             => 'required|numeric',
                 'password'        => 'min:6|required',
@@ -140,14 +140,14 @@ class Login extends Controller
                 'password.min'              => 'Password minimal 6 karakter!',
             ]);
 
-            $cekEmail = $this->ModelAuth->cekEmailStaff(Request()->email);
+            $cekNik = $this->ModelAuth->cekNikStaff(Request()->nik);
 
-            if ($cekEmail) {
-                if (Hash::check(Request()->password, $cekEmail->password)) {
-                    Session()->put('id_staff', $cekEmail->id_staff);
-                    Session()->put('nik', $cekEmail->nik);
-                    Session()->put('email', $cekEmail->email);
-                    Session()->put('status', $cekEmail->status);
+            if ($cekNik) {
+                if (Hash::check(Request()->password, $cekNik->password)) {
+                    Session()->put('id_staff', $cekNik->id_staff);
+                    Session()->put('nik', $cekNik->nik);
+                    Session()->put('email', $cekNik->email);
+                    Session()->put('status', $cekNik->status);
                     Session()->put('log', true);
 
                     return redirect()->route('dashboard-staff');
@@ -175,7 +175,7 @@ class Login extends Controller
             Session()->forget('status');
             Session()->forget('log');
             return redirect()->route('admin')->with('success', 'Logout berhasil!');
-        } else if (Session()->get('status') === 'Staff Keuangan') {
+        } else if (Session()->get('status') === 'Staff') {
             Session()->forget('id_admin');
             Session()->forget('nik');
             Session()->forget('email');

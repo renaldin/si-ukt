@@ -51,7 +51,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if($title === 'Data User') active @endif" data-bs-toggle="collapse" href="#sidebar-user" role="button" aria-expanded="false" aria-controls="sidebar-user">
+                    <a class="nav-link @if($title === 'Data Mahasiswa') active @endif" data-bs-toggle="collapse" href="#sidebar-mahasiswa" role="button" aria-expanded="false" aria-controls="sidebar-mahasiswa">
                         <i class="icon">
                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9488 14.54C8.49884 14.54 5.58789 15.1038 5.58789 17.2795C5.58789 19.4562 8.51765 20.0001 11.9488 20.0001C15.3988 20.0001 18.3098 19.4364 18.3098 17.2606C18.3098 15.084 15.38 14.54 11.9488 14.54Z" fill="currentColor"></path>
@@ -62,16 +62,16 @@
                                 <path d="M3.32156 13.5127C2.21752 13.7297 1.49225 14.1719 1.19139 14.8167C0.936203 15.3453 0.936203 15.9586 1.19139 16.4872C1.65163 17.4851 3.13531 17.8066 3.71195 17.8885C3.83104 17.9065 3.92595 17.8038 3.91342 17.6832C3.61883 14.9167 5.9621 13.6046 6.56918 13.3029C6.59425 13.2885 6.59962 13.2677 6.59694 13.2542C6.59515 13.2452 6.5853 13.2317 6.5656 13.2299C5.25294 13.2047 3.84358 13.3848 3.32156 13.5127Z" fill="currentColor"></path>
                             </svg>
                         </i>
-                        <span class="item-name">User</span>
+                        <span class="item-name">Mahasiswa</span>
                         <i class="right-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         </i>
                     </a>
-                    <ul class="sub-nav collapse" id="sidebar-user" data-bs-parent="#sidebar-menu">
+                    <ul class="sub-nav collapse" id="sidebar-mahasiswa" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link @if($subTitle === 'Tambah User') active @endif" href="/tambah-user">
+                            <a class="nav-link @if($subTitle === 'Tambah Mahasiswa') active @endif" href="/tambah-mahasiswa">
                                 <i class="icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                         <g>
@@ -80,11 +80,11 @@
                                     </svg>
                                 </i>
                                 <i class="sidenav-mini-icon"> A </i>
-                                <span class="item-name">Tambah User</span>
+                                <span class="item-name">Tambah Mahasiswa</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if($subTitle === 'Daftar User') active @endif" href="/daftar-user">
+                            <a class="nav-link @if($subTitle === 'Daftar Mahasiswa') active @endif" href="/daftar-mahasiswa">
                                 <i class="icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                         <g>
@@ -93,13 +93,13 @@
                                     </svg>
                                 </i>
                                 <i class="sidenav-mini-icon"> U </i>
-                                <span class="item-name">Daftar User</span>
+                                <span class="item-name">Daftar Mahasiswa</span>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if($title === 'Data Pemesanan') active @endif" data-bs-toggle="collapse" href="#sidebar-pemesanan" role="button" aria-expanded="false" aria-controls="sidebar-pemesanan">
+                    <a class="nav-link @if($title === 'Data Staff') active @endif" data-bs-toggle="collapse" href="#sidebar-staff" role="button" aria-expanded="false" aria-controls="sidebar-staff">
                         <i class="icon">
                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9488 14.54C8.49884 14.54 5.58789 15.1038 5.58789 17.2795C5.58789 19.4562 8.51765 20.0001 11.9488 20.0001C15.3988 20.0001 18.3098 19.4364 18.3098 17.2606C18.3098 15.084 15.38 14.54 11.9488 14.54Z" fill="currentColor"></path>
@@ -110,16 +110,16 @@
                                 <path d="M3.32156 13.5127C2.21752 13.7297 1.49225 14.1719 1.19139 14.8167C0.936203 15.3453 0.936203 15.9586 1.19139 16.4872C1.65163 17.4851 3.13531 17.8066 3.71195 17.8885C3.83104 17.9065 3.92595 17.8038 3.91342 17.6832C3.61883 14.9167 5.9621 13.6046 6.56918 13.3029C6.59425 13.2885 6.59962 13.2677 6.59694 13.2542C6.59515 13.2452 6.5853 13.2317 6.5656 13.2299C5.25294 13.2047 3.84358 13.3848 3.32156 13.5127Z" fill="currentColor"></path>
                             </svg>
                         </i>
-                        <span class="item-name">Pemesanan</span>
+                        <span class="item-name">Staff</span>
                         <i class="right-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         </i>
                     </a>
-                    <ul class="sub-nav collapse" id="sidebar-pemesanan" data-bs-parent="#sidebar-menu">
+                    <ul class="sub-nav collapse" id="sidebar-staff" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link @if($subTitle === 'Pemesanan Baru') active @endif" href="#">
+                            <a class="nav-link @if($subTitle === 'Tambah Staff') active @endif" href="/tambah-staff">
                                 <i class="icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                         <g>
@@ -128,11 +128,11 @@
                                     </svg>
                                 </i>
                                 <i class="sidenav-mini-icon"> A </i>
-                                <span class="item-name">Pemesanan Baru</span>
+                                <span class="item-name">Tambah Staff</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if($subTitle === 'Riwayat Pemesanan') active @endif" href="#">
+                            <a class="nav-link @if($subTitle === 'Daftar Staff') active @endif" href="/daftar-staff">
                                 <i class="icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                         <g>
@@ -141,7 +141,7 @@
                                     </svg>
                                 </i>
                                 <i class="sidenav-mini-icon"> U </i>
-                                <span class="item-name">Riwayat Pemesanan</span>
+                                <span class="item-name">Daftar Staff</span>
                             </a>
                         </li>
                     </ul>

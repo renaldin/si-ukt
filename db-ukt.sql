@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Mar 2023 pada 08.58
+-- Waktu pembuatan: 26 Mar 2023 pada 12.58
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -52,13 +52,21 @@ INSERT INTO `admin` (`id_admin`, `nama`, `email`, `password`, `status`, `foto_us
 
 CREATE TABLE `mahasiswa` (
   `id_mahasiswa` int(11) NOT NULL,
-  `nama` varchar(50) NOT NULL,
-  `nim` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` text NOT NULL,
-  `status` enum('Mahasiswa') NOT NULL DEFAULT 'Mahasiswa',
+  `nama` varchar(50) DEFAULT NULL,
+  `nim` int(11) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` text DEFAULT NULL,
+  `status` enum('Mahasiswa') DEFAULT 'Mahasiswa',
   `foto_user` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `mahasiswa`
+--
+
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama`, `nim`, `email`, `password`, `status`, `foto_user`) VALUES
+(7, 'Renaldi Noviandi', 10107050, 'renaldinoviandi0@gmail.com', '$2y$10$3xx5rOspRL0t79kBaryBreE4XXNy.i1IWB7yT1OIBB1yiekRxmLzm', 'Mahasiswa', '03262023105255Renaldi Noviandi.jpg'),
+(8, 'Bagas', 10107008, 'bagas@gmail.com', '$2y$10$7NyjRMdw..cgbEXP43xpbOwtIgnq6DZKZGoY5T13iZ1CMs/oWdOyu', 'Mahasiswa', '03262023105623 Bagas.jpg');
 
 -- --------------------------------------------------------
 
@@ -112,7 +120,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `staff`

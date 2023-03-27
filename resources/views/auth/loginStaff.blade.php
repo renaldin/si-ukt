@@ -43,7 +43,7 @@
                                <div class="form-group">
                                   <label for="nik" class="form-label">NIK</label>
                                   <input type="nik" class="form-control @error('nik') is-invalid @enderror" name="nik" id="nik" aria-describedby="nik" placeholder=" " autofocus>
-                                  <input type="hidden" class="form-control" name="status"  value="Staff Keuangan">
+                                  <input type="hidden" class="form-control" name="status"  value="Staff">
                                   @error('nik')
                                   <div class="invalid-feedback">
                                     {{ $message }}

@@ -3,65 +3,65 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
-use App\Models\ModelUser;
+use App\Models\ModelMahasiswa;
 use App\Models\ModelAdmin;
 
-class KelolaUser extends Controller
+class KelolaMahasiswa extends Controller
 {
 
-    private $ModelUser;
+    private $ModelMahasiswa;
     private $ModelAdmin;
 
     public function __construct()
     {
-        $this->ModelUser = new ModelUser();
+        $this->ModelMahasiswa = new ModelMahasiswa();
         $this->ModelAdmin = new ModelAdmin();
     }
 
     public function index()
     {
-        if (!Session()->get('email')) {
+        if (!Session()->get('status')) {
             return redirect()->route('admin');
         }
 
         $data = [
-            'title'     => 'Data User',
-            'subTitle'  => 'Daftar User',
-            'daftarUser' => $this->ModelUser->dataUser(),
-            'user'      => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'title'             => 'Data Mahasiswa',
+            'subTitle'          => 'Daftar Mahasiswa',
+            'daftarMahasiswa'   => $this->ModelMahasiswa->dataMahasiswa(),
+            'user'              => $this->ModelAdmin->detail(Session()->get('id_admin')),
         ];
 
-        return view('admin.kelolaUser.dataUser', $data);
+        return view('admin.kelolaMahasiswa.dataMahasiswa', $data);
     }
 
     public function tambah()
     {
-        if (!Session()->get('email')) {
+        if (!Session()->get('status')) {
             return redirect()->route('admin');
         }
 
         $data = [
-            'title'     => 'Data User',
-            'subTitle'  => 'Tambah User',
+            'title'     => 'Data Mahasiswa',
+            'subTitle'  => 'Tambah Mahasiswa',
             'user'      => $this->ModelAdmin->detail(Session()->get('id_admin')),
             'form'      => 'Tambah',
         ];
 
-        return view('admin.kelolaUser.form', $data);
+        return view('admin.kelolaMahasiswa.form', $data);
     }
 
     public function prosesTambah()
     {
         Request()->validate([
             'nama'              => 'required',
-            'nomor_telepon'     => 'required|numeric',
-            'email'             => 'required|unique:user,email|email',
+            'nim'               => 'required|numeric',
+            'email'             => 'required|unique:mahasiswa,email|email',
             'password'          => 'min:6|required',
             'foto_user'         => 'required|mimes:jpeg,png,jpg|max:2048',
         ], [
             'nama.required'             => 'Nama lengkap harus diisi!',
-            'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
-            'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
+            'nim.required'              => 'Nomor telepon harus diisi!',
+            'nim.numeric'               => 'Nomor telepon harus angka!',
             'email.required'            => 'Email harus diisi!',
             'email.unique'              => 'Email sudah digunakan!',
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
@@ -73,19 +73,19 @@ class KelolaUser extends Controller
         ]);
 
         $file1 = Request()->foto_user;
-        $fileUser = date('mdYHis') . Request()->nama . '.' . $file1->extension();
+        $fileUser = date('mdYHis') . ' ' . Request()->nama . '.' . $file1->extension();
         $file1->move(public_path('foto_user'), $fileUser);
 
         $data = [
             'nama'              => Request()->nama,
-            'nomor_telepon'     => Request()->nomor_telepon,
+            'nim'               => Request()->nim,
             'email'             => Request()->email,
             'foto_user'         => $fileUser,
             'password'          => Hash::make(Request()->password),
         ];
 
-        $this->ModelUser->tambah($data);
-        return redirect()->route('daftar-user')->with('success', 'Data user berhasil ditambahkan !');
+        $this->ModelMahasiswa->tambah($data);
+        return redirect()->route('daftar-mahasiswa')->with('success', 'Data mahasiswa berhasil ditambahkan !');
     }
 
     public function edit($id_user)
@@ -99,7 +99,7 @@ class KelolaUser extends Controller
             'subTitle'      => 'Edit User',
             'form'          => 'Edit',
             'user'          => $this->ModelAdmin->detail(Session()->get('id_admin')),
-            'detailUser'    => $this->ModelUser->detail($id_user)
+            'detailUser'    => $this->ModelMahasiswa->detail($id_user)
         ];
 
         return view('admin.kelolaUser.form', $data);
@@ -124,7 +124,7 @@ class KelolaUser extends Controller
 
         if (Request()->password) {
 
-            $user = $this->ModelUser->detail($id_user);
+            $user = $this->ModelMahasiswa->detail($id_user);
 
             if (Request()->foto_user <> "") {
                 if ($user->foto_user <> "") {
@@ -143,7 +143,7 @@ class KelolaUser extends Controller
                     'foto_user'         => $fileUser,
                     'password'          => Hash::make(Request()->password),
                 ];
-                $this->ModelUser->edit($data);
+                $this->ModelMahasiswa->edit($data);
             } else {
                 $data = [
                     'id_user'           => $id_user,
@@ -152,10 +152,10 @@ class KelolaUser extends Controller
                     'email'             => Request()->email,
                     'password'          => Hash::make(Request()->password),
                 ];
-                $this->ModelUser->edit($data);
+                $this->ModelMahasiswa->edit($data);
             }
         } else {
-            $user = $this->ModelUser->detail($id_user);
+            $user = $this->ModelMahasiswa->detail($id_user);
 
             if (Request()->foto_user <> "") {
                 if ($user->foto_user <> "") {
@@ -173,7 +173,7 @@ class KelolaUser extends Controller
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
                 ];
-                $this->ModelUser->edit($data);
+                $this->ModelMahasiswa->edit($data);
             } else {
                 $data = [
                     'id_user'           => $id_user,
@@ -181,7 +181,7 @@ class KelolaUser extends Controller
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'email'             => Request()->email,
                 ];
-                $this->ModelUser->edit($data);
+                $this->ModelMahasiswa->edit($data);
             }
         }
         return redirect()->route('daftar-user')->with('success', 'Data user berhasil diedit !');
@@ -189,13 +189,13 @@ class KelolaUser extends Controller
 
     public function prosesHapus($id_user)
     {
-        $user = $this->ModelUser->detail($id_user);
+        $user = $this->ModelMahasiswa->detail($id_user);
 
         if ($user->foto_user <> "") {
             unlink(public_path('foto_user') . '/' . $user->foto_user);
         }
 
-        $this->ModelUser->hapus($id_user);
+        $this->ModelMahasiswa->hapus($id_user);
         return redirect()->route('daftar-user')->with('success', 'Data user berhasil dihapus !');
     }
 
@@ -207,7 +207,7 @@ class KelolaUser extends Controller
 
         $data = [
             'title'     => 'Profil',
-            'user'      => $this->ModelUser->detail(Session()->get('id_member'))
+            'user'      => $this->ModelMahasiswa->detail(Session()->get('id_member'))
         ];
 
         return view('user.profil.profil', $data);
@@ -239,7 +239,7 @@ class KelolaUser extends Controller
             'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
         ]);
 
-        $user = $this->ModelUser->detail($id_member);
+        $user = $this->ModelMahasiswa->detail($id_member);
 
         if (Request()->foto_perusahaan <> "") {
             if ($user->foto_perusahaan <> "") {
@@ -260,7 +260,7 @@ class KelolaUser extends Controller
                 'email'             => Request()->email,
                 'foto_perusahaan'   => $filePerusahaan
             ];
-            $this->ModelUser->edit($data);
+            $this->ModelMahasiswa->edit($data);
         } else {
             $data = [
                 'id_member'         => $id_member,
@@ -271,7 +271,7 @@ class KelolaUser extends Controller
                 'alamat_perusahaan' => Request()->alamat_perusahaan,
                 'email'             => Request()->email,
             ];
-            $this->ModelUser->edit($data);
+            $this->ModelMahasiswa->edit($data);
         }
 
         if (Request()->foto_user <> "") {
@@ -293,7 +293,7 @@ class KelolaUser extends Controller
                 'email'             => Request()->email,
                 'foto_user'         => $fileUser
             ];
-            $this->ModelUser->edit($data);
+            $this->ModelMahasiswa->edit($data);
         } else {
             $data = [
                 'id_member'         => $id_member,
@@ -304,7 +304,7 @@ class KelolaUser extends Controller
                 'alamat_perusahaan' => Request()->alamat_perusahaan,
                 'email'             => Request()->email,
             ];
-            $this->ModelUser->edit($data);
+            $this->ModelMahasiswa->edit($data);
         }
 
         return redirect()->route('profil')->with('berhasil', 'Profil berhasil diedit !');
@@ -319,7 +319,7 @@ class KelolaUser extends Controller
 
         $data = [
             'title'     => 'Ubah Password',
-            'user'      => $this->ModelUser->detail($id_member)
+            'user'      => $this->ModelMahasiswa->detail($id_member)
         ];
 
         return view('user.profil.ubahPassword', $data);
@@ -337,7 +337,7 @@ class KelolaUser extends Controller
             'password_baru.min'         => 'Password Lama minimal 6 karakter!',
         ]);
 
-        $user = $this->ModelUser->detail($id_member);
+        $user = $this->ModelMahasiswa->detail($id_member);
 
         if (Hash::check(Request()->password_lama, $user->password)) {
             $data = [
@@ -345,7 +345,7 @@ class KelolaUser extends Controller
                 'password'          => Hash::make(Request()->password_baru)
             ];
 
-            $this->ModelUser->edit($data);
+            $this->ModelMahasiswa->edit($data);
             return back()->with('berhasil', 'Password berhasil diedit !');
         } else {
             return back()->with('gagal', 'Password Lama tidak sesuai.');

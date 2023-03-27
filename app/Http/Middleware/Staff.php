@@ -16,7 +16,7 @@ class Staff
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Session()->get('status') === 'Staff Keuangan') {
+        if (Session()->get('status') === 'Staff') {
             return $next($request);
         } else {
             return redirect()->route('staff');

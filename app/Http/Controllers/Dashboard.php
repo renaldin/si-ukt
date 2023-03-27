@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Http\Request;
 use App\Models\ModelAdmin;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelStaff;
@@ -25,7 +23,7 @@ class Dashboard extends Controller
     public function index()
     {
 
-        if (!Session()->get('email')) {
+        if (!Session()->get('status')) {
             return redirect()->route('login');
         }
 
@@ -40,7 +38,7 @@ class Dashboard extends Controller
     public function admin()
     {
 
-        if (!Session()->get('email')) {
+        if (!Session()->get('status')) {
             return redirect()->route('admin');
         }
 
@@ -55,7 +53,7 @@ class Dashboard extends Controller
     public function staff()
     {
 
-        if (!Session()->get('email')) {
+        if (!Session()->get('status')) {
             return redirect()->route('staff');
         }
 

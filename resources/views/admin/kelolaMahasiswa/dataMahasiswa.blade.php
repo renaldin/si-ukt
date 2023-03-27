@@ -39,27 +39,25 @@
                             <th>No</th>
                             <th>Foto</th>
                             <th>Nama</th>
-                            <th>Nomor Telepon</th>
+                            <th>NIM</th>
                             <th>Email</th>
                             <th>Status</th>
-                            <th>Tanggal Daftar</th>
                             <th style="min-width: 100px">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $no = 1;?>
-                        @foreach ($daftarUser as $item)
+                        @foreach ($daftarMahasiswa as $item)
                         <tr>
                             <td>{{$no++}}</td>
                             <td class="text-center"><img class="bg-soft-primary rounded img-fluid avatar-40 me-3" src="@if($item->foto_user === null) {{ asset('foto_user/default1.jpg') }} @else {{ asset('foto_user/'.$item->foto_user) }} @endif" alt="profile"></td>
                             <td>{{$item->nama}}</td>
-                            <td>{{$item->nomor_telepon}}</td>
+                            <td>{{$item->nim}}</td>
                             <td>{{$item->email}}</td>
                             <td>{{$item->status}}</td>
-                            <td>{{date('d F Y', strtotime($item->tanggal_daftar))}}</td>
                             <td>
                             <div class="flex align-items-center list-user-action">
-                                <a class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Edit User" data-original-title="Edit" href="/edit-user/{{$item->id_user}}">
+                                <a class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Edit User" data-original-title="Edit" href="/edit-user/{{$item->id_mahasiswa}}">
                                     <span class="btn-inner">
                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -68,7 +66,7 @@
                                         </svg>
                                     </span>
                                 </a>
-                                <button type="button" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#hapus{{$item->id_user}}" data-placement="top" title="Hapus User" data-original-title="Delete">
+                                <button type="button" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#hapus{{$item->id_mahasiswa}}" data-placement="top" title="Hapus User" data-original-title="Delete">
                                     <span class="btn-inner">
                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                                         <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -89,8 +87,8 @@
     </div>
 </div>
 
-@foreach ($daftarUser as $item)
-<div class="modal fade" id="hapus{{$item->id_user}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@foreach ($daftarMahasiswa as $item)
+<div class="modal fade" id="hapus{{$item->id_mahasiswa}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -102,7 +100,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-                <a href="/hapus-user/{{$item->id_user}}" type="button" class="btn btn-primary">Hapus</a>
+                <a href="/hapus-user/{{$item->id_mahasiswa}}" type="button" class="btn btn-primary">Hapus</a>
             </div>
         </div>
     </div>
