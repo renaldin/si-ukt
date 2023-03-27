@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Models\ModelAdmin;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelStaff;

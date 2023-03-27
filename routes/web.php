@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\Dashboard;
-use App\Http\Controllers\Home;
-use App\Http\Controllers\KelolaAdmin;
-use App\Http\Controllers\KelolaMahasiswa;
-use App\Http\Controllers\Register;
-use App\Http\Controllers\Login;
+use App\Http\Controllers\Dashboard\Dashboard;
+use App\Http\Controllers\Admin\KelolaAdmin;
+use App\Http\Controllers\Admin\KelolaMahasiswa;
+use App\Http\Controllers\Admin\KelolaStaff;
+use App\Http\Controllers\Auth\Login;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,8 +53,15 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/tambah-mahasiswa', [KelolaMahasiswa::class, 'prosesTambah']);
         Route::get('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'edit'])->name('edit-mahasiswa');
         Route::post('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEdit']);
-        Route::get('/detail-mahasiswa/{id}', [KelolaMahasiswa::class, 'detail'])->name('detail-mahasiswa');
         Route::get('/hapus-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesHapus']);
+
+        // Kelola staff
+        Route::get('/daftar-staff', [KelolaStaff::class, 'index'])->name('daftar-staff');
+        Route::get('/tambah-staff', [KelolaStaff::class, 'tambah'])->name('tambah-staff');
+        Route::post('/tambah-staff', [KelolaStaff::class, 'prosesTambah']);
+        Route::get('/edit-staff/{id}', [KelolaStaff::class, 'edit'])->name('edit-staff');
+        Route::post('/edit-staff/{id}', [KelolaStaff::class, 'prosesEdit']);
+        Route::get('/hapus-staff/{id}', [KelolaStaff::class, 'prosesHapus']);
     });
 
     Route::group(['middleware' => 'staff'], function () {
