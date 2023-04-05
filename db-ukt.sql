@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Mar 2023 pada 12.58
+-- Waktu pembuatan: 27 Mar 2023 pada 16.39
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -65,8 +65,7 @@ CREATE TABLE `mahasiswa` (
 --
 
 INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama`, `nim`, `email`, `password`, `status`, `foto_user`) VALUES
-(7, 'Renaldi Noviandi', 10107050, 'renaldinoviandi0@gmail.com', '$2y$10$3xx5rOspRL0t79kBaryBreE4XXNy.i1IWB7yT1OIBB1yiekRxmLzm', 'Mahasiswa', '03262023105255Renaldi Noviandi.jpg'),
-(8, 'Bagas', 10107008, 'bagas@gmail.com', '$2y$10$7NyjRMdw..cgbEXP43xpbOwtIgnq6DZKZGoY5T13iZ1CMs/oWdOyu', 'Mahasiswa', '03262023105623 Bagas.jpg');
+(7, 'Renaldi Noviandi', 10107050, 'renaldinoviandi0@gmail.com', '$2y$10$3xx5rOspRL0t79kBaryBreE4XXNy.i1IWB7yT1OIBB1yiekRxmLzm', 'Mahasiswa', '03262023105255Renaldi Noviandi.jpg');
 
 -- --------------------------------------------------------
 
@@ -80,9 +79,16 @@ CREATE TABLE `staff` (
   `email` varchar(100) NOT NULL,
   `nik` varchar(30) NOT NULL,
   `password` text NOT NULL,
-  `status` enum('Staff Keuangan') NOT NULL,
+  `status` enum('Staff') NOT NULL,
   `foto_user` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `staff`
+--
+
+INSERT INTO `staff` (`id_staff`, `nama`, `email`, `nik`, `password`, `status`, `foto_user`) VALUES
+(1, 'Pak Tri', 'tri@gmail.com', '109089742154215', '$2y$10$CMF/70ywx8praUefATN1zuAW7xJqvdrJtdqEBO8hSpcOumseI9Y/W', 'Staff', '03272023142134 Pak Tri.jpg');
 
 --
 -- Indexes for dumped tables
@@ -126,7 +132,7 @@ ALTER TABLE `mahasiswa`
 -- AUTO_INCREMENT untuk tabel `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `id_staff` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_staff` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
