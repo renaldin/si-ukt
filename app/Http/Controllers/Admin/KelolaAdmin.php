@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ModelAdmin;
+use App\Models\ModelLog;
 
 class KelolaAdmin extends Controller
 {
 
     private $ModelAdmin;
+    private $ModelLog;
 
     public function __construct()
     {
         $this->ModelAdmin = new ModelAdmin();
+        $this->ModelLog = new ModelLog();
     }
 
     public function index()
@@ -48,13 +51,13 @@ class KelolaAdmin extends Controller
     public function prosesTambah()
     {
         Request()->validate([
-            'nama'              => 'required',
+            'nama_admin'        => 'required',
             'nomor_telepon'     => 'required|numeric',
-            'email'             => 'required|unique:admin,email|email',
+            'email'             => 'required|unique:admin,email|unique:staff,email|unique:mahasiswa,email|email',
             'password'          => 'min:6|required',
             'foto'              => 'required|mimes:jpeg,png,jpg|max:2048',
         ], [
-            'nama.required'             => 'Nama lengkap harus diisi!',
+            'nama_admin.required'       => 'Nama lengkap harus diisi!',
             'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -72,12 +75,21 @@ class KelolaAdmin extends Controller
         $file->move(public_path('foto_admin'), $fileName);
 
         $data = [
-            'nama'              => Request()->nama,
+            'nama_admin'        => Request()->nama_admin,
             'nomor_telepon'     => Request()->nomor_telepon,
             'email'             => Request()->email,
             'password'          => Hash::make(Request()->password),
             'foto'              => $fileName,
         ];
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan tambah admin dengan Email ' . Request()->email,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
         $this->ModelAdmin->tambah($data);
         return redirect()->route('kelola-admin')->with('berhasil', 'Data admin berhasil ditambahkan !');
@@ -101,12 +113,12 @@ class KelolaAdmin extends Controller
     public function prosesEdit($id_admin)
     {
         Request()->validate([
-            'nama'              => 'required',
+            'nama_admin'        => 'required',
             'nomor_telepon'     => 'required|numeric',
             'email'             => 'required|email',
             'foto'              => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
-            'nama.required'             => 'Nama lengkap harus diisi!',
+            'nama_admin.required'       => 'Nama lengkap harus diisi!',
             'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -122,13 +134,13 @@ class KelolaAdmin extends Controller
             }
 
             $file = Request()->foto;
-            $fileName = date('mdYHis') . Request()->nama . '.' . $file->extension();
+            $fileName = date('mdYHis') . Request()->nama_admin . '.' . $file->extension();
             $file->move(public_path('foto_admin'), $fileName);
 
             if (Request()->password) {
                 $data = [
                     'id_admin'          => $id_admin,
-                    'nama'              => Request()->nama,
+                    'nama_admin'        => Request()->nama_admin,
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'email'             => Request()->email,
                     'password'          => Hash::make(Request()->password),
@@ -137,7 +149,7 @@ class KelolaAdmin extends Controller
             } else {
                 $data = [
                     'id_admin'          => $id_admin,
-                    'nama'              => Request()->nama,
+                    'nama_admin'        => Request()->nama_admin,
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'email'             => Request()->email,
                     'foto'              => $fileName
@@ -147,7 +159,7 @@ class KelolaAdmin extends Controller
             if (Request()->password) {
                 $data = [
                     'id_admin'          => $id_admin,
-                    'nama'              => Request()->nama,
+                    'nama_admin'        => Request()->nama_admin,
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'email'             => Request()->email,
                     'password'          => Hash::make(Request()->password),
@@ -155,12 +167,21 @@ class KelolaAdmin extends Controller
             } else {
                 $data = [
                     'id_admin'          => $id_admin,
-                    'nama'              => Request()->nama,
+                    'nama_admin'        => Request()->nama_admin,
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'email'             => Request()->email,
                 ];
             }
         }
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan edit admin dengan Email ' . Request()->email,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
         $this->ModelAdmin->edit($data);
         return redirect()->route('kelola-admin')->with('berhasil', 'Data admin berhasil diedit !');
@@ -172,6 +193,15 @@ class KelolaAdmin extends Controller
         if ($admin->foto <> "") {
             unlink(public_path('foto_admin') . '/' . $admin->foto);
         }
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan hapus admin dengan Email ' . $admin->email,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
         $this->ModelAdmin->hapus($id_admin);
         return redirect()->route('kelola-admin')->with('berhasil', 'Data admin berhasil dihapus !');
@@ -195,12 +225,12 @@ class KelolaAdmin extends Controller
     public function ubahProfil($id_admin)
     {
         Request()->validate([
-            'nama'              => 'required',
+            'nama_admin'        => 'required',
             'nomor_telepon'     => 'required|numeric',
             'email'             => 'required|email',
             'foto'              => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
-            'nama.required'             => 'Nama lengkap harus diisi!',
+            'nama_admin.required'       => 'Nama lengkap harus diisi!',
             'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -216,13 +246,13 @@ class KelolaAdmin extends Controller
             }
 
             $file = Request()->foto;
-            $fileName = date('mdYHis') . Request()->nama . '.' . $file->extension();
+            $fileName = date('mdYHis') . Request()->nama_admin . '.' . $file->extension();
             $file->move(public_path('foto_admin'), $fileName);
 
 
             $data = [
                 'id_admin'          => $id_admin,
-                'nama'              => Request()->nama,
+                'nama_admin'        => Request()->nama_admin,
                 'nomor_telepon'     => Request()->nomor_telepon,
                 'email'             => Request()->email,
                 'foto'              => $fileName
@@ -230,7 +260,7 @@ class KelolaAdmin extends Controller
         } else {
             $data = [
                 'id_admin'          => $id_admin,
-                'nama'              => Request()->nama,
+                'nama_admin'        => Request()->nama_admin,
                 'nomor_telepon'     => Request()->nomor_telepon,
                 'email'             => Request()->email,
             ];

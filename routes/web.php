@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\Dashboard;
 use App\Http\Controllers\Admin\KelolaAdmin;
 use App\Http\Controllers\Admin\KelolaMahasiswa;
 use App\Http\Controllers\Admin\KelolaStaff;
+use App\Http\Controllers\Admin\Log;
 use App\Http\Controllers\Auth\Login;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +63,9 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-staff/{id}', [KelolaStaff::class, 'edit'])->name('edit-staff');
         Route::post('/edit-staff/{id}', [KelolaStaff::class, 'prosesEdit']);
         Route::get('/hapus-staff/{id}', [KelolaStaff::class, 'prosesHapus']);
+
+        // data log
+        Route::get('/daftar-log', [Log::class, 'index'])->name('daftar-log');
     });
 
     Route::group(['middleware' => 'staff'], function () {

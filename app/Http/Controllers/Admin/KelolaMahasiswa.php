@@ -6,17 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelAdmin;
+use App\Models\ModelLog;
 
 class KelolaMahasiswa extends Controller
 {
 
     private $ModelMahasiswa;
     private $ModelAdmin;
+    private $ModelLog;
 
     public function __construct()
     {
         $this->ModelMahasiswa = new ModelMahasiswa();
         $this->ModelAdmin = new ModelAdmin();
+        $this->ModelLog = new ModelLog();
     }
 
     public function index()
@@ -54,18 +57,19 @@ class KelolaMahasiswa extends Controller
     public function prosesTambah()
     {
         Request()->validate([
-            'nama'              => 'required',
-            'nim'               => 'required|numeric',
-            'email'             => 'required|unique:mahasiswa,email|email',
+            'nama_mahasiswa'    => 'required',
+            'nim'               => 'required|numeric|unique:mahasiswa,nim',
+            'email'             => 'required|unique:admin,email|unique:staff,email|unique:mahasiswa,email|email',
             'password'          => 'min:6|required',
             'foto_user'         => 'required|mimes:jpeg,png,jpg|max:2048',
         ], [
-            'nama.required'             => 'Nama lengkap harus diisi!',
+            'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
             'nim.required'              => 'NIM harus diisi!',
             'nim.numeric'               => 'NIM harus angka!',
             'email.required'            => 'Email harus diisi!',
             'email.unique'              => 'Email sudah digunakan!',
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
+            'nim.unique'                => 'NIM sudah digunakan!',
             'password.required'         => 'Password harus diisi!',
             'password.min'              => 'Password minimal 6 karakter!',
             'foto_user.required'        => 'Foto Anda harus diisi!',
@@ -74,16 +78,25 @@ class KelolaMahasiswa extends Controller
         ]);
 
         $file1 = Request()->foto_user;
-        $fileUser = date('mdYHis') . ' ' . Request()->nama . '.' . $file1->extension();
+        $fileUser = date('mdYHis') . ' ' . Request()->nama_mahasiswa . '.' . $file1->extension();
         $file1->move(public_path('foto_user'), $fileUser);
 
         $data = [
-            'nama'              => Request()->nama,
+            'nama_mahasiswa'    => Request()->nama_mahasiswa,
             'nim'               => Request()->nim,
             'email'             => Request()->email,
             'foto_user'         => $fileUser,
             'password'          => Hash::make(Request()->password),
         ];
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan tambah mahasiswa dengan NIM ' . Request()->nim,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
         $this->ModelMahasiswa->tambah($data);
         return redirect()->route('daftar-mahasiswa')->with('success', 'Data mahasiswa berhasil ditambahkan !');
@@ -109,12 +122,12 @@ class KelolaMahasiswa extends Controller
     public function prosesEdit($id_mahasiswa)
     {
         Request()->validate([
-            'nama'              => 'required',
+            'nama_mahasiswa'    => 'required',
             'nim'               => 'required|numeric',
             'email'             => 'required|email',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
         ], [
-            'nama.required'             => 'Nama lengkap harus diisi!',
+            'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
             'nim.required'              => 'Nim harus diisi!',
             'nim.numeric'               => 'Nim harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -133,12 +146,12 @@ class KelolaMahasiswa extends Controller
                 }
 
                 $file = Request()->foto_user;
-                $fileUser = date('mdYHis') . Request()->nama . '.' . $file->extension();
+                $fileUser = date('mdYHis') . Request()->nama_mahasiswa . '.' . $file->extension();
                 $file->move(public_path('foto_user'), $fileUser);
 
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
-                    'nama'              => Request()->nama,
+                    'nama_mahasiswa'    => Request()->nama_mahasiswa,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
@@ -148,7 +161,7 @@ class KelolaMahasiswa extends Controller
             } else {
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
-                    'nama'              => Request()->nama,
+                    'nama_mahasiswa'    => Request()->nama_mahasiswa,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'password'          => Hash::make(Request()->password),
@@ -164,12 +177,12 @@ class KelolaMahasiswa extends Controller
                 }
 
                 $file = Request()->foto_user;
-                $fileUser = date('mdYHis') . Request()->nama . '.' . $file->extension();
+                $fileUser = date('mdYHis') . Request()->nama_mahasiswa . '.' . $file->extension();
                 $file->move(public_path('foto_user'), $fileUser);
 
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
-                    'nama'              => Request()->nama,
+                    'nama_mahasiswa'    => Request()->nama_mahasiswa,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
@@ -178,13 +191,23 @@ class KelolaMahasiswa extends Controller
             } else {
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
-                    'nama'              => Request()->nama,
+                    'nama_mahasiswa'    => Request()->nama_mahasiswa,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                 ];
                 $this->ModelMahasiswa->edit($data);
             }
         }
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan edit mahasiswa dengan NIM ' . Request()->nim,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
         return redirect()->route('daftar-mahasiswa')->with('success', 'Data mahasiswa berhasil diedit!');
     }
 
@@ -195,6 +218,15 @@ class KelolaMahasiswa extends Controller
         if ($user->foto_user <> "") {
             unlink(public_path('foto_user') . '/' . $user->foto_user);
         }
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan hapus mahasiswa dengan NIM ' . $user->nim,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
         $this->ModelMahasiswa->hapus($id_mahasiswa);
         return redirect()->route('daftar-mahasiswa')->with('success', 'Data mahasiswa berhasil dihapus !');

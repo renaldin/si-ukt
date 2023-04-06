@@ -6,17 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ModelStaff;
 use App\Models\ModelAdmin;
+use App\Models\ModelLog;
 
 class KelolaStaff extends Controller
 {
 
     private $ModelStaff;
     private $ModelAdmin;
+    private $ModelLog;
 
     public function __construct()
     {
         $this->ModelStaff = new ModelStaff();
         $this->ModelAdmin = new ModelAdmin();
+        $this->ModelLog = new ModelLog();
     }
 
     public function index()
@@ -54,17 +57,18 @@ class KelolaStaff extends Controller
     public function prosesTambah()
     {
         Request()->validate([
-            'nama'              => 'required',
-            'nik'               => 'required|numeric',
-            'email'             => 'required|unique:staff,email|email',
+            'nama_staff'        => 'required',
+            'nik'               => 'required|unique:staff,nik|numeric',
+            'email'             => 'required|unique:admin,email|unique:staff,email|unique:mahasiswa,email|email',
             'password'          => 'min:6|required',
             'foto_user'         => 'required|mimes:jpeg,png,jpg|max:2048',
         ], [
-            'nama.required'             => 'Nama lengkap harus diisi!',
+            'nama_staff.required'       => 'Nama lengkap harus diisi!',
             'nik.required'              => 'NIP/NIK harus diisi!',
             'nik.numeric'               => 'NIP/NIK harus angka!',
-            'email.required'            => 'Email harus diisi!',
             'email.unique'              => 'Email sudah digunakan!',
+            'email.required'            => 'Email harus diisi!',
+            'nik.unique'                => 'NIP/NIK sudah digunakan!',
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
             'password.required'         => 'Password harus diisi!',
             'password.min'              => 'Password minimal 6 karakter!',
@@ -74,16 +78,25 @@ class KelolaStaff extends Controller
         ]);
 
         $file1 = Request()->foto_user;
-        $fileUser = date('mdYHis') . ' ' . Request()->nama . '.' . $file1->extension();
+        $fileUser = date('mdYHis') . ' ' . Request()->nama_staff . '.' . $file1->extension();
         $file1->move(public_path('foto_user'), $fileUser);
 
         $data = [
-            'nama'              => Request()->nama,
+            'nama_staff'        => Request()->nama_staff,
             'nik'               => Request()->nik,
             'email'             => Request()->email,
             'foto_user'         => $fileUser,
             'password'          => Hash::make(Request()->password),
         ];
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan tambah staff dengan NIK/NIP ' . Request()->nik,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
         $this->ModelStaff->tambah($data);
         return redirect()->route('daftar-staff')->with('success', 'Data staff berhasil ditambahkan !');
@@ -109,12 +122,12 @@ class KelolaStaff extends Controller
     public function prosesEdit($id_staff)
     {
         Request()->validate([
-            'nama'              => 'required',
+            'nama_staff'        => 'required',
             'nik'               => 'required|numeric',
             'email'             => 'required|email',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
         ], [
-            'nama.required'             => 'Nama lengkap harus diisi!',
+            'nama_staff.required'       => 'Nama lengkap harus diisi!',
             'nik.required'              => 'NIP/NIK harus diisi!',
             'nik.numeric'               => 'NIP/NIK harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -133,12 +146,12 @@ class KelolaStaff extends Controller
                 }
 
                 $file = Request()->foto_user;
-                $fileUser = date('mdYHis') . Request()->nama . '.' . $file->extension();
+                $fileUser = date('mdYHis') . Request()->nama_staff . '.' . $file->extension();
                 $file->move(public_path('foto_user'), $fileUser);
 
                 $data = [
                     'id_staff'          => $id_staff,
-                    'nama'              => Request()->nama,
+                    'nama_staff'        => Request()->nama_staff,
                     'nik'               => Request()->nik,
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
@@ -148,7 +161,7 @@ class KelolaStaff extends Controller
             } else {
                 $data = [
                     'id_staff'          => $id_staff,
-                    'nama'              => Request()->nama,
+                    'nama_staff'        => Request()->nama_staff,
                     'nik'               => Request()->nik,
                     'email'             => Request()->email,
                     'password'          => Hash::make(Request()->password),
@@ -164,12 +177,12 @@ class KelolaStaff extends Controller
                 }
 
                 $file = Request()->foto_user;
-                $fileUser = date('mdYHis') . Request()->nama . '.' . $file->extension();
+                $fileUser = date('mdYHis') . Request()->nama_staff . '.' . $file->extension();
                 $file->move(public_path('foto_user'), $fileUser);
 
                 $data = [
                     'id_staff'          => $id_staff,
-                    'nama'              => Request()->nama,
+                    'nama_staff'        => Request()->nama_staff,
                     'nik'               => Request()->nik,
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
@@ -178,13 +191,23 @@ class KelolaStaff extends Controller
             } else {
                 $data = [
                     'id_staff'          => $id_staff,
-                    'nama'              => Request()->nama,
+                    'nama_staff'        => Request()->nama_staff,
                     'nik'               => Request()->nik,
                     'email'             => Request()->email,
                 ];
                 $this->ModelStaff->edit($data);
             }
         }
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan edit staff dengan NIK/NIP ' . Request()->nik,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
         return redirect()->route('daftar-staff')->with('success', 'Data staff berhasil diedit!');
     }
 
@@ -195,6 +218,15 @@ class KelolaStaff extends Controller
         if ($user->foto_user <> "") {
             unlink(public_path('foto_user') . '/' . $user->foto_user);
         }
+
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan hapus staff dengan NIK/NIP ' . $user->nik,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
         $this->ModelStaff->hapus($id_staff);
         return redirect()->route('daftar-staff')->with('success', 'Data staff berhasil dihapus !');

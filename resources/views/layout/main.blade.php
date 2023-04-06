@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Jawer.id | {{ $subTitle }}</title>
+      <title>SI UKT | {{ $subTitle }}</title>
       
       <!-- Favicon -->
       <link rel="shortcut icon" href="{{ asset('template/html/assets/images/favicon.ico') }}" />
@@ -79,7 +79,7 @@
                   <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="@if($user->foto_user === null) {{ asset('foto_user/default.jpg') }} @else {{ asset('foto_user/'.$user->foto_user) }} @endif" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
                     <div class="caption ms-3 d-none d-md-block ">
-                        <h6 class="mb-0 caption-title">{{$user->nama}}</h6>
+                        <h6 class="mb-0 caption-title">@if($user->status === 'Admin'){{$user->nama_admin}}@elseif($user->status === 'Mahasiswa'){{$user->nama_mahasiswa}}@elseif($user->status === 'Staff'){{$user->nama_staff}}@endif</h6>
                         <p class="mb-0 caption-sub-title">{{$user->status}}</p>
                     </div>
                   </a>
@@ -101,7 +101,7 @@
                           <div class="flex-wrap d-flex justify-content-between align-items-center">
                               <div>
                                 @if($subTitle === 'Dashboard')
-                                  <h1>Hello, {{$user->nama}}</h1>
+                                  <h1>Hello, @if($user->status === 'Admin'){{$user->nama_admin}}@elseif($user->status === 'Mahasiswa'){{$user->nama_mahasiswa}}@elseif($user->status === 'Staff'){{$user->nama_staff}}@endif</h1>
                                   <p>Selamat Datang Di Website Sistem Informasi Uang Kuliah Tunggal (UKT).</p>
                                 @else
                                   <h1>{{$subTitle}}</h1>

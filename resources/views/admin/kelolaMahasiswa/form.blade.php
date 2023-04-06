@@ -15,9 +15,9 @@
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="nama">Nama Lengkap</label>
-                            <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="@if($form === 'Tambah'){{ old('nama') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->nama}}@endif" @if($form === 'Detail') disabled @endif autofocus placeholder="Masukkan Nama Lengkap ">
-                            @error('nama')
+                            <label class="form-label" for="nama_mahasiswa">Nama Lengkap</label>
+                            <input type="text" class="form-control @error('nama_mahasiswa') is-invalid @enderror" id="nama_mahasiswa" name="nama_mahasiswa" value="@if($form === 'Tambah'){{ old('nama_mahasiswa') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->nama_mahasiswa}}@endif" @if($form === 'Detail') disabled @endif autofocus placeholder="Masukkan Nama Lengkap ">
+                            @error('nama_mahasiswa')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>

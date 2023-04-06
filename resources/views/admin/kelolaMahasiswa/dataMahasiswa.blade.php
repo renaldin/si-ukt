@@ -51,7 +51,7 @@
                         <tr>
                             <td>{{$no++}}</td>
                             <td class="text-center"><img class="bg-soft-primary rounded img-fluid avatar-40 me-3" src="@if($item->foto_user === null) {{ asset('foto_user/default1.jpg') }} @else {{ asset('foto_user/'.$item->foto_user) }} @endif" alt="profile"></td>
-                            <td>{{$item->nama}}</td>
+                            <td>{{$item->nama_mahasiswa}}</td>
                             <td>{{$item->nim}}</td>
                             <td>{{$item->email}}</td>
                             <td>{{$item->status}}</td>
@@ -96,7 +96,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Apakah Anda yakin akan hapus mahasiswa bernama <strong>{{$item->nama}}</strong>?</p>
+                <p>Apakah Anda yakin akan hapus mahasiswa bernama <strong>{{$item->nama_mahasiswa}}</strong>?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
