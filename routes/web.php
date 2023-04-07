@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\KelolaAdmin;
 use App\Http\Controllers\Admin\KelolaMahasiswa;
 use App\Http\Controllers\Admin\KelolaStaff;
 use App\Http\Controllers\Admin\Log;
+use App\Http\Controllers\Admin\KelompokUKT;
 use App\Http\Controllers\Auth\Login;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +67,14 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         // data log
         Route::get('/daftar-log', [Log::class, 'index'])->name('daftar-log');
+
+        // kelola kelompok UKT
+        Route::get('/daftar-kelompok-ukt', [KelompokUKT::class, 'index'])->name('daftar-kelompok-ukt');
+        Route::get('/tambah-kelompok-ukt', [KelompokUKT::class, 'tambah'])->name('tambah-kelompok-ukt');
+        Route::post('/tambah-kelompok-ukt', [KelompokUKT::class, 'prosesTambah']);
+        Route::get('/edit-kelompok-ukt/{id}', [KelompokUKT::class, 'edit'])->name('edit-kelompok-ukt');
+        Route::post('/edit-kelompok-ukt/{id}', [KelompokUKT::class, 'prosesEdit']);
+        Route::get('/hapus-kelompok-ukt/{id}', [KelompokUKT::class, 'prosesHapus']);
     });
 
     Route::group(['middleware' => 'staff'], function () {

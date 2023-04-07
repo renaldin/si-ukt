@@ -74,7 +74,7 @@ class KelompokUKT extends Controller
         // log
         $dataLog = [
             'id_admin'      => Session()->get('id_admin'),
-            'keterangan'    => 'Melakukan tambah Kelompok UKT ' . Request()->kelompok_ukt . 'dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
+            'keterangan'    => 'Melakukan tambah Kelompok UKT ' . Request()->kelompok_ukt . ' dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
             'status_user'   => session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
@@ -104,7 +104,7 @@ class KelompokUKT extends Controller
     public function prosesEdit($id_kelompok_ukt)
     {
         Request()->validate([
-            'kelompok_ukt'      => 'required|unique:kelompok_ukt,kelompok_ukt|numeric',
+            'kelompok_ukt'      => 'required|numeric',
             'nominal'           => 'required|numeric',
         ], [
             'kelompok_ukt.required'     => 'Kelompok UKT harus diisi!',
@@ -125,7 +125,7 @@ class KelompokUKT extends Controller
         // log
         $dataLog = [
             'id_admin'      => Session()->get('id_admin'),
-            'keterangan'    => 'Melakukan edit Kelompok UKT ' . Request()->kelompok_ukt . 'dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
+            'keterangan'    => 'Melakukan edit Kelompok UKT ' . Request()->kelompok_ukt . ' dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
             'status_user'   => session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
@@ -140,13 +140,13 @@ class KelompokUKT extends Controller
         // log
         $dataLog = [
             'id_admin'      => Session()->get('id_admin'),
-            'keterangan'    => 'Melakukan hapus Kelompok UKT ' . Request()->kelompok_ukt . 'dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
+            'keterangan'    => 'Melakukan hapus Kelompok UKT ' . Request()->kelompok_ukt . ' dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
             'status_user'   => session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log
 
         $this->ModelKelompokUKT->hapus($id_kelompok_ukt);
-        return redirect()->route('daftar-kelompok-ukt')->with('success', 'Data staff berhasil dihapus !');
+        return redirect()->route('daftar-kelompok-ukt')->with('success', 'Data kelompok UKT berhasil dihapus !');
     }
 }

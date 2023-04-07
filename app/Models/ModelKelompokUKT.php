@@ -12,7 +12,7 @@ class ModelKelompokUKT extends Model
 
     public function dataKelompokUKT()
     {
-        return DB::table('kelompok_ukt')->orderBy('id_kelompok_ukt', 'DESC')->get();
+        return DB::table('kelompok_ukt')->orderBy('id_kelompok_ukt', 'ASC')->get();
     }
 
     public function detail($id_kelompok_ukt)
