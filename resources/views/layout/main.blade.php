@@ -87,7 +87,7 @@
                     <li><a class="dropdown-item" href="{{ asset('template/') }}html/dashboard/app/user-profile.html">Profile</a></li>
                     <li><a class="dropdown-item" href="{{ asset('template/') }}html/dashboard/app/user-privacy-setting.html">Privacy Setting</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout">Logout</button></li>
                   </ul>
                 </li>
               </ul>
@@ -158,6 +158,24 @@
               </div>
           </div>
       </footer>
+
+      <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin akan logout ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <a href="/logout" type="button" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Library Bundle Script -->
     <script src="{{ asset('template/html/assets/js/core/libs.min.js') }}"></script>

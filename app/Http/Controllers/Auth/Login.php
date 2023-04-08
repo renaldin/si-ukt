@@ -101,7 +101,7 @@ class Login extends Controller
                     return back()->with('fail', 'Login gagal! Password tidak sesuai.');
                 }
             } else {
-                return back()->with('fail', 'Login gagal! Email belum terdaftar.');
+                return back()->with('fail', 'Login gagal! NIM belum terdaftar.');
             }
         } else if (Request()->status === "Admin") {
             Request()->validate([

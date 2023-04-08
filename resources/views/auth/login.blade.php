@@ -43,7 +43,7 @@
                                <div class="form-group">
                                   <label for="nim" class="form-label">NIM</label>
                                   <input type="nim" class="form-control @error('nim') is-invalid @enderror" name="nim" id="nim" aria-describedby="nim" placeholder=" " value="{{ old('nim') }}" autofocus>
-                                  <input type="hidden" class="form-control" name="status"  value="User">
+                                  <input type="hidden" class="form-control" name="status"  value="Mahasiswa">
                                   @error('nim')
                                   <div class="invalid-feedback">
                                     {{ $message }}

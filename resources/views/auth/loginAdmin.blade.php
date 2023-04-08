@@ -42,7 +42,7 @@
                             <div class="col-lg-12">
                                <div class="form-group">
                                   <label for="email" class="form-label">Email</label>
-                                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" placeholder=" " autofocus>
+                                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" value="{{old('email')}}" autofocus>
                                   <input type="hidden" class="form-control" name="status"  value="Admin">
                                   @error('email')
                                   <div class="invalid-feedback">
