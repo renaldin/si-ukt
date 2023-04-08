@@ -42,7 +42,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/dashboard-admin', [Dashboard::class, 'admin'])->name('dashboard-admin');
 
         // Kelola Admin
-        Route::get('/kelola-admin', [KelolaAdmin::class, 'index'])->name('kelola-admin');
+        Route::get('/daftar-admin', [KelolaAdmin::class, 'index'])->name('daftar-admin');
         Route::get('/tambah-admin', [KelolaAdmin::class, 'tambah'])->name('tambah-admin');
         Route::post('/tambah-admin', [KelolaAdmin::class, 'prosesTambah']);
         Route::get('/edit-admin/{id}', [KelolaAdmin::class, 'edit'])->name('edit-admin');
