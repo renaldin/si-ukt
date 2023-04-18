@@ -17,7 +17,10 @@ class ModelMahasiswa extends Model
 
     public function detail($id_mahasiswa)
     {
-        return DB::table('mahasiswa')->where('id_mahasiswa', $id_mahasiswa)->first();
+        return DB::table('mahasiswa')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
+            ->where('id_mahasiswa', $id_mahasiswa)
+            ->first();
     }
 
     public function tambah($data)

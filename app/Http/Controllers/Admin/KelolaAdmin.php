@@ -115,12 +115,13 @@ class KelolaAdmin extends Controller
     {
         Request()->validate([
             'nama_admin'        => 'required',
-            'email'             => 'required|email',
+            'email'             => 'required|unique:staff,email|unique:mahasiswa,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'nama_admin.required'       => 'Nama lengkap harus diisi!',
             'email.required'            => 'Email harus diisi!',
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
+            'email.unique'              => 'Email sudah digunakan!',
             'foto_user.mimes'           => 'Format Foto harus jpg/jpeg/png/bmp!',
             'foto_user.max'             => 'Ukuran Foto maksimal 2 mb',
         ]);
@@ -203,65 +204,69 @@ class KelolaAdmin extends Controller
 
     public function profil()
     {
-        if (!Session()->get('email')) {
+        if (!Session()->get('status')) {
             return redirect()->route('admin');
         }
 
         $data = [
-            'title'     => '',
-            'subTitle'  => 'Profil Admin',
-            'admin'     => $this->ModelAdmin->detail(Session()->get('id_admin'))
+            'title'     => 'Profil',
+            'subTitle'  => 'Edit Profil',
+            'user'      => $this->ModelAdmin->detail(Session()->get('id_admin'))
         ];
 
-        return view('admin.profil.profil', $data);
+        return view('admin.profil.dataProfil', $data);
     }
 
-    public function ubahProfil($id_admin)
+    public function prosesEditProfil($id_admin)
     {
         Request()->validate([
             'nama_admin'        => 'required',
-            'nomor_telepon'     => 'required|numeric',
-            'email'             => 'required|email',
-            'foto'              => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'email'             => 'required|unique:staff,email|unique:mahasiswa,email|email',
+            'foto_user'              => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'nama_admin.required'       => 'Nama lengkap harus diisi!',
-            'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
-            'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
             'email.required'            => 'Email harus diisi!',
+            'email.unique'              => 'Email sudah digunakan!',
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
             'foto.mimes'                => 'Format Foto harus jpg/jpeg/png/bmp!',
             'foto.max'                  => 'Ukuran Foto maksimal 2 mb',
         ]);
 
-        if (Request()->foto <> "") {
+        if (Request()->foto_user <> "") {
             $admin = $this->ModelAdmin->detail($id_admin);
-            if ($admin->foto <> "") {
-                unlink(public_path('foto_admin') . '/' . $admin->foto);
+            if ($admin->foto_user <> "") {
+                unlink(public_path('foto_user') . '/' . $admin->foto_user);
             }
 
-            $file = Request()->foto;
+            $file = Request()->foto_user;
             $fileName = date('mdYHis') . Request()->nama_admin . '.' . $file->extension();
-            $file->move(public_path('foto_admin'), $fileName);
-
+            $file->move(public_path('foto_user'), $fileName);
 
             $data = [
                 'id_admin'          => $id_admin,
                 'nama_admin'        => Request()->nama_admin,
-                'nomor_telepon'     => Request()->nomor_telepon,
                 'email'             => Request()->email,
-                'foto'              => $fileName
+                'foto_user'              => $fileName
             ];
         } else {
             $data = [
                 'id_admin'          => $id_admin,
                 'nama_admin'        => Request()->nama_admin,
-                'nomor_telepon'     => Request()->nomor_telepon,
                 'email'             => Request()->email,
             ];
         }
 
+        // log
+        $dataLog = [
+            'id_admin'      => Session()->get('id_admin'),
+            'keterangan'    => 'Melakukan edit profil',
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
         $this->ModelAdmin->edit($data);
-        return redirect()->route('profil-admin')->with('berhasil', 'Profil berhasil diedit !');
+        return redirect()->route('profil-admin')->with('success', 'Profil berhasil diedit !');
     }
 
     public function ubahPassword($id_admin)

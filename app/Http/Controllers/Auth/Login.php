@@ -182,7 +182,7 @@ class Login extends Controller
             Session()->forget('email');
             Session()->forget('status');
             Session()->forget('log');
-            return redirect()->route('admin')->with('success', 'Logout berhasil!');
+            return redirect()->route('staff')->with('success', 'Logout berhasil!');
         }
     }
 }

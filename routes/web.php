@@ -36,6 +36,10 @@ Route::group(['middleware' => 'revalidate'], function () {
 
     Route::group(['middleware' => 'mahasiswa'], function () {
         Route::get('/dashboard-mahasiswa', [Dashboard::class, 'index'])->name('dashboard-mahasiswa');
+
+        // PROFIL
+        Route::get('/profil-mahasiswa', [KelolaMahasiswa::class, 'profil'])->name('profil-mahasiswa');
+        Route::post('/edit-profil-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEditProfil']);
     });
 
     Route::group(['middleware' => 'admin'], function () {
@@ -48,6 +52,8 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-admin/{id}', [KelolaAdmin::class, 'edit'])->name('edit-admin');
         Route::post('/edit-admin/{id}', [KelolaAdmin::class, 'prosesEdit']);
         Route::get('/hapus-admin/{id}', [KelolaAdmin::class, 'prosesHapus']);
+        Route::get('/profil-admin', [KelolaAdmin::class, 'profil'])->name('profil-admin');
+        Route::post('/edit-profil-admin/{id}', [KelolaAdmin::class, 'prosesEditProfil']);
 
         // Kelola mahasiswa
         Route::get('/daftar-mahasiswa', [KelolaMahasiswa::class, 'index'])->name('daftar-mahasiswa');
@@ -79,5 +85,9 @@ Route::group(['middleware' => 'revalidate'], function () {
 
     Route::group(['middleware' => 'staff'], function () {
         Route::get('/dashboard-staff', [Dashboard::class, 'staff'])->name('dashboard-staff');
+
+        // PROFIL
+        Route::get('/profil-staff', [KelolaStaff::class, 'profil'])->name('profil-staff');
+        Route::post('/edit-profil-staff/{id}', [KelolaStaff::class, 'prosesEditProfil']);
     });
 });

@@ -124,13 +124,14 @@ class KelolaMahasiswa extends Controller
         Request()->validate([
             'nama_mahasiswa'    => 'required',
             'nim'               => 'required|numeric',
-            'email'             => 'required|email',
+            'email'             => 'required|unique:admin,email|unique:staff,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
             'nim.required'              => 'Nim harus diisi!',
             'nim.numeric'               => 'Nim harus angka!',
             'email.required'            => 'Email harus diisi!',
+            'email.unique'              => 'Email sudah digunakan!',
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
             'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
             'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
@@ -232,116 +233,77 @@ class KelolaMahasiswa extends Controller
         return redirect()->route('daftar-mahasiswa')->with('success', 'Data mahasiswa berhasil dihapus !');
     }
 
-    // public function profil()
-    // {
-    //     if (!Session()->get('email')) {
-    //         return redirect()->route('login');
-    //     }
+    public function profil()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
 
-    //     $data = [
-    //         'title'     => 'Profil',
-    //         'user'      => $this->ModelMahasiswa->detail(Session()->get('id_member'))
-    //     ];
+        $data = [
+            'title'     => 'Profil',
+            'subTitle'  => 'Edit Profil',
+            'user'      => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa'))
+        ];
 
-    //     return view('user.profil.profil', $data);
-    // }
+        return view('mahasiswa.profil.dataProfil', $data);
+    }
 
-    // public function editProfil($id_member)
-    // {
-    //     Request()->validate([
-    //         'nama'              => 'required',
-    //         'nomor_telepon'     => 'required|numeric',
-    //         'alamat'            => 'required',
-    //         'nama_perusahaan'   => 'required',
-    //         'alamat_perusahaan' => 'required',
-    //         'email'             => 'required|email',
-    //         'foto_perusahaan'   => 'mimes:jpeg,png,jpg|max:2048',
-    //         'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
-    //     ], [
-    //         'nama.required'             => 'Nama lengkap harus diisi!',
-    //         'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
-    //         'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
-    //         'alamat.required'           => 'Alamat harus diisi!',
-    //         'nama_perusahaan.required'  => 'Nama perusahaan harus diisi!',
-    //         'alamat_perusahaan.required' => 'Alamat perusahaan harus diisi!',
-    //         'email.required'            => 'Email harus diisi!',
-    //         'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
-    //         'foto_perusahaan.mimes'     => 'Format Logo Perusahaan harus jpg/jpeg/png!',
-    //         'foto_perusahaan.max'       => 'Ukuran Logo Perusahaan maksimal 2 mb',
-    //         'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
-    //         'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
-    //     ]);
+    public function prosesEditProfil($id_mahasiswa)
+    {
+        Request()->validate([
+            'nama_mahasiswa'    => 'required',
+            'nim'               => 'required|numeric',
+            'email'             => 'required|unique:admin,email|unique:staff,email|email',
+            'foto_user'         => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
+            'nim.required'              => 'Nim harus diisi!',
+            'nim.numeric'               => 'Nim harus angka!',
+            'email.required'            => 'Email harus diisi!',
+            'email.unique'              => 'Email sudah digunakan!',
+            'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
+            'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
+            'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
+        ]);
 
-    //     $user = $this->ModelMahasiswa->detail($id_member);
+        if (Request()->foto_user <> "") {
+            $mahasiswa = $this->ModelMahasiswa->detail($id_mahasiswa);
+            if ($mahasiswa->foto_user <> "") {
+                unlink(public_path('foto_user') . '/' . $mahasiswa->foto_user);
+            }
 
-    //     if (Request()->foto_perusahaan <> "") {
-    //         if ($user->foto_perusahaan <> "") {
-    //             unlink(public_path('foto_perusahaan') . '/' . $user->foto_perusahaan);
-    //         }
+            $file = Request()->foto_user;
+            $fileName = date('mdYHis') . Request()->nama_mahasiswa . '.' . $file->extension();
+            $file->move(public_path('foto_user'), $fileName);
 
-    //         $file1 = Request()->foto_perusahaan;
-    //         $filePerusahaan = date('mdYHis') . Request()->nama_perusahaan . '.' . $file1->extension();
-    //         $file1->move(public_path('foto_perusahaan'), $filePerusahaan);
+            $data = [
+                'id_mahasiswa'      => $id_mahasiswa,
+                'nama_mahasiswa'    => Request()->nama_mahasiswa,
+                'nim'               => Request()->nim,
+                'email'             => Request()->email,
+                'foto_user'         => $fileName,
+            ];
+        } else {
+            $data = [
+                'id_mahasiswa'      => $id_mahasiswa,
+                'nama_mahasiswa'    => Request()->nama_mahasiswa,
+                'nim'               => Request()->nim,
+                'email'             => Request()->email,
+            ];
+        }
 
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'nama'              => Request()->nama,
-    //             'nomor_telepon'     => Request()->nomor_telepon,
-    //             'alamat'            => Request()->alamat,
-    //             'nama_perusahaan'   => Request()->nama_perusahaan,
-    //             'alamat_perusahaan' => Request()->alamat_perusahaan,
-    //             'email'             => Request()->email,
-    //             'foto_perusahaan'   => $filePerusahaan
-    //         ];
-    //         $this->ModelMahasiswa->edit($data);
-    //     } else {
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'nama'              => Request()->nama,
-    //             'nomor_telepon'     => Request()->nomor_telepon,
-    //             'alamat'            => Request()->alamat,
-    //             'nama_perusahaan'   => Request()->nama_perusahaan,
-    //             'alamat_perusahaan' => Request()->alamat_perusahaan,
-    //             'email'             => Request()->email,
-    //         ];
-    //         $this->ModelMahasiswa->edit($data);
-    //     }
+        // log
+        $dataLog = [
+            'id_mahasiswa'  => Session()->get('id_mahasiswa'),
+            'keterangan'    => 'Melakukan edit profil',
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
-    //     if (Request()->foto_user <> "") {
-    //         if ($user->foto_user <> "") {
-    //             unlink(public_path('foto_user') . '/' . $user->foto_user);
-    //         }
-
-    //         $file2 = Request()->foto_user;
-    //         $fileUser = date('mdYHis') . Request()->nama_perusahaan . '.' . $file2->extension();
-    //         $file2->move(public_path('foto_user'), $fileUser);
-
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'nama'              => Request()->nama,
-    //             'nomor_telepon'     => Request()->nomor_telepon,
-    //             'alamat'            => Request()->alamat,
-    //             'nama_perusahaan'   => Request()->nama_perusahaan,
-    //             'alamat_perusahaan' => Request()->alamat_perusahaan,
-    //             'email'             => Request()->email,
-    //             'foto_user'         => $fileUser
-    //         ];
-    //         $this->ModelMahasiswa->edit($data);
-    //     } else {
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'nama'              => Request()->nama,
-    //             'nomor_telepon'     => Request()->nomor_telepon,
-    //             'alamat'            => Request()->alamat,
-    //             'nama_perusahaan'   => Request()->nama_perusahaan,
-    //             'alamat_perusahaan' => Request()->alamat_perusahaan,
-    //             'email'             => Request()->email,
-    //         ];
-    //         $this->ModelMahasiswa->edit($data);
-    //     }
-
-    //     return redirect()->route('profil')->with('berhasil', 'Profil berhasil diedit !');
-    // }
+        $this->ModelMahasiswa->edit($data);
+        return redirect()->route('profil-mahasiswa')->with('success', 'Profil berhasil diedit !');
+    }
 
     // public function ubahPassword($id_member)
     // {

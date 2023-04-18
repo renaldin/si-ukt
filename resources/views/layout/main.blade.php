@@ -84,8 +84,7 @@
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{ asset('template/') }}html/dashboard/app/user-profile.html">Profile</a></li>
-                    <li><a class="dropdown-item" href="{{ asset('template/') }}html/dashboard/app/user-privacy-setting.html">Privacy Setting</a></li>
+                    <li><a class="dropdown-item" href="@if($user->status === 'Admin') /profil-admin @elseif($user->status === 'Mahasiswa') /profil-mahasiswa @elseif($user->status === 'Staff') /profil-staff @endif">Profil</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout">Logout</button></li>
                   </ul>

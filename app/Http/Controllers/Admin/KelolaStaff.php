@@ -232,116 +232,77 @@ class KelolaStaff extends Controller
         return redirect()->route('daftar-staff')->with('success', 'Data staff berhasil dihapus !');
     }
 
-    // public function profil()
-    // {
-    //     if (!Session()->get('email')) {
-    //         return redirect()->route('login');
-    //     }
+    public function profil()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
 
-    //     $data = [
-    //         'title'     => 'Profil',
-    //         'user'      => $this->ModelStaff->detail(Session()->get('id_member'))
-    //     ];
+        $data = [
+            'title'     => 'Profil',
+            'subTitle'  => 'Edit Profil',
+            'user'      => $this->ModelStaff->detail(Session()->get('id_staff'))
+        ];
 
-    //     return view('user.profil.profil', $data);
-    // }
+        return view('staff.profil.dataProfil', $data);
+    }
 
-    // public function editProfil($id_member)
-    // {
-    //     Request()->validate([
-    //         'nama'              => 'required',
-    //         'nomor_telepon'     => 'required|numeric',
-    //         'alamat'            => 'required',
-    //         'nama_perusahaan'   => 'required',
-    //         'alamat_perusahaan' => 'required',
-    //         'email'             => 'required|email',
-    //         'foto_perusahaan'   => 'mimes:jpeg,png,jpg|max:2048',
-    //         'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
-    //     ], [
-    //         'nama.required'             => 'Nama lengkap harus diisi!',
-    //         'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
-    //         'nomor_telepon.numeric'     => 'Nomor telepon harus angka!',
-    //         'alamat.required'           => 'Alamat harus diisi!',
-    //         'nama_perusahaan.required'  => 'Nama perusahaan harus diisi!',
-    //         'alamat_perusahaan.required' => 'Alamat perusahaan harus diisi!',
-    //         'email.required'            => 'Email harus diisi!',
-    //         'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
-    //         'foto_perusahaan.mimes'     => 'Format Logo Perusahaan harus jpg/jpeg/png!',
-    //         'foto_perusahaan.max'       => 'Ukuran Logo Perusahaan maksimal 2 mb',
-    //         'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
-    //         'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
-    //     ]);
+    public function prosesEditProfil($id_staff)
+    {
+        Request()->validate([
+            'nama_staff'        => 'required',
+            'nik'               => 'required|numeric',
+            'email'             => 'required|unique:admin,email|unique:mahasiswa,email|email',
+            'foto_user'         => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'nama_staff.required'       => 'Nama lengkap harus diisi!',
+            'nik.required'              => 'NIP/NIK harus diisi!',
+            'nik.numeric'               => 'NIP/NIK harus angka!',
+            'email.required'            => 'Email harus diisi!',
+            'email.unique'              => 'Email sudah digunakan!',
+            'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
+            'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
+            'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
+        ]);
 
-    //     $user = $this->ModelStaff->detail($id_member);
+        if (Request()->foto_user <> "") {
+            $staff = $this->ModelStaff->detail($id_staff);
+            if ($staff->foto_user <> "") {
+                unlink(public_path('foto_user') . '/' . $staff->foto_user);
+            }
 
-    //     if (Request()->foto_perusahaan <> "") {
-    //         if ($user->foto_perusahaan <> "") {
-    //             unlink(public_path('foto_perusahaan') . '/' . $user->foto_perusahaan);
-    //         }
+            $file = Request()->foto_user;
+            $fileName = date('mdYHis') . Request()->nama_staff . '.' . $file->extension();
+            $file->move(public_path('foto_user'), $fileName);
 
-    //         $file1 = Request()->foto_perusahaan;
-    //         $filePerusahaan = date('mdYHis') . Request()->nama_perusahaan . '.' . $file1->extension();
-    //         $file1->move(public_path('foto_perusahaan'), $filePerusahaan);
+            $data = [
+                'id_staff'          => $id_staff,
+                'nama_staff'        => Request()->nama_staff,
+                'nik'               => Request()->nik,
+                'email'             => Request()->email,
+                'foto_user'         => $fileName,
+            ];
+        } else {
+            $data = [
+                'id_staff'          => $id_staff,
+                'nama_staff'        => Request()->nama_staff,
+                'nik'               => Request()->nik,
+                'email'             => Request()->email,
+            ];
+        }
 
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'nama'              => Request()->nama,
-    //             'nomor_telepon'     => Request()->nomor_telepon,
-    //             'alamat'            => Request()->alamat,
-    //             'nama_perusahaan'   => Request()->nama_perusahaan,
-    //             'alamat_perusahaan' => Request()->alamat_perusahaan,
-    //             'email'             => Request()->email,
-    //             'foto_perusahaan'   => $filePerusahaan
-    //         ];
-    //         $this->ModelStaff->edit($data);
-    //     } else {
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'nama'              => Request()->nama,
-    //             'nomor_telepon'     => Request()->nomor_telepon,
-    //             'alamat'            => Request()->alamat,
-    //             'nama_perusahaan'   => Request()->nama_perusahaan,
-    //             'alamat_perusahaan' => Request()->alamat_perusahaan,
-    //             'email'             => Request()->email,
-    //         ];
-    //         $this->ModelStaff->edit($data);
-    //     }
+        // log
+        $dataLog = [
+            'id_staff'      => Session()->get('id_staff'),
+            'keterangan'    => 'Melakukan edit profil',
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
 
-    //     if (Request()->foto_user <> "") {
-    //         if ($user->foto_user <> "") {
-    //             unlink(public_path('foto_user') . '/' . $user->foto_user);
-    //         }
-
-    //         $file2 = Request()->foto_user;
-    //         $fileUser = date('mdYHis') . Request()->nama_perusahaan . '.' . $file2->extension();
-    //         $file2->move(public_path('foto_user'), $fileUser);
-
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'nama'              => Request()->nama,
-    //             'nomor_telepon'     => Request()->nomor_telepon,
-    //             'alamat'            => Request()->alamat,
-    //             'nama_perusahaan'   => Request()->nama_perusahaan,
-    //             'alamat_perusahaan' => Request()->alamat_perusahaan,
-    //             'email'             => Request()->email,
-    //             'foto_user'         => $fileUser
-    //         ];
-    //         $this->ModelStaff->edit($data);
-    //     } else {
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'nama'              => Request()->nama,
-    //             'nomor_telepon'     => Request()->nomor_telepon,
-    //             'alamat'            => Request()->alamat,
-    //             'nama_perusahaan'   => Request()->nama_perusahaan,
-    //             'alamat_perusahaan' => Request()->alamat_perusahaan,
-    //             'email'             => Request()->email,
-    //         ];
-    //         $this->ModelStaff->edit($data);
-    //     }
-
-    //     return redirect()->route('profil')->with('berhasil', 'Profil berhasil diedit !');
-    // }
+        $this->ModelStaff->edit($data);
+        return redirect()->route('profil-staff')->with('success', 'Profil berhasil diedit !');
+    }
 
     // public function ubahPassword($id_member)
     // {
