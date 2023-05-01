@@ -6,7 +6,10 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                <h4 class="card-title">{{$subTitle}}</h4>
+                    <h4 class="card-title">{{$subTitle}}</h4>
+                </div>
+                <div class="header-title">
+                    <a class="btn btn-primary" style="cursor: auto;">Total Bobot: {{$totalBobot}}</a>
                 </div>
             </div>
             <div class="card-body px-4" style="margin-bottom: -50px;">
@@ -37,23 +40,21 @@
                     <thead>
                         <tr class="ligth">
                             <th>No</th>
-                            <th>Program Studi</th>
-                            <th>Kelompok UKT</th>
-                            <th>Nominal</th>
+                            <th>Nama Kriteria</th>
+                            <th>Bobot</th>
                             <th style="min-width: 100px">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $no = 1;?>
-                        @foreach ($daftarKelompokUKT as $item)
+                        @foreach ($daftarKriteria as $item)
                         <tr>
                             <td>{{$no++}}</td>
-                            <td>{{$item->program_studi}}</td>
-                            <td>UKT {{$item->kelompok_ukt}}</td>
-                            <td>{{'Rp '.number_format($item->nominal, 0, ',', '.')}}</td>
+                            <td>{{$item->nama_kriteria}}</td>
+                            <td>{{$item->bobot * 100}}</td>
                             <td>
                             <div class="flex align-items-center list-user-action">
-                                <a class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Edit Mahasiswa" data-original-title="Edit" href="/edit-kelompok-ukt/{{$item->id_kelompok_ukt}}">
+                                <a class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Edit Kriteria" data-original-title="Edit" href="/edit-kriteria/{{$item->id_kriteria}}">
                                     <span class="btn-inner">
                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -62,7 +63,7 @@
                                         </svg>
                                     </span>
                                 </a>
-                                <button type="button" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#hapus{{$item->id_kelompok_ukt}}" data-placement="top" title="Hapus Mahasiswa" data-original-title="Delete">
+                                <button type="button" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#hapus{{$item->id_kriteria}}" data-placement="top" title="Hapus Kriteria" data-original-title="Delete">
                                     <span class="btn-inner">
                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                                         <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -83,20 +84,20 @@
     </div>
 </div>
 
-@foreach ($daftarKelompokUKT as $item)
-<div class="modal fade" id="hapus{{$item->id_kelompok_ukt}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@foreach ($daftarKriteria as $item)
+<div class="modal fade" id="hapus{{$item->id_kriteria}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Hapus Kelompok UKT</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Hapus Kriteria</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Apakah Anda yakin akan hapus kelompok UKT <strong>{{$item->kelompok_ukt}}</strong>?</p>
+                <p>Apakah Anda yakin akan hapus kriteria <strong>{{$item->nama_kriteria}}</strong>?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-                <a href="/hapus-kelompok-ukt/{{$item->id_kelompok_ukt}}" type="button" class="btn btn-danger">Hapus</a>
+                <a href="/hapus-kriteria/{{$item->id_kriteria}}" type="button" class="btn btn-danger">Hapus</a>
             </div>
         </div>
     </div>

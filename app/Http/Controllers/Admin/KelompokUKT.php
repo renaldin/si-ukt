@@ -56,18 +56,20 @@ class KelompokUKT extends Controller
     public function prosesTambah()
     {
         Request()->validate([
-            'kelompok_ukt'      => 'required|unique:kelompok_ukt,kelompok_ukt|numeric',
+            'kelompok_ukt'      => 'required|numeric',
+            'program_studi'     => 'required',
             'nominal'           => 'required|numeric',
         ], [
             'kelompok_ukt.required'     => 'Kelompok UKT harus diisi!',
             'kelompok_ukt.numeric'      => 'Kelompok UKT harus angka!',
-            'kelompok_ukt.unique'       => 'Kelompok UKT sudah digunakan!',
+            'program_studi.required'    => 'Program Studi harus diisi!',
             'nominal.required'          => 'Nominal harus diisi!',
             'nominal.numeric'           => 'Nominal harus angka!',
         ]);
 
         $data = [
             'kelompok_ukt'      => Request()->kelompok_ukt,
+            'program_studi'     => Request()->program_studi,
             'nominal'           => Request()->nominal,
         ];
 
@@ -105,11 +107,13 @@ class KelompokUKT extends Controller
     {
         Request()->validate([
             'kelompok_ukt'      => 'required|numeric',
+            'program_studi'     => 'required',
             'nominal'           => 'required|numeric',
         ], [
             'kelompok_ukt.required'     => 'Kelompok UKT harus diisi!',
             'kelompok_ukt.numeric'      => 'Kelompok UKT harus angka!',
             'kelompok_ukt.unique'       => 'Kelompok UKT sudah digunakan!',
+            'program_studi.required'    => 'Program Studi harus diisi!',
             'nominal.required'          => 'Nominal harus diisi!',
             'nominal.numeric'           => 'Nominal harus angka!',
         ]);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\KelolaMahasiswa;
 use App\Http\Controllers\Admin\KelolaStaff;
 use App\Http\Controllers\Admin\Log;
 use App\Http\Controllers\Admin\KelompokUKT;
+use App\Http\Controllers\Admin\Kriteria;
 use App\Http\Controllers\Auth\Login;
 use Illuminate\Support\Facades\Route;
 
@@ -81,6 +82,14 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-kelompok-ukt/{id}', [KelompokUKT::class, 'edit'])->name('edit-kelompok-ukt');
         Route::post('/edit-kelompok-ukt/{id}', [KelompokUKT::class, 'prosesEdit']);
         Route::get('/hapus-kelompok-ukt/{id}', [KelompokUKT::class, 'prosesHapus']);
+
+        // kelola kriteria
+        Route::get('/daftar-kriteria', [Kriteria::class, 'index'])->name('daftar-kriteria');
+        Route::get('/tambah-kriteria', [Kriteria::class, 'tambah'])->name('tambah-kriteria');
+        Route::post('/tambah-kriteria', [Kriteria::class, 'prosesTambah']);
+        Route::get('/edit-kriteria/{id}', [Kriteria::class, 'edit'])->name('edit-kriteria');
+        Route::post('/edit-kriteria/{id}', [Kriteria::class, 'prosesEdit']);
+        Route::get('/hapus-kriteria/{id}', [Kriteria::class, 'prosesHapus']);
     });
 
     Route::group(['middleware' => 'staff'], function () {

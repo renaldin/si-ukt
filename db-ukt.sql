@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 08 Apr 2023 pada 20.46
+-- Waktu pembuatan: 18 Apr 2023 pada 16.17
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -42,7 +42,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id_admin`, `nama_admin`, `email`, `password`, `status`, `foto_user`) VALUES
 (1, 'Admin Sistem', 'admin122@gmail.com', '$2y$10$FOLMcTQ.ZQmG4XkXHemNkuvTur77scCIzvFMyQyRV9SdbHXGYN0iy', 'Admin', '02162023154704Admin Sistem.jpg'),
-(2, 'Admin Sistem Booking', 'admin@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', 'Admin', '02162023160429Admin Sistem Booking.jpg');
+(2, 'Admin Sistem UKT', 'admin@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', 'Admin', '04182023095408Admin Sistem UKT.jpg');
 
 -- --------------------------------------------------------
 
@@ -122,7 +122,23 @@ INSERT INTO `log` (`id_log`, `id_admin`, `id_mahasiswa`, `id_staff`, `keterangan
 (29, 2, NULL, NULL, 'Melakukan edit admin dengan Email admin1@gmail.com', '2023-04-09 01:16:00', 'Admin'),
 (30, 2, NULL, NULL, 'Melakukan edit admin dengan Email admin1@gmail.com', '2023-04-09 01:16:24', 'Admin'),
 (31, 2, NULL, NULL, 'Melakukan hapus admin dengan Email admin1@gmail.com', '2023-04-09 01:17:57', 'Admin'),
-(32, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107050', '2023-04-09 01:32:09', 'Admin');
+(32, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107050', '2023-04-09 01:32:09', 'Admin'),
+(33, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:49:11', 'Admin'),
+(34, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:49:37', 'Admin'),
+(35, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:50:04', 'Admin'),
+(36, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:50:47', 'Admin'),
+(37, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:52:08', 'Admin'),
+(38, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:53:46', 'Admin'),
+(39, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:54:08', 'Admin'),
+(40, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:34:17', 'Mahasiswa'),
+(41, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:35:03', 'Mahasiswa'),
+(42, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:35:32', 'Mahasiswa'),
+(43, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:35:44', 'Mahasiswa'),
+(44, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:36:29', 'Mahasiswa'),
+(45, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:36:50', 'Mahasiswa'),
+(46, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:58:27', 'Staff'),
+(47, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:58:47', 'Staff'),
+(48, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:59:18', 'Staff');
 
 -- --------------------------------------------------------
 
@@ -146,7 +162,7 @@ CREATE TABLE `mahasiswa` (
 --
 
 INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`) VALUES
-(7, 'Renaldi Noviandi', 10107050, 'renaldinoviandi0@gmail.com', '$2y$10$i0xPf3ppilwCMYPFhB1zhu0dqP32dSuuglrVfiY2j4jji6k4jFmea', 'Mahasiswa', 3, '03262023105255Renaldi Noviandi.jpg'),
+(7, 'Renaldi Noviandi', 10107050, 'renaldinoviandi9@gmail.com', '$2y$10$i0xPf3ppilwCMYPFhB1zhu0dqP32dSuuglrVfiY2j4jji6k4jFmea', 'Mahasiswa', 3, '04182023133629Renaldi.jpg'),
 (9, 'Elang Muera', 10107040, 'elang@gmail.com', '$2y$10$IzEQ2VnYF1x2vxwWAZRtKe7/W4UQgV.8XUytkrr/s7Wa8BiDM9DJS', 'Mahasiswa', NULL, '04052023063227 Elang Muera.jpg');
 
 -- --------------------------------------------------------
@@ -170,7 +186,7 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id_staff`, `nama_staff`, `email`, `nik`, `password`, `status`, `foto_user`) VALUES
-(1, 'Pak Tri', 'tri@gmail.com', '109089742154215', '$2y$10$CMF/70ywx8praUefATN1zuAW7xJqvdrJtdqEBO8hSpcOumseI9Y/W', 'Staff', '03272023142134 Pak Tri.jpg');
+(1, 'Pak Tri', 'tri@gmail.com', '109089742154215', '$2y$10$CMF/70ywx8praUefATN1zuAW7xJqvdrJtdqEBO8hSpcOumseI9Y/W', 'Staff', '04182023135918Pak Tri.jpg');
 
 --
 -- Indexes for dumped tables
@@ -226,7 +242,7 @@ ALTER TABLE `kelompok_ukt`
 -- AUTO_INCREMENT untuk tabel `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`

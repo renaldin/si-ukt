@@ -15,6 +15,24 @@
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">
+                            <label class="form-label" for="program_studi">Program Studi</label>
+                            <select name="program_studi" id="program_studi" class="selectpicker form-control @error('program_studi') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>
+                                @if ($form === 'Tambah')
+                                    <option>-- Pilih --</option>    
+                                @elseif ($form === 'Edit' || $form === 'Detail')
+                                    <option value="{{$detail->program_studi}}">{{$detail->program_studi}}</option>
+                                @endif
+                                <option>D3 Keperawatan</option>
+                                <option>D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin</option>
+                                <option>D4</option>
+                            </select>
+                            @error('program_studi')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
                             <label class="form-label" for="kelompok_ukt">Kelompok UKT</label>
                             <select name="kelompok_ukt" id="kelompok_ukt" class="selectpicker form-control @error('kelompok_ukt') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>
                                 @if ($form === 'Tambah')
