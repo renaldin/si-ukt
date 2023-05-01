@@ -15,6 +15,14 @@ class ModelKelompokUKT extends Model
         return DB::table('kelompok_ukt')->orderBy('id_kelompok_ukt', 'ASC')->get();
     }
 
+    public function dataKelompokUKTPerSelect()
+    {
+        return DB::table('kelompok_ukt')
+            ->select('kelompok_ukt')
+            ->distinct()
+            ->orderBy('kelompok_ukt', 'ASC')->get();
+    }
+
     public function detail($id_kelompok_ukt)
     {
         return DB::table('kelompok_ukt')->where('id_kelompok_ukt', $id_kelompok_ukt)->first();

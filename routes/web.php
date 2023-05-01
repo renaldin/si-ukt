@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\KelolaStaff;
 use App\Http\Controllers\Admin\Log;
 use App\Http\Controllers\Admin\KelompokUKT;
 use App\Http\Controllers\Admin\Kriteria;
+use App\Http\Controllers\Admin\NilaiKriteria;
 use App\Http\Controllers\Auth\Login;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,11 @@ Route::group(['middleware' => 'revalidate'], function () {
     Route::get('/admin', [Login::class, 'admin'])->name('admin');
     Route::get('/staff', [Login::class, 'staff'])->name('staff');
     Route::post('/login', [Login::class, 'loginProcess']);
+
+    // lupa password
+    Route::get('/lupa-password', [Login::class, 'lupaPassword'])->name('lupa-password');
+    Route::get('/lupa-password-admin', [Login::class, 'lupaPassword'])->name('lupa-password-admin');
+    Route::get('/lupa-password-staff', [Login::class, 'lupaPassword'])->name('lupa-password-staff');
 
     // Logout
     Route::get('/logout', [Login::class, 'logout'])->name('logout');
@@ -90,6 +96,14 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-kriteria/{id}', [Kriteria::class, 'edit'])->name('edit-kriteria');
         Route::post('/edit-kriteria/{id}', [Kriteria::class, 'prosesEdit']);
         Route::get('/hapus-kriteria/{id}', [Kriteria::class, 'prosesHapus']);
+
+        // kelola nilai kriteria
+        Route::get('/daftar-nilai-kriteria', [NilaiKriteria::class, 'index'])->name('daftar-nilai-kriteria');
+        Route::get('/tambah-nilai-kriteria', [NilaiKriteria::class, 'tambah'])->name('tambah-nilai-kriteria');
+        Route::post('/tambah-nilai-kriteria', [NilaiKriteria::class, 'prosesTambah']);
+        Route::get('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'edit'])->name('edit-nilai-kriteria');
+        Route::post('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesEdit']);
+        Route::get('/hapus-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesHapus']);
     });
 
     Route::group(['middleware' => 'staff'], function () {
