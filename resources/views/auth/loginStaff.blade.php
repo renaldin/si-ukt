@@ -42,7 +42,7 @@
                             <div class="col-lg-12">
                                <div class="form-group">
                                   <label for="nik" class="form-label">NIK</label>
-                                  <input type="nik" class="form-control @error('nik') is-invalid @enderror" name="nik" id="nik" aria-describedby="nik" placeholder=" " autofocus>
+                                  <input type="number" class="form-control @error('nik') is-invalid @enderror" name="nik" id="nik" aria-describedby="nik" placeholder=" " autofocus>
                                   <input type="hidden" class="form-control" name="status"  value="Staff">
                                   @error('nik')
                                   <div class="invalid-feedback">
@@ -63,7 +63,7 @@
                                </div>
                             </div>
                             <div class="col-lg-12 d-flex justify-content-end">
-                               <a href="/lupa-password">Lupa Password?</a>
+                               <a href="/lupa-password-staff">Lupa Password?</a>
                             </div>
                          </div>
                          <div class="d-flex justify-content-center">

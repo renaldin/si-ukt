@@ -20,6 +20,16 @@ class ModelAuth extends Model
         return DB::table('admin')->where('email', $email)->first();
     }
 
+    public function cekEmailMahasiswa($email)
+    {
+        return DB::table('mahasiswa')->where('email', $email)->first();
+    }
+
+    public function cekEmailStaff($email)
+    {
+        return DB::table('staff')->where('email', $email)->first();
+    }
+
     public function cekNikStaff($nik)
     {
         return DB::table('staff')->where('nik', $nik)->first();

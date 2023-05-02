@@ -34,9 +34,16 @@ Route::group(['middleware' => 'revalidate'], function () {
     Route::post('/login', [Login::class, 'loginProcess']);
 
     // lupa password
-    Route::get('/lupa-password', [Login::class, 'lupaPassword'])->name('lupa-password');
-    Route::get('/lupa-password-admin', [Login::class, 'lupaPassword'])->name('lupa-password-admin');
-    Route::get('/lupa-password-staff', [Login::class, 'lupaPassword'])->name('lupa-password-staff');
+    Route::get('/lupa-password', [Login::class, 'lupaPasswordMahasiswa'])->name('lupa-password');
+    Route::get('/lupa-password-admin', [Login::class, 'lupaPasswordAdmin'])->name('lupa-password-admin');
+    Route::get('/lupa-password-staff', [Login::class, 'lupaPasswordStaff'])->name('lupa-password-staff');
+    Route::post('/lupa-password', [Login::class, 'prosesLupaPassword']);
+    Route::post('/lupa-password-admin', [Login::class, 'prosesLupaPassword']);
+    Route::post('/lupa-password-staff', [Login::class, 'prosesLupaPassword']);
+    Route::get('/reset-password/{id}', [Login::class, 'resetPasswordMahasiswa'])->name('reset-password');
+    Route::get('/reset-password-admin/{id}', [Login::class, 'resetPasswordAdmin'])->name('reset-password-admin');
+    Route::get('/reset-password-staff/{id}', [Login::class, 'resetPasswordStaff'])->name('reset-password-staff');
+    Route::post('/reset-password/{id}', [Login::class, 'prosesResetPassword']);
 
     // Logout
     Route::get('/logout', [Login::class, 'logout'])->name('logout');
