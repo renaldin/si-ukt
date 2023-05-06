@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\KelompokUKT;
 use App\Http\Controllers\Admin\Kriteria;
 use App\Http\Controllers\Admin\NilaiKriteria;
 use App\Http\Controllers\Auth\Login;
+use App\Http\Controllers\PenangguhanUKT\PenangguhanUKT;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +55,13 @@ Route::group(['middleware' => 'revalidate'], function () {
         // PROFIL
         Route::get('/profil-mahasiswa', [KelolaMahasiswa::class, 'profil'])->name('profil-mahasiswa');
         Route::post('/edit-profil-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEditProfil']);
+
+        // pengajuan penangguhan UKT
+        Route::get('/pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'index'])->name('pengajuan-penangguhan-ukt');
+        Route::post('/pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'prosesPenangguhanUKT']);
+        Route::post('/edit-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'prosesPenangguhanUKT']);
+        Route::get('/riwayat-pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'riwayat'])->name('riwayat-pengajuan-penangguhan-ukt');
+        Route::get('/hapus-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'prosesHapus']);
     });
 
     Route::group(['middleware' => 'admin'], function () {

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Apr 2023 pada 16.17
--- Versi server: 10.4.24-MariaDB
--- Versi PHP: 8.0.19
+-- Generation Time: May 06, 2023 at 04:06 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -37,43 +37,80 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id_admin`, `nama_admin`, `email`, `password`, `status`, `foto_user`) VALUES
-(1, 'Admin Sistem', 'admin122@gmail.com', '$2y$10$FOLMcTQ.ZQmG4XkXHemNkuvTur77scCIzvFMyQyRV9SdbHXGYN0iy', 'Admin', '02162023154704Admin Sistem.jpg'),
+(1, 'Admin Sistem', 'renaldinoviandi9@gmail.com', '$2y$10$u0ojF60KuNfC7/Ie6AwksOzNppApFUnocYA6dmoHGiY4N9W8PYnwy', 'Admin', '02162023154704Admin Sistem.jpg'),
 (2, 'Admin Sistem UKT', 'admin@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', 'Admin', '04182023095408Admin Sistem UKT.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kelompok_ukt`
+-- Table structure for table `kelompok_ukt`
 --
 
 CREATE TABLE `kelompok_ukt` (
   `id_kelompok_ukt` int(11) NOT NULL,
   `kelompok_ukt` int(11) NOT NULL,
+  `program_studi` varchar(100) DEFAULT NULL,
   `nominal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `kelompok_ukt`
+-- Dumping data for table `kelompok_ukt`
 --
 
-INSERT INTO `kelompok_ukt` (`id_kelompok_ukt`, `kelompok_ukt`, `nominal`) VALUES
-(2, 1, 500000),
-(3, 2, 1000000),
-(4, 3, 2500000),
-(5, 4, 3000000),
-(6, 5, 3500000),
-(7, 6, 4000000),
-(8, 7, 4500000),
-(9, 8, 5000000);
+INSERT INTO `kelompok_ukt` (`id_kelompok_ukt`, `kelompok_ukt`, `program_studi`, `nominal`) VALUES
+(1, 1, 'D3 Keperawatan', 500000),
+(2, 2, 'D3 Keperawatan', 1000000),
+(3, 3, 'D3 Keperawatan', 5000000),
+(4, 4, 'D3 Keperawatan', 6000000),
+(5, 5, 'D3 Keperawatan', 7000000),
+(6, 6, 'D3 Keperawatan', 8000000),
+(7, 7, 'D3 Keperawatan', 9000000),
+(8, 8, 'D3 Keperawatan', 10000000),
+(9, 1, 'D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin', 500000),
+(10, 2, 'D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin', 1000000),
+(11, 3, 'D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin', 3000000),
+(12, 4, 'D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin', 4000000),
+(13, 5, 'D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin', 5000000),
+(14, 6, 'D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin', 6000000),
+(15, 7, 'D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin', 7000000),
+(16, 8, 'D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin', 8000000),
+(25, 1, 'D4', 500000),
+(26, 2, 'D4', 1000000),
+(27, 3, 'D4', 3500000),
+(28, 4, 'D4', 4500000),
+(29, 5, 'D4', 5500000),
+(30, 6, 'D4', 6500000),
+(31, 7, 'D4', 7500000),
+(32, 8, 'D4', 8500000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `log`
+-- Table structure for table `kriteria`
+--
+
+CREATE TABLE `kriteria` (
+  `id_kriteria` int(11) NOT NULL,
+  `nama_kriteria` varchar(100) DEFAULT NULL,
+  `bobot` varchar(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kriteria`
+--
+
+INSERT INTO `kriteria` (`id_kriteria`, `nama_kriteria`, `bobot`) VALUES
+(4, 'Pendapatan Orang Tua', '0.6'),
+(5, 'Pekerjaan Orang Tua', '0.4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log`
 --
 
 CREATE TABLE `log` (
@@ -87,7 +124,7 @@ CREATE TABLE `log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `log`
+-- Dumping data for table `log`
 --
 
 INSERT INTO `log` (`id_log`, `id_admin`, `id_mahasiswa`, `id_staff`, `keterangan`, `waktu`, `status_user`) VALUES
@@ -138,37 +175,127 @@ INSERT INTO `log` (`id_log`, `id_admin`, `id_mahasiswa`, `id_staff`, `keterangan
 (45, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:36:50', 'Mahasiswa'),
 (46, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:58:27', 'Staff'),
 (47, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:58:47', 'Staff'),
-(48, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:59:18', 'Staff');
+(48, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:59:18', 'Staff'),
+(49, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:09:45', 'Admin'),
+(50, 2, NULL, NULL, 'Melakukan edit Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:10:33', 'Admin'),
+(51, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 2 dengan nominal Rp 1.000.000', '2023-05-01 08:11:39', 'Admin'),
+(52, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 3 dengan nominal Rp 5.000.000', '2023-05-01 08:12:08', 'Admin'),
+(53, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 4 dengan nominal Rp 6.000.000', '2023-05-01 08:13:05', 'Admin'),
+(54, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 5 dengan nominal Rp 7.000.000', '2023-05-01 08:13:31', 'Admin'),
+(55, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 6 dengan nominal Rp 8.000.000', '2023-05-01 08:14:17', 'Admin'),
+(56, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 7 dengan nominal Rp 9.000.000', '2023-05-01 08:14:37', 'Admin'),
+(57, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 8 dengan nominal Rp 10.000.000', '2023-05-01 08:15:24', 'Admin'),
+(58, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:21:26', 'Admin'),
+(59, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 2 dengan nominal Rp 1.000.000', '2023-05-01 08:21:49', 'Admin'),
+(60, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 3 dengan nominal Rp 3.000.000', '2023-05-01 08:22:10', 'Admin'),
+(61, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 4 dengan nominal Rp 4.000.000', '2023-05-01 08:22:37', 'Admin'),
+(62, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 5 dengan nominal Rp 5.000.000', '2023-05-01 08:23:07', 'Admin'),
+(63, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 6 dengan nominal Rp 6.000.000', '2023-05-01 08:23:26', 'Admin'),
+(64, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 7 dengan nominal Rp 7.000.000', '2023-05-01 08:23:40', 'Admin'),
+(65, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 8 dengan nominal Rp 8.000.000', '2023-05-01 08:23:57', 'Admin'),
+(66, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 09:56:34', 'Admin'),
+(67, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 09:58:38', 'Admin'),
+(68, 2, NULL, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:01:13', 'Admin'),
+(69, 2, NULL, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:01:22', 'Admin'),
+(70, 2, NULL, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:01:31', 'Admin'),
+(71, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:01:47', 'Admin'),
+(72, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:02:20', 'Admin'),
+(73, 2, NULL, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:02:30', 'Admin'),
+(74, 2, NULL, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:02:48', 'Admin'),
+(75, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:03:03', 'Admin'),
+(76, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:03:24', 'Admin'),
+(77, 2, NULL, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:07:18', 'Admin'),
+(78, 2, NULL, NULL, 'Melakukan tambah nilai kriteria', '2023-05-01 14:33:09', 'Admin'),
+(79, 2, NULL, NULL, 'Melakukan edit nilai kriteria', '2023-05-01 14:34:15', 'Admin'),
+(80, 2, NULL, NULL, 'Melakukan edit nilai kriteria', '2023-05-01 14:34:28', 'Admin'),
+(81, 2, NULL, NULL, 'Melakukan hapus nilai kriteria', '2023-05-01 14:35:20', 'Admin'),
+(82, NULL, 7, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:40:06', 'Mahasiswa'),
+(83, NULL, 7, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:41:18', 'Mahasiswa'),
+(84, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:52:12', 'Mahasiswa'),
+(85, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:56:01', 'Mahasiswa'),
+(86, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:57:53', 'Mahasiswa'),
+(87, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:58:35', 'Mahasiswa'),
+(88, NULL, 9, NULL, 'Melakukan hapus data pengajuan', '2023-05-06 21:05:55', 'Mahasiswa');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mahasiswa`
+-- Table structure for table `mahasiswa`
 --
 
 CREATE TABLE `mahasiswa` (
   `id_mahasiswa` int(11) NOT NULL,
   `nama_mahasiswa` varchar(50) DEFAULT NULL,
+  `prodi` varchar(100) DEFAULT NULL,
+  `nomor_telepon` varchar(30) DEFAULT NULL,
   `nim` int(11) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `password` text DEFAULT NULL,
   `status` enum('Mahasiswa') DEFAULT 'Mahasiswa',
   `id_kelompok_ukt` int(11) DEFAULT NULL,
-  `foto_user` text DEFAULT NULL
+  `foto_user` text DEFAULT NULL,
+  `status_penentuan_ukt` enum('Sudah','Belum') DEFAULT 'Belum',
+  `status_pengajuan` enum('Tidak','Penangguhan','Penurunan') DEFAULT 'Tidak'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `mahasiswa`
+-- Dumping data for table `mahasiswa`
 --
 
-INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`) VALUES
-(7, 'Renaldi Noviandi', 10107050, 'renaldinoviandi9@gmail.com', '$2y$10$i0xPf3ppilwCMYPFhB1zhu0dqP32dSuuglrVfiY2j4jji6k4jFmea', 'Mahasiswa', 3, '04182023133629Renaldi.jpg'),
-(9, 'Elang Muera', 10107040, 'elang@gmail.com', '$2y$10$IzEQ2VnYF1x2vxwWAZRtKe7/W4UQgV.8XUytkrr/s7Wa8BiDM9DJS', 'Mahasiswa', NULL, '04052023063227 Elang Muera.jpg');
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `nomor_telepon`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`, `status_penentuan_ukt`, `status_pengajuan`) VALUES
+(9, 'Renaldi', 'D3 Sistem Informasi', '0898989833', 10107050, 'elang@gmail.com', '$2y$10$IzEQ2VnYF1x2vxwWAZRtKe7/W4UQgV.8XUytkrr/s7Wa8BiDM9DJS', 'Mahasiswa', 3, '04052023063227 Elang Muera.jpg', 'Belum', 'Tidak');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `staff`
+-- Table structure for table `nilai_kriteria`
+--
+
+CREATE TABLE `nilai_kriteria` (
+  `id_nilai_kriteria` int(11) NOT NULL,
+  `id_kriteria` int(11) NOT NULL,
+  `nilai_kriteria` varchar(100) DEFAULT NULL,
+  `ukt` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penangguhan_ukt`
+--
+
+CREATE TABLE `penangguhan_ukt` (
+  `id_penangguhan_ukt` int(11) NOT NULL,
+  `id_mahasiswa` int(11) NOT NULL,
+  `nama_orang_tua` varchar(100) DEFAULT NULL,
+  `alamat_orang_tua` varchar(255) DEFAULT NULL,
+  `nomor_telepon_orang_tua` varchar(30) DEFAULT NULL,
+  `semester` int(11) DEFAULT NULL,
+  `nominal_ukt` int(11) DEFAULT NULL,
+  `denda` int(11) DEFAULT NULL,
+  `alasan` varchar(255) DEFAULT NULL,
+  `angsuran_pertama` int(11) DEFAULT NULL,
+  `angsuran_kedua` int(11) DEFAULT NULL,
+  `tanggal_angsuran_pertama` date DEFAULT NULL,
+  `tanggal_angsuran_kedua` date DEFAULT NULL,
+  `jadwal_wawancara` datetime DEFAULT NULL,
+  `link_wawancara` text DEFAULT NULL,
+  `status_penangguhan` enum('Setuju','Tidak Setuju','Menunggu','Belum Dikirim') DEFAULT NULL,
+  `tanggal_pengajuan` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penangguhan_ukt`
+--
+
+INSERT INTO `penangguhan_ukt` (`id_penangguhan_ukt`, `id_mahasiswa`, `nama_orang_tua`, `alamat_orang_tua`, `nomor_telepon_orang_tua`, `semester`, `nominal_ukt`, `denda`, `alasan`, `angsuran_pertama`, `angsuran_kedua`, `tanggal_angsuran_pertama`, `tanggal_angsuran_kedua`, `jadwal_wawancara`, `link_wawancara`, `status_penangguhan`, `tanggal_pengajuan`) VALUES
+(3, 9, 'Nama Orang Tua', 'Subang', '08989978877', 2, 5000000, 250000, 'Alasan', 2500000, 2750000, '2023-05-06', '2023-05-13', NULL, NULL, 'Belum Dikirim', '2023-05-06'),
+(4, 9, 'Nama Orang Tua', 'Subang', '08989978877', 2, 5000000, 250000, 'Alasan', 2500000, 2750000, '2023-05-06', '2023-05-13', NULL, NULL, 'Belum Dikirim', '2023-05-06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff`
 --
 
 CREATE TABLE `staff` (
@@ -182,76 +309,112 @@ CREATE TABLE `staff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `staff`
+-- Dumping data for table `staff`
 --
 
 INSERT INTO `staff` (`id_staff`, `nama_staff`, `email`, `nik`, `password`, `status`, `foto_user`) VALUES
-(1, 'Pak Tri', 'tri@gmail.com', '109089742154215', '$2y$10$CMF/70ywx8praUefATN1zuAW7xJqvdrJtdqEBO8hSpcOumseI9Y/W', 'Staff', '04182023135918Pak Tri.jpg');
+(1, 'Pak Tri', 'renaldinoviandi9@gmail.com', '109089742154215', '$2y$10$X9WrHVrhRMA3cxx8EqYo1.S2dSgkXIMci7HWIZGOAJWHQ8KCMiQ4.', 'Staff', '04182023135918Pak Tri.jpg');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `admin`
+-- Indexes for table `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`);
 
 --
--- Indeks untuk tabel `kelompok_ukt`
+-- Indexes for table `kelompok_ukt`
 --
 ALTER TABLE `kelompok_ukt`
   ADD PRIMARY KEY (`id_kelompok_ukt`);
 
 --
--- Indeks untuk tabel `log`
+-- Indexes for table `kriteria`
+--
+ALTER TABLE `kriteria`
+  ADD PRIMARY KEY (`id_kriteria`);
+
+--
+-- Indexes for table `log`
 --
 ALTER TABLE `log`
   ADD PRIMARY KEY (`id_log`);
 
 --
--- Indeks untuk tabel `mahasiswa`
+-- Indexes for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id_mahasiswa`);
 
 --
--- Indeks untuk tabel `staff`
+-- Indexes for table `nilai_kriteria`
+--
+ALTER TABLE `nilai_kriteria`
+  ADD PRIMARY KEY (`id_nilai_kriteria`);
+
+--
+-- Indexes for table `penangguhan_ukt`
+--
+ALTER TABLE `penangguhan_ukt`
+  ADD PRIMARY KEY (`id_penangguhan_ukt`);
+
+--
+-- Indexes for table `staff`
 --
 ALTER TABLE `staff`
   ADD PRIMARY KEY (`id_staff`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `admin`
+-- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `kelompok_ukt`
+-- AUTO_INCREMENT for table `kelompok_ukt`
 --
 ALTER TABLE `kelompok_ukt`
-  MODIFY `id_kelompok_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_kelompok_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT untuk tabel `log`
+-- AUTO_INCREMENT for table `kriteria`
+--
+ALTER TABLE `kriteria`
+  MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
--- AUTO_INCREMENT untuk tabel `mahasiswa`
+-- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT untuk tabel `staff`
+-- AUTO_INCREMENT for table `nilai_kriteria`
+--
+ALTER TABLE `nilai_kriteria`
+  MODIFY `id_nilai_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `penangguhan_ukt`
+--
+ALTER TABLE `penangguhan_ukt`
+  MODIFY `id_penangguhan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
   MODIFY `id_staff` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;

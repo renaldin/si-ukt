@@ -66,11 +66,10 @@
                             </div>
                         </div>
                     </div>
-                        @if ($form === 'Detail')
-                            <a href="/daftar-staff" class="btn btn-primary">Daftar Staff</a>
-                            @else
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        @endif
+                        <br>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-danger">Reset</button>
+                        <a href="/daftar-staff" class="btn btn-secondary">Kembali</a>
                     </form>
                 </div>
             </div>

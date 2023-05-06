@@ -65,11 +65,10 @@
                             @enderror
                         </div>
                     </div>
-                        @if ($form === 'Detail')
-                            <a href="/daftar-kelompok-ukt" class="btn btn-primary">Daftar UKT</a>
-                            @else
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        @endif
+                        <br>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-danger">Reset</button>
+                        <a href="/daftar-kelompok-ukt" class="btn btn-secondary">Kembali</a>
                     </form>
                 </div>
             </div>
