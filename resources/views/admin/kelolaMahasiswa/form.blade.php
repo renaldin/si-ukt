@@ -33,6 +33,37 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
+                            <label class="form-label" for="nomor_telepon">Nomor Telepon</label>
+                            <input type="number" class="form-control @error('nomor_telepon') is-invalid @enderror" id="nomor_telepon" name="nomor_telepon" value="@if($form === 'Tambah'){{ old('nomor_telepon') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->nomor_telepon}}@endif"  @if($form === 'Detail') disabled @endif placeholder="Masukkan Nomor Telepon">
+                            @error('nomor_telepon')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="prodi">Program Studi</label>
+                            <select name="prodi" id="prodi" class="selectpicker form-control @error('prodi') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>
+                                @if ($form === 'Tambah')
+                                    <option>-- Pilih --</option>    
+                                @elseif ($form === 'Edit' || $form === 'Detail')
+                                    <option value="{{$detail->prodi}}">{{$detail->prodi}}</option>
+                                @endif
+                                <option>D3 Sistem Informasi</option>
+                                <option>D3 Agroindustri</option>
+                                <option>D3 Pemeliharaan Mesin</option>
+                                <option>D3 Keperawatan</option>
+                                <option>D4 Teknologi Produksi Tanaman Pangan</option>
+                                <option>D4 Teknologi Rekayasa Manufaktur</option>
+                                <option>D4 Teknologi Rekayasa Perangkat Lunak</option>
+                            </select>
+                            @error('nomor_telepon')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
                             <label class="form-label" for="email">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="@if($form === 'Tambah'){{ old('email') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->email}}@endif" @if($form === 'Detail') disabled @endif placeholder="Masukkan Email ">
                             @error('email')

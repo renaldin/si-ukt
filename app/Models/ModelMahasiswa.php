@@ -12,7 +12,9 @@ class ModelMahasiswa extends Model
 
     public function dataMahasiswa()
     {
-        return DB::table('mahasiswa')->orderBy('id_mahasiswa', 'DESC')->get();
+        return DB::table('mahasiswa')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
+            ->orderBy('id_mahasiswa', 'DESC')->get();
     }
 
     public function detail($id_mahasiswa)

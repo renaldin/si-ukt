@@ -58,12 +58,16 @@ class KelolaMahasiswa extends Controller
     {
         Request()->validate([
             'nama_mahasiswa'    => 'required',
+            'prodi'             => 'required',
+            'nomor_telepon'     => 'required',
             'nim'               => 'required|numeric|unique:mahasiswa,nim',
             'email'             => 'required|unique:admin,email|unique:staff,email|unique:mahasiswa,email|email',
             'password'          => 'min:6|required',
             'foto_user'         => 'required|mimes:jpeg,png,jpg|max:2048',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
+            'prodi.required'            => 'Program studi harus diisi!',
+            'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nim.required'              => 'NIM harus diisi!',
             'nim.numeric'               => 'NIM harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -83,6 +87,8 @@ class KelolaMahasiswa extends Controller
 
         $data = [
             'nama_mahasiswa'    => Request()->nama_mahasiswa,
+            'prodi'             => Request()->prodi,
+            'nomor_telepon'     => Request()->nomor_telepon,
             'nim'               => Request()->nim,
             'email'             => Request()->email,
             'foto_user'         => $fileUser,
@@ -123,11 +129,15 @@ class KelolaMahasiswa extends Controller
     {
         Request()->validate([
             'nama_mahasiswa'    => 'required',
+            'prodi'             => 'required',
+            'nomor_telepon'     => 'required',
             'nim'               => 'required|numeric',
             'email'             => 'required|unique:admin,email|unique:staff,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
+            'prodi.required'            => 'Program studi harus diisi!',
+            'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nim.required'              => 'Nim harus diisi!',
             'nim.numeric'               => 'Nim harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -153,6 +163,8 @@ class KelolaMahasiswa extends Controller
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
                     'nama_mahasiswa'    => Request()->nama_mahasiswa,
+                    'prodi'             => Request()->prodi,
+                    'nomor_telepon'     => Request()->nomor_telepon,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
@@ -163,6 +175,8 @@ class KelolaMahasiswa extends Controller
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
                     'nama_mahasiswa'    => Request()->nama_mahasiswa,
+                    'prodi'             => Request()->prodi,
+                    'nomor_telepon'     => Request()->nomor_telepon,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'password'          => Hash::make(Request()->password),
@@ -184,6 +198,8 @@ class KelolaMahasiswa extends Controller
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
                     'nama_mahasiswa'    => Request()->nama_mahasiswa,
+                    'prodi'             => Request()->prodi,
+                    'nomor_telepon'     => Request()->nomor_telepon,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'foto_user'         => $fileUser,
@@ -193,6 +209,8 @@ class KelolaMahasiswa extends Controller
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
                     'nama_mahasiswa'    => Request()->nama_mahasiswa,
+                    'prodi'             => Request()->prodi,
+                    'nomor_telepon'     => Request()->nomor_telepon,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                 ];
@@ -252,11 +270,15 @@ class KelolaMahasiswa extends Controller
     {
         Request()->validate([
             'nama_mahasiswa'    => 'required',
+            'prodi'             => 'required',
+            'nomor_telepon'     => 'required',
             'nim'               => 'required|numeric',
             'email'             => 'required|unique:admin,email|unique:staff,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
+            'prodi.required'            => 'Program studi harus diisi!',
+            'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nim.required'              => 'Nim harus diisi!',
             'nim.numeric'               => 'Nim harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -279,6 +301,8 @@ class KelolaMahasiswa extends Controller
             $data = [
                 'id_mahasiswa'      => $id_mahasiswa,
                 'nama_mahasiswa'    => Request()->nama_mahasiswa,
+                'prodi'             => Request()->prodi,
+                'nomor_telepon'     => Request()->nomor_telepon,
                 'nim'               => Request()->nim,
                 'email'             => Request()->email,
                 'foto_user'         => $fileName,
@@ -287,6 +311,8 @@ class KelolaMahasiswa extends Controller
             $data = [
                 'id_mahasiswa'      => $id_mahasiswa,
                 'nama_mahasiswa'    => Request()->nama_mahasiswa,
+                'prodi'             => Request()->prodi,
+                'nomor_telepon'     => Request()->nomor_telepon,
                 'nim'               => Request()->nim,
                 'email'             => Request()->email,
             ];
