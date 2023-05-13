@@ -85,6 +85,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="@if($user->status === 'Bagian Keuangan') /profil @elseif($user->status === 'Mahasiswa') /profil-mahasiswa @endif">Profil</a></li>
+                    <li><a class="dropdown-item" href="@if($user->status === 'Bagian Keuangan') /ubah-password @elseif($user->status === 'Mahasiswa') /ubah-password-mahasiswa @endif">Ubah Password</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout">Logout</button></li>
                   </ul>

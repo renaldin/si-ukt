@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\ModelUser;
 use App\Models\ModelLog;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Controller
 {
@@ -92,5 +93,47 @@ class User extends Controller
 
         $this->ModelUser->edit($data);
         return redirect()->route('profil')->with('success', 'Profil berhasil diedit !');
+    }
+
+    public function ubahPassword()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'     => 'Profil',
+            'subTitle'  => 'Ubah Password',
+            'user'      => $this->ModelUser->detail(Session()->get('id_user'))
+        ];
+
+        return view('profil.ubahPassword', $data);
+    }
+
+    public function prosesUbahPassword($id_user)
+    {
+        Request()->validate([
+            'password_lama'     => 'required|min:6',
+            'password_baru'     => 'required|min:6',
+        ], [
+            'password_lama.required'    => 'Password Lama harus diisi!',
+            'password_lama.min'         => 'Password Lama minimal 6 karakter!',
+            'password_baru.required'    => 'Passwofd Baru harus diisi!',
+            'password_baru.min'         => 'Password Lama minimal 6 karakter!',
+        ]);
+
+        $user = $this->ModelUser->detail($id_user);
+
+        if (Hash::check(Request()->password_lama, $user->password)) {
+            $data = [
+                'id_user'         => $id_user,
+                'password'         => Hash::make(Request()->password_baru)
+            ];
+
+            $this->ModelUser->edit($data);
+            return back()->with('success', 'Password berhasil diubah !');
+        } else {
+            return back()->with('fail', 'Password Lama tidak sesuai.');
+        }
     }
 }

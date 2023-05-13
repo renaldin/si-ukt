@@ -340,45 +340,46 @@ class KelolaMahasiswa extends Controller
         return redirect()->route('profil-mahasiswa')->with('success', 'Profil berhasil diedit !');
     }
 
-    // public function ubahPassword($id_member)
-    // {
-    //     if (!Session()->get('email')) {
-    //         return redirect()->route('login');
-    //     }
+    public function ubahPassword()
+    {
+        if (!Session()->get('email')) {
+            return redirect()->route('login');
+        }
 
 
-    //     $data = [
-    //         'title'     => 'Ubah Password',
-    //         'user'      => $this->ModelMahasiswa->detail($id_member)
-    //     ];
+        $data = [
+            'title'     => 'Profil',
+            'subTitle'  => 'Ubah Password',
+            'user'      => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa'))
+        ];
 
-    //     return view('user.profil.ubahPassword', $data);
-    // }
+        return view('mahasiswa.profil.ubahPassword', $data);
+    }
 
-    // public function prosesUbahPassword($id_member)
-    // {
-    //     Request()->validate([
-    //         'password_lama'     => 'required|min:6',
-    //         'password_baru'     => 'required|min:6',
-    //     ], [
-    //         'password_lama.required'    => 'Password Lama harus diisi!',
-    //         'password_lama.min'         => 'Password Lama minimal 6 karakter!',
-    //         'password_baru.required'    => 'Passwofd Baru harus diisi!',
-    //         'password_baru.min'         => 'Password Lama minimal 6 karakter!',
-    //     ]);
+    public function prosesUbahPassword($id_mahasiswa)
+    {
+        Request()->validate([
+            'password_lama'     => 'required|min:6',
+            'password_baru'     => 'required|min:6',
+        ], [
+            'password_lama.required'    => 'Password Lama harus diisi!',
+            'password_lama.min'         => 'Password Lama minimal 6 karakter!',
+            'password_baru.required'    => 'Passwofd Baru harus diisi!',
+            'password_baru.min'         => 'Password Lama minimal 6 karakter!',
+        ]);
 
-    //     $user = $this->ModelMahasiswa->detail($id_member);
+        $user = $this->ModelMahasiswa->detail($id_mahasiswa);
 
-    //     if (Hash::check(Request()->password_lama, $user->password)) {
-    //         $data = [
-    //             'id_member'         => $id_member,
-    //             'password'          => Hash::make(Request()->password_baru)
-    //         ];
+        if (Hash::check(Request()->password_lama, $user->password)) {
+            $data = [
+                'id_mahasiswa'      => $id_mahasiswa,
+                'password'          => Hash::make(Request()->password_baru)
+            ];
 
-    //         $this->ModelMahasiswa->edit($data);
-    //         return back()->with('berhasil', 'Password berhasil diedit !');
-    //     } else {
-    //         return back()->with('gagal', 'Password Lama tidak sesuai.');
-    //     }
-    // }
+            $this->ModelMahasiswa->edit($data);
+            return back()->with('success', 'Password berhasil diubah !');
+        } else {
+            return back()->with('fail', 'Password Lama tidak sesuai.');
+        }
+    }
 }

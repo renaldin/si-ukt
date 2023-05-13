@@ -53,12 +53,16 @@ Route::group(['middleware' => 'revalidate'], function () {
     // PROFIL
     Route::get('/profil', [User::class, 'profil'])->name('profil');
     Route::post('/edit-profil/{id}', [User::class, 'prosesEditProfil']);
+    Route::get('/ubah-password', [User::class, 'ubahPassword'])->name('ubah-password');
+    Route::post('/ubah-password/{id}', [User::class, 'prosesUbahPassword']);
 
     Route::group(['middleware' => 'mahasiswa'], function () {
 
         // PROFIL
         Route::get('/profil-mahasiswa', [KelolaMahasiswa::class, 'profil'])->name('profil-mahasiswa');
         Route::post('/edit-profil-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEditProfil']);
+        Route::get('/ubah-password-mahasiswa', [KelolaMahasiswa::class, 'ubahPassword'])->name('ubah-password-mahasiswa');
+        Route::post('/ubah-password-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesUbahPassword']);
 
         // pengajuan penangguhan UKT
         Route::get('/pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'index'])->name('pengajuan-penangguhan-ukt');
