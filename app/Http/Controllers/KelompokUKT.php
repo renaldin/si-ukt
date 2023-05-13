@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ModelKelompokUKT;
-use App\Models\ModelAdmin;
+use App\Models\ModelUser;
 use App\Models\ModelLog;
 
 class KelompokUKT extends Controller
 {
 
     private $ModelKelompokUKT;
-    private $ModelAdmin;
+    private $ModelUser;
     private $ModelLog;
 
     public function __construct()
     {
         $this->ModelKelompokUKT = new ModelKelompokUKT();
-        $this->ModelAdmin = new ModelAdmin();
+        $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
     }
 
@@ -31,10 +31,10 @@ class KelompokUKT extends Controller
             'title'             => 'Data Kelompok UKT',
             'subTitle'          => 'Daftar Kelompok UKT',
             'daftarKelompokUKT' => $this->ModelKelompokUKT->dataKelompokUKT(),
-            'user'              => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
         ];
 
-        return view('admin.kelompokUKT.dataKelompokUKT', $data);
+        return view('bagianKeuangan.kelompokUKT.dataKelompokUKT', $data);
     }
 
     public function tambah()
@@ -46,11 +46,11 @@ class KelompokUKT extends Controller
         $data = [
             'title'     => 'Data Kelompok UKT',
             'subTitle'  => 'Tambah Kelompok UKT',
-            'user'      => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'      => $this->ModelUser->detail(Session()->get('id_user')),
             'form'      => 'Tambah',
         ];
 
-        return view('admin.kelompokUKT.form', $data);
+        return view('bagianKeuangan.kelompokUKT.form', $data);
     }
 
     public function prosesTambah()
@@ -75,7 +75,7 @@ class KelompokUKT extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan tambah Kelompok UKT ' . Request()->kelompok_ukt . ' dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
             'status_user'   => session()->get('status')
         ];
@@ -96,11 +96,11 @@ class KelompokUKT extends Controller
             'title'         => 'Data Kelompok UKT',
             'subTitle'      => 'Edit Kelompok UKT',
             'form'          => 'Edit',
-            'user'          => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'          => $this->ModelUser->detail(Session()->get('id_user')),
             'detail'        => $this->ModelKelompokUKT->detail($id_kelompok_ukt)
         ];
 
-        return view('admin.kelompokUKT.form', $data);
+        return view('bagianKeuangan.kelompokUKT.form', $data);
     }
 
     public function prosesEdit($id_kelompok_ukt)
@@ -128,7 +128,7 @@ class KelompokUKT extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan edit Kelompok UKT ' . Request()->kelompok_ukt . ' dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
             'status_user'   => session()->get('status')
         ];
@@ -141,10 +141,12 @@ class KelompokUKT extends Controller
     public function prosesHapus($id_kelompok_ukt)
     {
 
+        $detail = $this->ModelKelompokUKT->detail($id_kelompok_ukt);
+
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
-            'keterangan'    => 'Melakukan hapus Kelompok UKT ' . Request()->kelompok_ukt . ' dengan nominal Rp ' . number_format(Request()->nominal, 0, ',', '.'),
+            'id_user'      => Session()->get('id_user'),
+            'keterangan'    => 'Melakukan hapus Kelompok UKT ' . $detail->kelompok_ukt . ' dengan nominal Rp ' . number_format($detail->nominal, 0, ',', '.'),
             'status_user'   => session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);

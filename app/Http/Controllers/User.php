@@ -4,20 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ModelUser;
-use App\Models\ModelAdmin;
 use App\Models\ModelLog;
 
 class User extends Controller
 {
 
     private $ModelUser;
-    private $ModelAdmin;
     private $ModelLog;
 
     public function __construct()
     {
         $this->ModelUser = new ModelUser();
-        $this->ModelAdmin = new ModelAdmin();
         $this->ModelLog = new ModelLog();
     }
 

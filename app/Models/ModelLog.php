@@ -13,9 +13,8 @@ class ModelLog extends Model
     public function dataLog()
     {
         return DB::table('log')
-            ->join('admin', 'admin.id_admin', '=', 'log.id_admin', 'left')
             ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'log.id_mahasiswa', 'left')
-            ->join('staff', 'staff.id_staff', '=', 'log.id_staff', 'left')
+            ->join('user', 'user.id_user', '=', 'log.id_user', 'left')
             ->orderBy('id_log', 'DESC')
             ->get();
     }

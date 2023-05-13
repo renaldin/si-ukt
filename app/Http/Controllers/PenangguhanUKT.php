@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ModelMahasiswa;
-use App\Models\ModelStaff;
+use App\Models\ModelUser;
 use App\Models\ModelLog;
 use App\Models\ModelPenangguhanUKT;
 
@@ -12,14 +12,14 @@ class PenangguhanUKT extends Controller
 {
 
     private $ModelMahasiswa;
-    private $ModelStaff;
+    private $ModelUser;
     private $ModelLog;
     private $ModelPenangguhanUKT;
 
     public function __construct()
     {
         $this->ModelMahasiswa = new ModelMahasiswa();
-        $this->ModelStaff = new ModelStaff();
+        $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
         $this->ModelPenangguhanUKT = new ModelPenangguhanUKT();
     }
@@ -268,11 +268,11 @@ class PenangguhanUKT extends Controller
         $data = [
             'title'             => 'Penangguhan UKT',
             'subTitle'          => 'Kelola Penangguhan UKT',
-            'user'              => $this->ModelStaff->detail(Session()->get('id_staff')),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
             'dataPenangguhanUKT' => $this->ModelPenangguhanUKT->dataPenangguhanUKT(),
         ];
 
-        return view('staff.penangguhanUKT.kelola', $data);
+        return view('bagianKeuangan.penangguhanUKT.kelola', $data);
     }
 
     public function beriJadwal($id_penangguhan_ukt)
@@ -298,7 +298,7 @@ class PenangguhanUKT extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Memberi jadwal wawancara',
             'status_user'   => session()->get('status')
         ];
@@ -330,7 +330,7 @@ class PenangguhanUKT extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Memberi keputusan tidak setuju untuk pengajuan penangguhan UKT dari ' . $detail->nama_mahasiswa,
             'status_user'   => session()->get('status')
         ];
@@ -356,7 +356,7 @@ class PenangguhanUKT extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari ' . $detail->nama_mahasiswa,
             'status_user'   => session()->get('status')
         ];
@@ -376,10 +376,10 @@ class PenangguhanUKT extends Controller
         $data = [
             'title'             => 'Penangguhan UKT',
             'subTitle'          => 'Laporan Penangguhan UKT',
-            'user'              => $this->ModelStaff->detail(Session()->get('id_staff')),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
             'dataPenangguhanUKT' => $this->ModelPenangguhanUKT->dataPenangguhanUKT(),
         ];
 
-        return view('staff.penangguhanUKT.laporan', $data);
+        return view('bagianKeuangan.penangguhanUKT.laporan', $data);
     }
 }

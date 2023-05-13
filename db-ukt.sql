@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2023 at 05:07 AM
+-- Generation Time: May 13, 2023 at 05:46 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -20,29 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `db-ukt`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin`
---
-
-CREATE TABLE `admin` (
-  `id_admin` int(11) NOT NULL,
-  `nama_admin` varchar(50) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `password` text DEFAULT NULL,
-  `status` enum('Admin') DEFAULT 'Admin',
-  `foto_user` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `admin`
---
-
-INSERT INTO `admin` (`id_admin`, `nama_admin`, `email`, `password`, `status`, `foto_user`) VALUES
-(1, 'Admin Sistem', 'renaldinoviandi9@gmail.com', '$2y$10$u0ojF60KuNfC7/Ie6AwksOzNppApFUnocYA6dmoHGiY4N9W8PYnwy', 'Admin', '02162023154704Admin Sistem.jpg'),
-(2, 'Admin Sistem UKT', 'admin@gmail.com', '$2y$10$CfofXEParDaLa28vB2/i9uxG0Z8ywPKJycZ9pBYn/vSYeZ6fd4e9a', 'Admin', '04182023095408Admin Sistem UKT.jpg');
 
 -- --------------------------------------------------------
 
@@ -115,128 +92,145 @@ INSERT INTO `kriteria` (`id_kriteria`, `nama_kriteria`, `bobot`) VALUES
 
 CREATE TABLE `log` (
   `id_log` int(11) NOT NULL,
-  `id_admin` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
   `id_mahasiswa` int(11) DEFAULT NULL,
-  `id_staff` int(11) DEFAULT NULL,
   `keterangan` text NOT NULL,
   `waktu` datetime NOT NULL DEFAULT current_timestamp(),
-  `status_user` enum('Admin','Mahasiswa','Staff') NOT NULL
+  `status_user` enum('Bagian Keuangan','Mahasiswa') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `log`
 --
 
-INSERT INTO `log` (`id_log`, `id_admin`, `id_mahasiswa`, `id_staff`, `keterangan`, `waktu`, `status_user`) VALUES
-(1, 2, NULL, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107052', '2023-04-05 14:23:34', 'Admin'),
-(2, 2, NULL, NULL, 'Melakukan hapus staff dengan NIK 109089742154211', '2023-04-05 14:28:40', 'Admin'),
-(3, 2, NULL, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107052', '2023-04-05 14:29:03', 'Admin'),
-(4, 2, NULL, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107051', '2023-04-06 13:51:49', 'Admin'),
-(5, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107051', '2023-04-06 13:54:42', 'Admin'),
-(6, 2, NULL, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107051', '2023-04-06 13:55:09', 'Admin'),
-(7, 2, NULL, NULL, 'Melakukan tambah staff dengan NIK/NIP 111111111', '2023-04-06 13:56:41', 'Admin'),
-(8, NULL, NULL, 1, 'Melakukan edit staff dengan NIK/NIP 111111111', '2023-04-06 13:57:37', 'Staff'),
-(9, NULL, 7, NULL, 'Melakukan hapus staff dengan NIK/NIP 111111111', '2023-04-06 13:57:55', 'Mahasiswa'),
-(10, 2, NULL, NULL, 'Melakukan tambah staff dengan NIK/NIP 1111111', '2023-04-06 14:22:41', 'Admin'),
-(11, 2, NULL, NULL, 'Melakukan tambah staff dengan NIK/NIP 1111111', '2023-04-06 14:27:41', 'Admin'),
-(12, 2, NULL, NULL, 'Melakukan hapus staff dengan NIK/NIP 1111111', '2023-04-06 14:27:49', 'Admin'),
-(13, 2, NULL, NULL, 'Melakukan tambah mahasiswa dengan NIM 11111111', '2023-04-06 14:30:12', 'Admin'),
-(14, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 11111111', '2023-04-06 14:30:29', 'Admin'),
-(15, 2, NULL, NULL, 'Melakukan hapus mahasiswa dengan NIM 11111111', '2023-04-06 14:30:34', 'Admin'),
-(16, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 1dengan nominal Rp 500.000', '2023-04-07 21:04:31', 'Admin'),
-(17, 2, NULL, NULL, 'Melakukan edit Kelompok UKT 1dengan nominal Rp 500.000', '2023-04-07 21:23:19', 'Admin'),
-(18, 2, NULL, NULL, 'Melakukan hapus Kelompok UKT dengan nominal Rp 0', '2023-04-07 22:23:30', 'Admin'),
-(19, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 1dengan nominal Rp 500.000', '2023-04-07 22:27:20', 'Admin'),
-(20, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 2dengan nominal Rp 1.000.000', '2023-04-07 22:27:59', 'Admin'),
-(21, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 3dengan nominal Rp 2.500.000', '2023-04-07 22:28:19', 'Admin'),
-(22, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 4dengan nominal Rp 3.000.000', '2023-04-07 22:29:07', 'Admin'),
-(23, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 5dengan nominal Rp 3.500.000', '2023-04-07 22:29:32', 'Admin'),
-(24, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 6dengan nominal Rp 4.000.000', '2023-04-07 22:29:52', 'Admin'),
-(25, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 7dengan nominal Rp 4.500.000', '2023-04-07 22:30:09', 'Admin'),
-(26, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 8dengan nominal Rp 5.000.000', '2023-04-07 22:30:24', 'Admin'),
-(27, 2, NULL, NULL, 'Melakukan tambah admin dengan Email admin1@gmail.com', '2023-04-09 01:00:47', 'Admin'),
-(28, 2, NULL, NULL, 'Melakukan tambah admin dengan Email admin1@gmail.com', '2023-04-09 01:01:51', 'Admin'),
-(29, 2, NULL, NULL, 'Melakukan edit admin dengan Email admin1@gmail.com', '2023-04-09 01:16:00', 'Admin'),
-(30, 2, NULL, NULL, 'Melakukan edit admin dengan Email admin1@gmail.com', '2023-04-09 01:16:24', 'Admin'),
-(31, 2, NULL, NULL, 'Melakukan hapus admin dengan Email admin1@gmail.com', '2023-04-09 01:17:57', 'Admin'),
-(32, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107050', '2023-04-09 01:32:09', 'Admin'),
-(33, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:49:11', 'Admin'),
-(34, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:49:37', 'Admin'),
-(35, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:50:04', 'Admin'),
-(36, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:50:47', 'Admin'),
-(37, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:52:08', 'Admin'),
-(38, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:53:46', 'Admin'),
-(39, 2, NULL, NULL, 'Melakukan edit profil', '2023-04-18 16:54:08', 'Admin'),
-(40, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:34:17', 'Mahasiswa'),
-(41, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:35:03', 'Mahasiswa'),
-(42, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:35:32', 'Mahasiswa'),
-(43, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:35:44', 'Mahasiswa'),
-(44, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:36:29', 'Mahasiswa'),
-(45, NULL, 7, NULL, 'Melakukan edit profil', '2023-04-18 20:36:50', 'Mahasiswa'),
-(46, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:58:27', 'Staff'),
-(47, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:58:47', 'Staff'),
-(48, NULL, NULL, 1, 'Melakukan edit profil', '2023-04-18 20:59:18', 'Staff'),
-(49, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:09:45', 'Admin'),
-(50, 2, NULL, NULL, 'Melakukan edit Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:10:33', 'Admin'),
-(51, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 2 dengan nominal Rp 1.000.000', '2023-05-01 08:11:39', 'Admin'),
-(52, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 3 dengan nominal Rp 5.000.000', '2023-05-01 08:12:08', 'Admin'),
-(53, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 4 dengan nominal Rp 6.000.000', '2023-05-01 08:13:05', 'Admin'),
-(54, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 5 dengan nominal Rp 7.000.000', '2023-05-01 08:13:31', 'Admin'),
-(55, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 6 dengan nominal Rp 8.000.000', '2023-05-01 08:14:17', 'Admin'),
-(56, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 7 dengan nominal Rp 9.000.000', '2023-05-01 08:14:37', 'Admin'),
-(57, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 8 dengan nominal Rp 10.000.000', '2023-05-01 08:15:24', 'Admin'),
-(58, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:21:26', 'Admin'),
-(59, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 2 dengan nominal Rp 1.000.000', '2023-05-01 08:21:49', 'Admin'),
-(60, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 3 dengan nominal Rp 3.000.000', '2023-05-01 08:22:10', 'Admin'),
-(61, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 4 dengan nominal Rp 4.000.000', '2023-05-01 08:22:37', 'Admin'),
-(62, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 5 dengan nominal Rp 5.000.000', '2023-05-01 08:23:07', 'Admin'),
-(63, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 6 dengan nominal Rp 6.000.000', '2023-05-01 08:23:26', 'Admin'),
-(64, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 7 dengan nominal Rp 7.000.000', '2023-05-01 08:23:40', 'Admin'),
-(65, 2, NULL, NULL, 'Melakukan tambah Kelompok UKT 8 dengan nominal Rp 8.000.000', '2023-05-01 08:23:57', 'Admin'),
-(66, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 09:56:34', 'Admin'),
-(67, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 09:58:38', 'Admin'),
-(68, 2, NULL, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:01:13', 'Admin'),
-(69, 2, NULL, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:01:22', 'Admin'),
-(70, 2, NULL, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:01:31', 'Admin'),
-(71, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:01:47', 'Admin'),
-(72, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:02:20', 'Admin'),
-(73, 2, NULL, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:02:30', 'Admin'),
-(74, 2, NULL, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:02:48', 'Admin'),
-(75, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:03:03', 'Admin'),
-(76, 2, NULL, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:03:24', 'Admin'),
-(77, 2, NULL, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:07:18', 'Admin'),
-(78, 2, NULL, NULL, 'Melakukan tambah nilai kriteria', '2023-05-01 14:33:09', 'Admin'),
-(79, 2, NULL, NULL, 'Melakukan edit nilai kriteria', '2023-05-01 14:34:15', 'Admin'),
-(80, 2, NULL, NULL, 'Melakukan edit nilai kriteria', '2023-05-01 14:34:28', 'Admin'),
-(81, 2, NULL, NULL, 'Melakukan hapus nilai kriteria', '2023-05-01 14:35:20', 'Admin'),
-(82, NULL, 7, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:40:06', 'Mahasiswa'),
-(83, NULL, 7, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:41:18', 'Mahasiswa'),
-(84, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:52:12', 'Mahasiswa'),
-(85, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:56:01', 'Mahasiswa'),
-(86, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:57:53', 'Mahasiswa'),
-(87, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:58:35', 'Mahasiswa'),
-(88, NULL, 9, NULL, 'Melakukan hapus data pengajuan', '2023-05-06 21:05:55', 'Mahasiswa'),
-(89, 2, NULL, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107040', '2023-05-09 12:37:04', 'Admin'),
-(90, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107040', '2023-05-09 12:37:17', 'Admin'),
-(91, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107040', '2023-05-09 12:37:39', 'Admin'),
-(92, 2, NULL, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107040', '2023-05-09 12:37:57', 'Admin'),
-(93, 2, NULL, NULL, 'Melakukan tambah nilai kriteria', '2023-05-09 12:50:45', 'Admin'),
-(94, NULL, 9, NULL, 'Melakukan hapus data pengajuan', '2023-05-09 19:52:37', 'Mahasiswa'),
-(95, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:36:45', 'Mahasiswa'),
-(96, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:46:31', 'Mahasiswa'),
-(97, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:47:00', 'Mahasiswa'),
-(98, NULL, 9, NULL, 'Melakukan kirim data pengajuan', '2023-05-10 05:20:49', 'Mahasiswa'),
-(99, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 14:38:18', 'Mahasiswa'),
-(100, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 14:38:38', 'Mahasiswa'),
-(101, NULL, 9, NULL, 'Melakukan kirim data pengajuan', '2023-05-10 14:38:44', 'Mahasiswa'),
-(102, NULL, NULL, NULL, 'Memberi jadwal wawancara', '2023-05-10 15:00:33', 'Staff'),
-(103, NULL, NULL, NULL, 'Memberi jadwal wawancara', '2023-05-10 15:01:22', 'Staff'),
-(104, NULL, NULL, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:24:21', 'Staff'),
-(105, NULL, NULL, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:29:22', 'Staff'),
-(106, NULL, NULL, NULL, 'Memberi keputusan tidak setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:29:48', 'Staff'),
-(107, 2, NULL, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107054', '2023-05-11 10:01:50', 'Admin'),
-(108, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107054', '2023-05-11 10:02:02', 'Admin'),
-(109, 2, NULL, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107054', '2023-05-11 10:05:20', 'Admin');
+INSERT INTO `log` (`id_log`, `id_user`, `id_mahasiswa`, `keterangan`, `waktu`, `status_user`) VALUES
+(1, 2, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107052', '2023-04-05 14:23:34', ''),
+(2, 2, NULL, 'Melakukan hapus staff dengan NIK 109089742154211', '2023-04-05 14:28:40', ''),
+(3, 2, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107052', '2023-04-05 14:29:03', ''),
+(4, 2, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107051', '2023-04-06 13:51:49', ''),
+(5, 2, NULL, 'Melakukan edit mahasiswa dengan NIM 10107051', '2023-04-06 13:54:42', ''),
+(6, 2, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107051', '2023-04-06 13:55:09', ''),
+(7, 2, NULL, 'Melakukan tambah staff dengan NIK/NIP 111111111', '2023-04-06 13:56:41', ''),
+(8, NULL, NULL, 'Melakukan edit staff dengan NIK/NIP 111111111', '2023-04-06 13:57:37', ''),
+(9, NULL, 7, 'Melakukan hapus staff dengan NIK/NIP 111111111', '2023-04-06 13:57:55', 'Mahasiswa'),
+(10, 2, NULL, 'Melakukan tambah staff dengan NIK/NIP 1111111', '2023-04-06 14:22:41', ''),
+(11, 2, NULL, 'Melakukan tambah staff dengan NIK/NIP 1111111', '2023-04-06 14:27:41', ''),
+(12, 2, NULL, 'Melakukan hapus staff dengan NIK/NIP 1111111', '2023-04-06 14:27:49', ''),
+(13, 2, NULL, 'Melakukan tambah mahasiswa dengan NIM 11111111', '2023-04-06 14:30:12', ''),
+(14, 2, NULL, 'Melakukan edit mahasiswa dengan NIM 11111111', '2023-04-06 14:30:29', ''),
+(15, 2, NULL, 'Melakukan hapus mahasiswa dengan NIM 11111111', '2023-04-06 14:30:34', ''),
+(16, 2, NULL, 'Melakukan tambah Kelompok UKT 1dengan nominal Rp 500.000', '2023-04-07 21:04:31', ''),
+(17, 2, NULL, 'Melakukan edit Kelompok UKT 1dengan nominal Rp 500.000', '2023-04-07 21:23:19', ''),
+(18, 2, NULL, 'Melakukan hapus Kelompok UKT dengan nominal Rp 0', '2023-04-07 22:23:30', ''),
+(19, 2, NULL, 'Melakukan tambah Kelompok UKT 1dengan nominal Rp 500.000', '2023-04-07 22:27:20', ''),
+(20, 2, NULL, 'Melakukan tambah Kelompok UKT 2dengan nominal Rp 1.000.000', '2023-04-07 22:27:59', ''),
+(21, 2, NULL, 'Melakukan tambah Kelompok UKT 3dengan nominal Rp 2.500.000', '2023-04-07 22:28:19', ''),
+(22, 2, NULL, 'Melakukan tambah Kelompok UKT 4dengan nominal Rp 3.000.000', '2023-04-07 22:29:07', ''),
+(23, 2, NULL, 'Melakukan tambah Kelompok UKT 5dengan nominal Rp 3.500.000', '2023-04-07 22:29:32', ''),
+(24, 2, NULL, 'Melakukan tambah Kelompok UKT 6dengan nominal Rp 4.000.000', '2023-04-07 22:29:52', ''),
+(25, 2, NULL, 'Melakukan tambah Kelompok UKT 7dengan nominal Rp 4.500.000', '2023-04-07 22:30:09', ''),
+(26, 2, NULL, 'Melakukan tambah Kelompok UKT 8dengan nominal Rp 5.000.000', '2023-04-07 22:30:24', ''),
+(27, 2, NULL, 'Melakukan tambah admin dengan Email admin1@gmail.com', '2023-04-09 01:00:47', ''),
+(28, 2, NULL, 'Melakukan tambah admin dengan Email admin1@gmail.com', '2023-04-09 01:01:51', ''),
+(29, 2, NULL, 'Melakukan edit admin dengan Email admin1@gmail.com', '2023-04-09 01:16:00', ''),
+(30, 2, NULL, 'Melakukan edit admin dengan Email admin1@gmail.com', '2023-04-09 01:16:24', ''),
+(31, 2, NULL, 'Melakukan hapus admin dengan Email admin1@gmail.com', '2023-04-09 01:17:57', ''),
+(32, 2, NULL, 'Melakukan edit mahasiswa dengan NIM 10107050', '2023-04-09 01:32:09', ''),
+(33, 2, NULL, 'Melakukan edit profil', '2023-04-18 16:49:11', ''),
+(34, 2, NULL, 'Melakukan edit profil', '2023-04-18 16:49:37', ''),
+(35, 2, NULL, 'Melakukan edit profil', '2023-04-18 16:50:04', ''),
+(36, 2, NULL, 'Melakukan edit profil', '2023-04-18 16:50:47', ''),
+(37, 2, NULL, 'Melakukan edit profil', '2023-04-18 16:52:08', ''),
+(38, 2, NULL, 'Melakukan edit profil', '2023-04-18 16:53:46', ''),
+(39, 2, NULL, 'Melakukan edit profil', '2023-04-18 16:54:08', ''),
+(40, NULL, 7, 'Melakukan edit profil', '2023-04-18 20:34:17', 'Mahasiswa'),
+(41, NULL, 7, 'Melakukan edit profil', '2023-04-18 20:35:03', 'Mahasiswa'),
+(42, NULL, 7, 'Melakukan edit profil', '2023-04-18 20:35:32', 'Mahasiswa'),
+(43, NULL, 7, 'Melakukan edit profil', '2023-04-18 20:35:44', 'Mahasiswa'),
+(44, NULL, 7, 'Melakukan edit profil', '2023-04-18 20:36:29', 'Mahasiswa'),
+(45, NULL, 7, 'Melakukan edit profil', '2023-04-18 20:36:50', 'Mahasiswa'),
+(46, NULL, NULL, 'Melakukan edit profil', '2023-04-18 20:58:27', ''),
+(47, NULL, NULL, 'Melakukan edit profil', '2023-04-18 20:58:47', ''),
+(48, NULL, NULL, 'Melakukan edit profil', '2023-04-18 20:59:18', ''),
+(49, 2, NULL, 'Melakukan tambah Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:09:45', ''),
+(50, 2, NULL, 'Melakukan edit Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:10:33', ''),
+(51, 2, NULL, 'Melakukan tambah Kelompok UKT 2 dengan nominal Rp 1.000.000', '2023-05-01 08:11:39', ''),
+(52, 2, NULL, 'Melakukan tambah Kelompok UKT 3 dengan nominal Rp 5.000.000', '2023-05-01 08:12:08', ''),
+(53, 2, NULL, 'Melakukan tambah Kelompok UKT 4 dengan nominal Rp 6.000.000', '2023-05-01 08:13:05', ''),
+(54, 2, NULL, 'Melakukan tambah Kelompok UKT 5 dengan nominal Rp 7.000.000', '2023-05-01 08:13:31', ''),
+(55, 2, NULL, 'Melakukan tambah Kelompok UKT 6 dengan nominal Rp 8.000.000', '2023-05-01 08:14:17', ''),
+(56, 2, NULL, 'Melakukan tambah Kelompok UKT 7 dengan nominal Rp 9.000.000', '2023-05-01 08:14:37', ''),
+(57, 2, NULL, 'Melakukan tambah Kelompok UKT 8 dengan nominal Rp 10.000.000', '2023-05-01 08:15:24', ''),
+(58, 2, NULL, 'Melakukan tambah Kelompok UKT 1 dengan nominal Rp 500.000', '2023-05-01 08:21:26', ''),
+(59, 2, NULL, 'Melakukan tambah Kelompok UKT 2 dengan nominal Rp 1.000.000', '2023-05-01 08:21:49', ''),
+(60, 2, NULL, 'Melakukan tambah Kelompok UKT 3 dengan nominal Rp 3.000.000', '2023-05-01 08:22:10', ''),
+(61, 2, NULL, 'Melakukan tambah Kelompok UKT 4 dengan nominal Rp 4.000.000', '2023-05-01 08:22:37', ''),
+(62, 2, NULL, 'Melakukan tambah Kelompok UKT 5 dengan nominal Rp 5.000.000', '2023-05-01 08:23:07', ''),
+(63, 2, NULL, 'Melakukan tambah Kelompok UKT 6 dengan nominal Rp 6.000.000', '2023-05-01 08:23:26', ''),
+(64, 2, NULL, 'Melakukan tambah Kelompok UKT 7 dengan nominal Rp 7.000.000', '2023-05-01 08:23:40', ''),
+(65, 2, NULL, 'Melakukan tambah Kelompok UKT 8 dengan nominal Rp 8.000.000', '2023-05-01 08:23:57', ''),
+(66, 2, NULL, 'Melakukan tambah Kriteria', '2023-05-01 09:56:34', ''),
+(67, 2, NULL, 'Melakukan tambah Kriteria', '2023-05-01 09:58:38', ''),
+(68, 2, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:01:13', ''),
+(69, 2, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:01:22', ''),
+(70, 2, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:01:31', ''),
+(71, 2, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:01:47', ''),
+(72, 2, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:02:20', ''),
+(73, 2, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:02:30', ''),
+(74, 2, NULL, 'Melakukan hapus Kriteria', '2023-05-01 10:02:48', ''),
+(75, 2, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:03:03', ''),
+(76, 2, NULL, 'Melakukan tambah Kriteria', '2023-05-01 10:03:24', ''),
+(77, 2, NULL, 'Melakukan edit Kriteria', '2023-05-01 10:07:18', ''),
+(78, 2, NULL, 'Melakukan tambah nilai kriteria', '2023-05-01 14:33:09', ''),
+(79, 2, NULL, 'Melakukan edit nilai kriteria', '2023-05-01 14:34:15', ''),
+(80, 2, NULL, 'Melakukan edit nilai kriteria', '2023-05-01 14:34:28', ''),
+(81, 2, NULL, 'Melakukan hapus nilai kriteria', '2023-05-01 14:35:20', ''),
+(82, NULL, 7, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:40:06', 'Mahasiswa'),
+(83, NULL, 7, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:41:18', 'Mahasiswa'),
+(84, NULL, 9, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:52:12', 'Mahasiswa'),
+(85, NULL, 9, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:56:01', 'Mahasiswa'),
+(86, NULL, 9, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:57:53', 'Mahasiswa'),
+(87, NULL, 9, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:58:35', 'Mahasiswa'),
+(88, NULL, 9, 'Melakukan hapus data pengajuan', '2023-05-06 21:05:55', 'Mahasiswa'),
+(89, 2, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107040', '2023-05-09 12:37:04', ''),
+(90, 2, NULL, 'Melakukan edit mahasiswa dengan NIM 10107040', '2023-05-09 12:37:17', ''),
+(91, 2, NULL, 'Melakukan edit mahasiswa dengan NIM 10107040', '2023-05-09 12:37:39', ''),
+(92, 2, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107040', '2023-05-09 12:37:57', ''),
+(93, 2, NULL, 'Melakukan tambah nilai kriteria', '2023-05-09 12:50:45', ''),
+(94, NULL, 9, 'Melakukan hapus data pengajuan', '2023-05-09 19:52:37', 'Mahasiswa'),
+(95, NULL, 9, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:36:45', 'Mahasiswa'),
+(96, NULL, 9, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:46:31', 'Mahasiswa'),
+(97, NULL, 9, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:47:00', 'Mahasiswa'),
+(98, NULL, 9, 'Melakukan kirim data pengajuan', '2023-05-10 05:20:49', 'Mahasiswa'),
+(99, NULL, 9, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 14:38:18', 'Mahasiswa'),
+(100, NULL, 9, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 14:38:38', 'Mahasiswa'),
+(101, NULL, 9, 'Melakukan kirim data pengajuan', '2023-05-10 14:38:44', 'Mahasiswa'),
+(102, NULL, NULL, 'Memberi jadwal wawancara', '2023-05-10 15:00:33', ''),
+(103, NULL, NULL, 'Memberi jadwal wawancara', '2023-05-10 15:01:22', ''),
+(104, NULL, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:24:21', ''),
+(105, NULL, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:29:22', ''),
+(106, NULL, NULL, 'Memberi keputusan tidak setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:29:48', ''),
+(107, 2, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107054', '2023-05-11 10:01:50', ''),
+(108, 2, NULL, 'Melakukan edit mahasiswa dengan NIM 10107054', '2023-05-11 10:02:02', ''),
+(109, 2, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107054', '2023-05-11 10:05:20', ''),
+(110, 1, NULL, 'Melakukan edit profil', '2023-05-13 08:15:02', 'Bagian Keuangan'),
+(111, 1, NULL, 'Melakukan edit profil', '2023-05-13 08:15:14', 'Bagian Keuangan'),
+(112, 1, NULL, 'Melakukan edit profil', '2023-05-13 08:16:07', 'Bagian Keuangan'),
+(113, 1, NULL, 'Melakukan edit profil', '2023-05-13 08:16:16', 'Bagian Keuangan'),
+(114, 1, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107040', '2023-05-13 10:32:31', 'Bagian Keuangan'),
+(115, 1, NULL, 'Melakukan edit mahasiswa dengan NIM 10107040', '2023-05-13 10:32:54', 'Bagian Keuangan'),
+(116, 1, NULL, 'Melakukan edit mahasiswa dengan NIM 10107041', '2023-05-13 10:33:24', 'Bagian Keuangan'),
+(117, 1, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107041', '2023-05-13 10:33:32', 'Bagian Keuangan'),
+(118, 1, NULL, 'Melakukan tambah Kelompok UKT 8 dengan nominal Rp 1.000.000.000', '2023-05-13 10:36:25', 'Bagian Keuangan'),
+(119, 1, NULL, 'Melakukan edit Kelompok UKT 7 dengan nominal Rp 2.000.000.000', '2023-05-13 10:36:57', 'Bagian Keuangan'),
+(120, 1, NULL, 'Melakukan hapus Kelompok UKT  dengan nominal Rp 0', '2023-05-13 10:37:07', 'Bagian Keuangan'),
+(121, 1, NULL, 'Melakukan edit Kriteria', '2023-05-13 10:40:26', 'Bagian Keuangan'),
+(122, 1, NULL, 'Melakukan tambah Kriteria', '2023-05-13 10:40:48', 'Bagian Keuangan'),
+(123, 1, NULL, 'Melakukan hapus Kriteria', '2023-05-13 10:41:24', 'Bagian Keuangan'),
+(124, 1, NULL, 'Melakukan edit Kriteria', '2023-05-13 10:41:37', 'Bagian Keuangan'),
+(125, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-05-13 10:42:39', 'Bagian Keuangan'),
+(126, 1, NULL, 'Melakukan edit nilai kriteria', '2023-05-13 10:42:57', 'Bagian Keuangan'),
+(127, 1, NULL, 'Melakukan hapus nilai kriteria', '2023-05-13 10:43:04', 'Bagian Keuangan');
 
 -- --------------------------------------------------------
 
@@ -263,7 +257,7 @@ CREATE TABLE `mahasiswa` (
 --
 
 INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `nomor_telepon`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`, `status_pengajuan`) VALUES
-(9, 'Renaldi', 'D3 Sistem Informasi', '0898989833', 10107050, 'renaldinoviandi9@gmail.com', '$2y$10$/oFu8Dbj4wpis1h7jVzNKeKagW1eueETJAwWgvB2DU.mbKpU/x/wa', 'Mahasiswa', 2, '04052023063227 Elang Muera.jpg', 'Tidak');
+(9, 'Renaldi', 'D3 Sistem Informasi', '0898989833', 10107050, 'renaldinoviandi9@gmail.com', '$2y$10$TdREcay5AnQrqoL0HQLbSeXwJVMsSnN0wndisgrkzp3WBIigMtjyG', 'Mahasiswa', 2, '04052023063227 Elang Muera.jpg', 'Tidak');
 
 -- --------------------------------------------------------
 
@@ -283,7 +277,7 @@ CREATE TABLE `nilai_kriteria` (
 --
 
 INSERT INTO `nilai_kriteria` (`id_nilai_kriteria`, `id_kriteria`, `nilai_kriteria`, `ukt`) VALUES
-(2, 5, '1000000-2000000', 1);
+(2, 4, '1000000-2000000', 1);
 
 -- --------------------------------------------------------
 
@@ -323,35 +317,29 @@ INSERT INTO `penangguhan_ukt` (`id_penangguhan_ukt`, `id_mahasiswa`, `nama_orang
 -- --------------------------------------------------------
 
 --
--- Table structure for table `staff`
+-- Table structure for table `user`
 --
 
-CREATE TABLE `staff` (
-  `id_staff` int(11) NOT NULL,
-  `nama_staff` varchar(50) DEFAULT NULL,
+CREATE TABLE `user` (
+  `id_user` int(11) NOT NULL,
+  `nama_user` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `nik` varchar(30) DEFAULT NULL,
   `password` text DEFAULT NULL,
-  `status` enum('Staff') DEFAULT 'Staff',
+  `status` enum('Bagian Keuangan') NOT NULL,
   `foto_user` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `staff`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `staff` (`id_staff`, `nama_staff`, `email`, `nik`, `password`, `status`, `foto_user`) VALUES
-(1, 'Bu Ida', 'renaldinoviandi9@gmail.com', '109089742154215', '$2y$10$cGu7vBKBgVpCv.x4XdwaTOLYCG69lkY7s6ZAa408LYimGRsgOIqIi', 'Staff', '04182023135918Pak Tri.jpg');
+INSERT INTO `user` (`id_user`, `nama_user`, `email`, `nik`, `password`, `status`, `foto_user`) VALUES
+(1, 'Bu Ida', 'renaldinoviandi0@gmail.com', '109089742154215', '$2y$10$s3t4g8jZK3DafAO7kyPFiepGAK4..S1U0fEbTDiUU8XiJtJLs3nty', 'Bagian Keuangan', '05132023011607Bu Ida Update.jpg');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id_admin`);
 
 --
 -- Indexes for table `kelompok_ukt`
@@ -390,50 +378,44 @@ ALTER TABLE `penangguhan_ukt`
   ADD PRIMARY KEY (`id_penangguhan_ukt`);
 
 --
--- Indexes for table `staff`
+-- Indexes for table `user`
 --
-ALTER TABLE `staff`
-  ADD PRIMARY KEY (`id_staff`);
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id_user`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT for table `kelompok_ukt`
 --
 ALTER TABLE `kelompok_ukt`
-  MODIFY `id_kelompok_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_kelompok_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `nilai_kriteria`
 --
 ALTER TABLE `nilai_kriteria`
-  MODIFY `id_nilai_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_nilai_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `penangguhan_ukt`
@@ -442,10 +424,10 @@ ALTER TABLE `penangguhan_ukt`
   MODIFY `id_penangguhan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `staff`
+-- AUTO_INCREMENT for table `user`
 --
-ALTER TABLE `staff`
-  MODIFY `id_staff` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `user`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

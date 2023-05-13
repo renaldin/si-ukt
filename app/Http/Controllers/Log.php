@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\ModelAdmin;
+use App\Models\ModelUser;
 use App\Models\ModelLog;
 
 class Log extends Controller
 {
 
-    private $ModelAdmin;
+    private $ModelUser;
     private $ModelLog;
 
     public function __construct()
     {
-        $this->ModelAdmin = new ModelAdmin();
+        $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
     }
 
@@ -28,10 +28,10 @@ class Log extends Controller
             'title'             => 'Data Log',
             'subTitle'          => 'Daftar Log',
             'daftarLog'         => $this->ModelLog->dataLog(),
-            'user'              => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
         ];
         // dd($data);
 
-        return view('admin.log.dataLog', $data);
+        return view('bagianKeuangan.log.dataLog', $data);
     }
 }

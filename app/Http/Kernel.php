@@ -66,6 +66,6 @@ class Kernel extends HttpKernel
         'revalidate' => \App\Http\Middleware\RevalidateBackHistory::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'mahasiswa' => \App\Http\Middleware\Mahasiswa::class,
-        'bagianKeuangan' => \App\Http\Middleware\BagianKeuangan::class,
+        'bagiankeuangan' => \App\Http\Middleware\BagianKeuangan::class,
     ];
 }

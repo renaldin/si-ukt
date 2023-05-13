@@ -26,7 +26,7 @@
                         @foreach ($daftarLog as $item)
                         <tr>
                             <td>{{$no++}}</td>
-                            <td>@if($item->status_user === 'Admin'){{$item->nama_admin}}@elseif($item->status_user === 'Mahasiswa'){{$item->nama_mahasiswa}}@elseif($item->status_user === 'Staff'){{$item->nama_staff}}@endif</td>
+                            <td>@if($item->status_user === 'Bagian Keuangan'){{$item->nama_user}}@elseif($item->status_user === 'Mahasiswa'){{$item->nama_mahasiswa}}@endif</td>
                             <td>{{$item->status_user}}</td>
                             <td>{{$item->keterangan}}</td>
                             <td>{{$item->waktu}}</td>

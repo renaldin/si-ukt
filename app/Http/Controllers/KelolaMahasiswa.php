@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ModelMahasiswa;
-use App\Models\ModelAdmin;
 use App\Models\ModelLog;
+use App\Models\ModelUser;
 
 class KelolaMahasiswa extends Controller
 {
 
     private $ModelMahasiswa;
-    private $ModelAdmin;
     private $ModelLog;
+    private $ModelUser;
 
     public function __construct()
     {
         $this->ModelMahasiswa = new ModelMahasiswa();
-        $this->ModelAdmin = new ModelAdmin();
         $this->ModelLog = new ModelLog();
+        $this->ModelUser = new ModelUser();
     }
 
     public function index()
@@ -32,10 +32,10 @@ class KelolaMahasiswa extends Controller
             'title'             => 'Data Mahasiswa',
             'subTitle'          => 'Daftar Mahasiswa',
             'daftarMahasiswa'   => $this->ModelMahasiswa->dataMahasiswa(),
-            'user'              => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
         ];
 
-        return view('admin.kelolaMahasiswa.dataMahasiswa', $data);
+        return view('bagianKeuangan.kelolaMahasiswa.dataMahasiswa', $data);
     }
 
     public function tambah()
@@ -47,11 +47,11 @@ class KelolaMahasiswa extends Controller
         $data = [
             'title'     => 'Data Mahasiswa',
             'subTitle'  => 'Tambah Mahasiswa',
-            'user'      => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'      => $this->ModelUser->detail(Session()->get('id_user')),
             'form'      => 'Tambah',
         ];
 
-        return view('admin.kelolaMahasiswa.form', $data);
+        return view('bagianKeuangan.kelolaMahasiswa.form', $data);
     }
 
     public function prosesTambah()
@@ -61,7 +61,7 @@ class KelolaMahasiswa extends Controller
             'prodi'             => 'required',
             'nomor_telepon'     => 'required',
             'nim'               => 'required|numeric|unique:mahasiswa,nim',
-            'email'             => 'required|unique:admin,email|unique:staff,email|unique:mahasiswa,email|email',
+            'email'             => 'required|unique:user,email|unique:mahasiswa,email|email',
             'password'          => 'min:6|required',
             'foto_user'         => 'required|mimes:jpeg,png,jpg|max:2048',
             'status_pengajuan'  => 'required',
@@ -100,7 +100,7 @@ class KelolaMahasiswa extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan tambah mahasiswa dengan NIM ' . Request()->nim,
             'status_user'   => session()->get('status')
         ];
@@ -121,11 +121,11 @@ class KelolaMahasiswa extends Controller
             'title'         => 'Data Mahasiswa',
             'subTitle'      => 'Edit Mahasiswa',
             'form'          => 'Edit',
-            'user'          => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'          => $this->ModelUser->detail(Session()->get('id_user')),
             'detail'        => $this->ModelMahasiswa->detail($id_mahasiswa)
         ];
 
-        return view('admin.kelolaMahasiswa.form', $data);
+        return view('bagianKeuangan.kelolaMahasiswa.form', $data);
     }
 
     public function prosesEdit($id_mahasiswa)
@@ -135,7 +135,7 @@ class KelolaMahasiswa extends Controller
             'prodi'             => 'required',
             'nomor_telepon'     => 'required',
             'nim'               => 'required|numeric',
-            'email'             => 'required|unique:admin,email|unique:staff,email|email',
+            'email'             => 'required|unique:user,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
             'status_pengajuan'  => 'required',
         ], [
@@ -229,7 +229,7 @@ class KelolaMahasiswa extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan edit mahasiswa dengan NIM ' . Request()->nim,
             'status_user'   => session()->get('status')
         ];
@@ -249,7 +249,7 @@ class KelolaMahasiswa extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan hapus mahasiswa dengan NIM ' . $user->nim,
             'status_user'   => session()->get('status')
         ];
@@ -282,7 +282,7 @@ class KelolaMahasiswa extends Controller
             'prodi'             => 'required',
             'nomor_telepon'     => 'required',
             'nim'               => 'required|numeric',
-            'email'             => 'required|unique:admin,email|unique:staff,email|email',
+            'email'             => 'required|unique:user,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ModelKelompokUKT;
 use App\Models\ModelNilaiKriteria;
 use App\Models\ModelKriteria;
-use App\Models\ModelAdmin;
+use App\Models\ModelUser;
 use App\Models\ModelLog;
 
 class NilaiKriteria extends Controller
@@ -15,7 +15,7 @@ class NilaiKriteria extends Controller
     private $ModelKelompokUKT;
     private $ModelNilaiKriteria;
     private $ModelKriteria;
-    private $ModelAdmin;
+    private $ModelUser;
     private $ModelLog;
 
     public function __construct()
@@ -23,7 +23,7 @@ class NilaiKriteria extends Controller
         $this->ModelKelompokUKT = new ModelKelompokUKT();
         $this->ModelNilaiKriteria = new ModelNilaiKriteria();
         $this->ModelKriteria = new ModelKriteria();
-        $this->ModelAdmin = new ModelAdmin();
+        $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
     }
 
@@ -37,10 +37,10 @@ class NilaiKriteria extends Controller
             'title'                 => 'Data Nilai Kriteria',
             'subTitle'              => 'Daftar Nilai Kriteria',
             'daftarNilaiKriteria'   => $this->ModelNilaiKriteria->dataNilaiKriteria(),
-            'user'                  => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'                  => $this->ModelUser->detail(Session()->get('id_user')),
         ];
 
-        return view('admin.nilaiKriteria.dataNilaiKriteria', $data);
+        return view('bagianKeuangan.nilaiKriteria.dataNilaiKriteria', $data);
     }
 
     public function tambah()
@@ -52,13 +52,13 @@ class NilaiKriteria extends Controller
         $data = [
             'title'     => 'Data Nilai Kriteria',
             'subTitle'  => 'Tambah Nilai Kriteria',
-            'user'      => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'      => $this->ModelUser->detail(Session()->get('id_user')),
             'kriteria'  => $this->ModelKriteria->dataKriteria(),
             'dataUKT'   => $this->ModelKelompokUKT->dataKelompokUKTPerSelect(),
             'form'      => 'Tambah',
         ];
 
-        return view('admin.nilaiKriteria.form', $data);
+        return view('bagianKeuangan.nilaiKriteria.form', $data);
     }
 
     public function prosesTambah()
@@ -82,7 +82,7 @@ class NilaiKriteria extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan tambah nilai kriteria',
             'status_user'   => session()->get('status')
         ];
@@ -103,13 +103,13 @@ class NilaiKriteria extends Controller
             'title'         => 'Data Nilai Kriteria',
             'subTitle'      => 'Edit Nilai Kriteria',
             'form'          => 'Edit',
-            'user'          => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'          => $this->ModelUser->detail(Session()->get('id_user')),
             'detail'        => $this->ModelNilaiKriteria->detail($id_nilai_kriteria),
             'kriteria'      => $this->ModelKriteria->dataKriteria(),
             'dataUKT'       => $this->ModelKelompokUKT->dataKelompokUKTPerSelect(),
         ];
 
-        return view('admin.nilaiKriteria.form', $data);
+        return view('bagianKeuangan.nilaiKriteria.form', $data);
     }
 
     public function prosesEdit($id_nilai_kriteria)
@@ -134,7 +134,7 @@ class NilaiKriteria extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan edit nilai kriteria',
             'status_user'   => session()->get('status')
         ];
@@ -150,7 +150,7 @@ class NilaiKriteria extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan hapus nilai kriteria',
             'status_user'   => session()->get('status')
         ];

@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ModelKriteria;
-use App\Models\ModelAdmin;
+use App\Models\ModelUser;
 use App\Models\ModelLog;
 
 class Kriteria extends Controller
 {
 
     private $ModelKriteria;
-    private $ModelAdmin;
+    private $ModelUser;
     private $ModelLog;
 
     public function __construct()
     {
         $this->ModelKriteria = new ModelKriteria();
-        $this->ModelAdmin = new ModelAdmin();
+        $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
     }
 
@@ -31,11 +31,11 @@ class Kriteria extends Controller
             'title'             => 'Data Kriteria',
             'subTitle'          => 'Daftar Kriteria',
             'daftarKriteria'    => $this->ModelKriteria->dataKriteria(),
-            'totalBobot'     => $this->ModelKriteria->totalBobot(),
-            'user'              => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'totalBobot'        => $this->ModelKriteria->totalBobot(),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
         ];
 
-        return view('admin.kriteria.dataKriteria', $data);
+        return view('bagianKeuangan.kriteria.dataKriteria', $data);
     }
 
     public function tambah()
@@ -47,11 +47,11 @@ class Kriteria extends Controller
         $data = [
             'title'     => 'Data Kriteria',
             'subTitle'  => 'Tambah Kriteria',
-            'user'      => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'      => $this->ModelUser->detail(Session()->get('id_user')),
             'form'      => 'Tambah',
         ];
 
-        return view('admin.kriteria.form', $data);
+        return view('bagianKeuangan.kriteria.form', $data);
     }
 
     public function prosesTambah()
@@ -79,7 +79,7 @@ class Kriteria extends Controller
 
                 // log
                 $dataLog = [
-                    'id_admin'      => Session()->get('id_admin'),
+                    'id_user'      => Session()->get('id_user'),
                     'keterangan'    => 'Melakukan tambah Kriteria',
                     'status_user'   => session()->get('status')
                 ];
@@ -106,11 +106,11 @@ class Kriteria extends Controller
             'title'         => 'Data Kriteria',
             'subTitle'      => 'Edit Kriteria',
             'form'          => 'Edit',
-            'user'          => $this->ModelAdmin->detail(Session()->get('id_admin')),
+            'user'          => $this->ModelUser->detail(Session()->get('id_user')),
             'detail'        => $this->ModelKriteria->detail($id_kriteria)
         ];
 
-        return view('admin.kriteria.form', $data);
+        return view('bagianKeuangan.kriteria.form', $data);
     }
 
     public function prosesEdit($id_kriteria)
@@ -139,7 +139,7 @@ class Kriteria extends Controller
 
                 // log
                 $dataLog = [
-                    'id_admin'      => Session()->get('id_admin'),
+                    'id_user'      => Session()->get('id_user'),
                     'keterangan'    => 'Melakukan edit Kriteria',
                     'status_user'   => session()->get('status')
                 ];
@@ -161,7 +161,7 @@ class Kriteria extends Controller
 
         // log
         $dataLog = [
-            'id_admin'      => Session()->get('id_admin'),
+            'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Melakukan hapus Kriteria',
             'status_user'   => session()->get('status')
         ];
