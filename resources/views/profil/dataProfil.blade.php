@@ -11,7 +11,7 @@
                         <img src="{{ asset('foto_user/'.$user->foto_user) }}" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
                      </div>
                      <div class="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
-                        <h4 class="me-2 h4">{{$user->nama_staff}}</h4>
+                        <h4 class="me-2 h4">{{$user->nama_user}}</h4>
                         <span> - {{$user->status}}</span>
                      </div>
                   </div>
@@ -30,7 +30,7 @@
                </div>
                <div class="mt-2">
                <h6 class="mb-1">Nama Lengkap:</h6>
-               <p>{{$user->nama_staff}}</p>
+               <p>{{$user->nama_user}}</p>
                </div>
                <div class="mt-2">
                <h6 class="mb-1">NIK/NIP:</h6>
@@ -72,13 +72,13 @@
                             </div>
                         </div>
                     @endif
-                    <form action="/edit-profil-staff/{{$user->id_staff}}" method="POST" enctype="multipart/form-data">
+                    <form action="/edit-profil/{{$user->id_user}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label class="form-label" for="nama_staff">Nama Lengkap</label>
-                            <input type="text" class="form-control @error('nama_staff') is-invalid @enderror" id="nama_staff" name="nama_staff" value="{{$user->nama_staff}}" autofocus placeholder="Masukkan Nama Lengkap ">
-                            @error('nama_staff')
+                            <label class="form-label" for="nama_user">Nama Lengkap</label>
+                            <input type="text" class="form-control @error('nama_user') is-invalid @enderror" id="nama_user" name="nama_user" value="{{$user->nama_user}}" autofocus placeholder="Masukkan Nama Lengkap ">
+                            @error('nama_user')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>

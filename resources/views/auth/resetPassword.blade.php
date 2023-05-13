@@ -14,7 +14,7 @@
                       </a>
                       <h2 class="mb-2 text-center">Reset Password</h2>
                       <p class="text-center">Silahkan masukkan password baru.</p>
-                      <form action="@if($user->status === 'Mahasiswa') /reset-password/{{$user->id_mahasiswa}} @elseif($user->status === 'Admin') /reset-password/{{$user->id_admin}} @elseif($user->status === 'Staff') /reset-password/{{$user->id_staff}} @endif" method="POST">
+                      <form action="@if($user->status === 'Mahasiswa') /reset-password/{{$user->id_mahasiswa}} @elseif($user->status === 'Bagian Keuangan') /reset-password/{{$user->id_user}} @endif" method="POST">
                         @csrf
                         <div class="row">
                             @if (session('success'))

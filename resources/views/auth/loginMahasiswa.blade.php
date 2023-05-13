@@ -63,7 +63,7 @@
                                </div>
                             </div>
                             <div class="col-lg-12 d-flex justify-content-end">
-                               <a href="/lupa-password">Lupa Password?</a>
+                               <a href="/lupa-password-mahasiswa">Lupa Password?</a>
                             </div>
                          </div>
                          <div class="d-flex justify-content-center">

@@ -22,7 +22,7 @@ class Dashboard extends Controller
     {
 
         if (!Session()->get('status')) {
-            return redirect()->route('login');
+            return redirect()->route('admin');
         }
 
         $status = Session()->get('status');

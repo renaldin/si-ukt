@@ -14,7 +14,7 @@
                       </a>
                       <h2 class="mb-2 text-center">Lupa Password</h2>
                       <p class="text-center">Silahkan masukkan Email yang terdaftar di website ini!</p>
-                      <form action="/lupa-password-staff" method="POST">
+                      <form action="/lupa-password" method="POST">
                         @csrf
                         <div class="row">
                             @if (session('success'))
@@ -43,7 +43,7 @@
                                <div class="form-group">
                                   <label for="email" class="form-label">Email</label>
                                   <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" placeholder=" " value="{{ old('email') }}" autofocus>
-                                  <input type="hidden" class="form-control" name="status"  value="Staff">
+                                  <input type="hidden" class="form-control" name="status"  value="Bagian Keuangan">
                                   @error('email')
                                   <div class="invalid-feedback">
                                     {{ $message }}
@@ -52,7 +52,7 @@
                                </div>
                             </div>
                             <div class="col-lg-12 d-flex justify-content-end">
-                              <a href="/staff">Login?</a>
+                              <a href="/admin">Login?</a>
                             </div>
                          </div>
                          <div class="d-flex justify-content-center">

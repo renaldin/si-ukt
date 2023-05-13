@@ -4,10 +4,8 @@ $urlReset = $data_email['urlReset'];
 $dataUser = $data_email['dataUser'];
 if($dataUser->status === 'Mahasiswa'){
   $nama = $dataUser->nama_mahasiswa;
-} elseif($dataUser->status === 'Staff'){
-  $nama = $dataUser->nama_staff;
-}elseif($dataUser->status === 'Admin'){
-  $nama = $dataUser->nama_admin;
+} elseif($dataUser->status === 'Bagian Keuangan'){
+  $nama = $dataUser->nama_user;
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

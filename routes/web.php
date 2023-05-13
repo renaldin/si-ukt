@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\KelolaAdmin;
 use App\Http\Controllers\KelolaMahasiswa;
 use App\Http\Controllers\User;
+use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Log;
 use App\Http\Controllers\KelompokUKT;
 use App\Http\Controllers\Kriteria;
@@ -40,6 +40,7 @@ Route::group(['middleware' => 'revalidate'], function () {
     Route::post('/lupa-password', [Login::class, 'prosesLupaPassword']);
 
     // reset password
+    Route::get('/reset-password-mahasiswa/{id}', [Login::class, 'resetPasswordMahasiswa'])->name('reset-password-mahasiswa');
     Route::get('/reset-password/{id}', [Login::class, 'resetPassword'])->name('reset-password');
     Route::post('/reset-password/{id}', [Login::class, 'prosesResetPassword']);
 

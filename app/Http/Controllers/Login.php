@@ -126,7 +126,7 @@ class Login extends Controller
             Session()->forget('email');
             Session()->forget('status');
             Session()->forget('log');
-            return redirect()->route('staff')->with('success', 'Logout berhasil!');
+            return redirect()->route('admin')->with('success', 'Logout berhasil!');
         }
     }
 
@@ -192,6 +192,20 @@ class Login extends Controller
         } else {
             return back()->with('fail', 'Email tidak terdaftar.');
         }
+    }
+
+    public function resetPasswordMahasiswa($id_mahasiswa)
+    {
+        if (Session()->get('email')) {
+            return redirect()->route('dashboard');
+        }
+
+        $data = [
+            'title' => 'Reset Password',
+            'user'  => $this->ModelMahasiswa->detail($id_mahasiswa),
+        ];
+
+        return view('auth.resetPassword', $data);
     }
 
     public function resetPassword($id_user)
