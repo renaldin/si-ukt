@@ -96,6 +96,24 @@
                                 <img src="@if($form === 'Tambah') {{ asset('foto_user/default1.jpg') }} @elseif($form === 'Edit' || $form === 'Detail') {{ asset('foto_user/'.$detail->foto_user) }} @endif" alt="profile-pic" id="load_image" class="theme-color-default-img profile-pic rounded avatar-100">
                             </div>
                         </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="status_pengajuan">Status Pengajuan</label>
+                            <select name="status_pengajuan" id="status_pengajuan" class="selectpicker form-control @error('status_pengajuan') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>
+                                @if ($form === 'Tambah')
+                                    <option>-- Pilih --</option>    
+                                @elseif ($form === 'Edit' || $form === 'Detail')
+                                    <option value="{{$detail->status_pengajuan}}">{{$detail->status_pengajuan}}</option>
+                                @endif
+                                <option value="Tidak">Tidak</option>
+                                <option value="Penangguhan">Penangguhan</option>
+                                <option value="Penurunan">Penurunan</option>
+                            </select>
+                            @error('nomor_telepon')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>

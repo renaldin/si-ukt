@@ -8,13 +8,13 @@
              <div class="col-md-10">
                 <div class="card card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                    <div class="card-body">
-                      <a href="#" class="navbar-brand d-flex align-items-center mb-3">
+                      <a href="{{ asset('template/html/dashboard/index.html') }}" class="navbar-brand d-flex align-items-center mb-3">
                          <!--Logo start-->
                          <img src="{{ asset('gambar/logo.png') }}" width="175" alt="Logo Jawer.id">
                       </a>
-                      <h2 class="mb-2 text-center">Lupa Password</h2>
-                      <p class="text-center">Silahkan masukkan Email yang terdaftar di website ini!</p>
-                      <form action="/lupa-password-admin" method="POST">
+                      <h2 class="mb-2 text-center">Login</h2>
+                      <p class="text-center">Silahkan login dengan akun Anda.</p>
+                      <form action="/login" method="POST">
                         @csrf
                         <div class="row">
                             @if (session('success'))
@@ -41,10 +41,21 @@
                          <div class="row">
                             <div class="col-lg-12">
                                <div class="form-group">
-                                  <label for="email" class="form-label">Email</label>
-                                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="email" placeholder=" " value="{{ old('email') }}" autofocus>
-                                  <input type="hidden" class="form-control" name="status"  value="Admin">
-                                  @error('email')
+                                  <label for="nim" class="form-label">NIM</label>
+                                  <input type="number" class="form-control @error('nim') is-invalid @enderror" name="nim" id="nim" aria-describedby="nim" placeholder=" " value="{{ old('nim') }}" autofocus>
+                                  <input type="hidden" class="form-control" name="status"  value="Mahasiswa">
+                                  @error('nim')
+                                  <div class="invalid-feedback">
+                                    {{ $message }}
+                                  </div>
+                                  @enderror
+                               </div>
+                            </div>
+                            <div class="col-lg-12">
+                               <div class="form-group">
+                                  <label for="password" class="form-label">Password</label>
+                                  <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" aria-describedby="password" placeholder=" ">
+                                  @error('password')
                                   <div class="invalid-feedback">
                                     {{ $message }}
                                   </div>
@@ -52,11 +63,11 @@
                                </div>
                             </div>
                             <div class="col-lg-12 d-flex justify-content-end">
-                              <a href="/admin">Login?</a>
+                               <a href="/lupa-password">Lupa Password?</a>
                             </div>
                          </div>
                          <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary">Kirim</button>
+                            <button type="submit" class="btn btn-primary">Login</button>
                          </div>
                       </form>
                    </div>

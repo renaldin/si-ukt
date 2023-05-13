@@ -14,6 +14,7 @@ class ModelPenangguhanUKT extends Model
     {
         return DB::table('penangguhan_ukt')
             ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penangguhan_ukt.id_mahasiswa', 'left')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
             ->orderBy('id_penangguhan_ukt', 'ASC')->get();
     }
 
@@ -21,6 +22,7 @@ class ModelPenangguhanUKT extends Model
     {
         return DB::table('penangguhan_ukt')
             ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penangguhan_ukt.id_mahasiswa', 'left')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
             ->where('id_penangguhan_ukt', $id_penangguhan_ukt)->first();
     }
 

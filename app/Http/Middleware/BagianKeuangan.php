@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class Staff
+class BagianKeuangan
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,10 @@ class Staff
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Session()->get('status') === 'Staff') {
+        if (Session()->get('status') === 'Bagian Keuangan') {
             return $next($request);
         } else {
-            return redirect()->route('staff');
+            return redirect()->route('admin');
         }
     }
 }

@@ -12,7 +12,7 @@
                          <!--Logo start-->
                          <img src="{{ asset('gambar/logo.png') }}" width="175" alt="Logo Jawer.id">
                       </a>
-                      <h2 class="mb-2 text-center">Login</h2>
+                      <h2 class="mb-2 text-center">{{$title}}</h2>
                       <p class="text-center">Silahkan login dengan akun Anda.</p>
                       <form action="/login" method="POST">
                         @csrf
@@ -41,10 +41,10 @@
                          <div class="row">
                             <div class="col-lg-12">
                                <div class="form-group">
-                                  <label for="nim" class="form-label">NIM</label>
-                                  <input type="number" class="form-control @error('nim') is-invalid @enderror" name="nim" id="nim" aria-describedby="nim" placeholder=" " value="{{ old('nim') }}" autofocus>
-                                  <input type="hidden" class="form-control" name="status"  value="Mahasiswa">
-                                  @error('nim')
+                                  <label for="nik" class="form-label">NIK</label>
+                                  <input type="number" class="form-control @error('nik') is-invalid @enderror" name="nik" id="nik" aria-describedby="nik" placeholder=" " autofocus>
+                                  <input type="hidden" class="form-control" name="status"  value="Staff">
+                                  @error('nik')
                                   <div class="invalid-feedback">
                                     {{ $message }}
                                   </div>
@@ -63,7 +63,7 @@
                                </div>
                             </div>
                             <div class="col-lg-12 d-flex justify-content-end">
-                               <a href="/lupa-password">Lupa Password?</a>
+                               <a href="/lupa-password-staff">Lupa Password?</a>
                             </div>
                          </div>
                          <div class="d-flex justify-content-center">

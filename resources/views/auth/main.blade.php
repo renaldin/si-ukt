@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Jawer.id | {{$title}}</title>
+      <title>SI UKT | {{$title}}</title>
       
       <!-- Favicon -->
       <link rel="shortcut icon" href="{{ asset('template/html/assets/images/favicon.ico') }}" />

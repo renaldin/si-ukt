@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -64,6 +64,7 @@ class KelolaMahasiswa extends Controller
             'email'             => 'required|unique:admin,email|unique:staff,email|unique:mahasiswa,email|email',
             'password'          => 'min:6|required',
             'foto_user'         => 'required|mimes:jpeg,png,jpg|max:2048',
+            'status_pengajuan'  => 'required',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
             'prodi.required'            => 'Program studi harus diisi!',
@@ -79,6 +80,7 @@ class KelolaMahasiswa extends Controller
             'foto_user.required'        => 'Foto Anda harus diisi!',
             'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
             'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
+            'status_pengajuan.required' => 'Status pengajuan harus diisi!',
         ]);
 
         $file1 = Request()->foto_user;
@@ -91,6 +93,7 @@ class KelolaMahasiswa extends Controller
             'nomor_telepon'     => Request()->nomor_telepon,
             'nim'               => Request()->nim,
             'email'             => Request()->email,
+            'status_pengajuan'  => Request()->status_pengajuan,
             'foto_user'         => $fileUser,
             'password'          => Hash::make(Request()->password),
         ];
@@ -134,6 +137,7 @@ class KelolaMahasiswa extends Controller
             'nim'               => 'required|numeric',
             'email'             => 'required|unique:admin,email|unique:staff,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
+            'status_pengajuan'  => 'required',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
             'prodi.required'            => 'Program studi harus diisi!',
@@ -145,6 +149,7 @@ class KelolaMahasiswa extends Controller
             'email.email'               => 'Email harus sesuai format! Contoh: contoh@gmail.com',
             'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
             'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
+            'status_pengajuan.required' => 'Status pengajuan harus diisi!',
         ]);
 
         if (Request()->password) {
@@ -167,6 +172,7 @@ class KelolaMahasiswa extends Controller
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
+                    'status_pengajuan'  => Request()->status_pengajuan,
                     'foto_user'         => $fileUser,
                     'password'          => Hash::make(Request()->password),
                 ];
@@ -179,6 +185,7 @@ class KelolaMahasiswa extends Controller
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
+                    'status_pengajuan'  => Request()->status_pengajuan,
                     'password'          => Hash::make(Request()->password),
                 ];
                 $this->ModelMahasiswa->edit($data);
@@ -202,6 +209,7 @@ class KelolaMahasiswa extends Controller
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
+                    'status_pengajuan'  => Request()->status_pengajuan,
                     'foto_user'         => $fileUser,
                 ];
                 $this->ModelMahasiswa->edit($data);
@@ -213,6 +221,7 @@ class KelolaMahasiswa extends Controller
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
+                    'status_pengajuan'  => Request()->status_pengajuan,
                 ];
                 $this->ModelMahasiswa->edit($data);
             }

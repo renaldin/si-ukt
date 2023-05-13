@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2023 at 04:06 PM
+-- Generation Time: May 11, 2023 at 05:07 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -215,7 +215,28 @@ INSERT INTO `log` (`id_log`, `id_admin`, `id_mahasiswa`, `id_staff`, `keterangan
 (85, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:56:01', 'Mahasiswa'),
 (86, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:57:53', 'Mahasiswa'),
 (87, NULL, 9, NULL, 'Melakukan pengajuan penangguhan UKT ', '2023-05-06 20:58:35', 'Mahasiswa'),
-(88, NULL, 9, NULL, 'Melakukan hapus data pengajuan', '2023-05-06 21:05:55', 'Mahasiswa');
+(88, NULL, 9, NULL, 'Melakukan hapus data pengajuan', '2023-05-06 21:05:55', 'Mahasiswa'),
+(89, 2, NULL, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107040', '2023-05-09 12:37:04', 'Admin'),
+(90, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107040', '2023-05-09 12:37:17', 'Admin'),
+(91, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107040', '2023-05-09 12:37:39', 'Admin'),
+(92, 2, NULL, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107040', '2023-05-09 12:37:57', 'Admin'),
+(93, 2, NULL, NULL, 'Melakukan tambah nilai kriteria', '2023-05-09 12:50:45', 'Admin'),
+(94, NULL, 9, NULL, 'Melakukan hapus data pengajuan', '2023-05-09 19:52:37', 'Mahasiswa'),
+(95, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:36:45', 'Mahasiswa'),
+(96, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:46:31', 'Mahasiswa'),
+(97, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 04:47:00', 'Mahasiswa'),
+(98, NULL, 9, NULL, 'Melakukan kirim data pengajuan', '2023-05-10 05:20:49', 'Mahasiswa'),
+(99, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 14:38:18', 'Mahasiswa'),
+(100, NULL, 9, NULL, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-10 14:38:38', 'Mahasiswa'),
+(101, NULL, 9, NULL, 'Melakukan kirim data pengajuan', '2023-05-10 14:38:44', 'Mahasiswa'),
+(102, NULL, NULL, NULL, 'Memberi jadwal wawancara', '2023-05-10 15:00:33', 'Staff'),
+(103, NULL, NULL, NULL, 'Memberi jadwal wawancara', '2023-05-10 15:01:22', 'Staff'),
+(104, NULL, NULL, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:24:21', 'Staff'),
+(105, NULL, NULL, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:29:22', 'Staff'),
+(106, NULL, NULL, NULL, 'Memberi keputusan tidak setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-11 09:29:48', 'Staff'),
+(107, 2, NULL, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107054', '2023-05-11 10:01:50', 'Admin'),
+(108, 2, NULL, NULL, 'Melakukan edit mahasiswa dengan NIM 10107054', '2023-05-11 10:02:02', 'Admin'),
+(109, 2, NULL, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107054', '2023-05-11 10:05:20', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -234,7 +255,6 @@ CREATE TABLE `mahasiswa` (
   `status` enum('Mahasiswa') DEFAULT 'Mahasiswa',
   `id_kelompok_ukt` int(11) DEFAULT NULL,
   `foto_user` text DEFAULT NULL,
-  `status_penentuan_ukt` enum('Sudah','Belum') DEFAULT 'Belum',
   `status_pengajuan` enum('Tidak','Penangguhan','Penurunan') DEFAULT 'Tidak'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -242,8 +262,8 @@ CREATE TABLE `mahasiswa` (
 -- Dumping data for table `mahasiswa`
 --
 
-INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `nomor_telepon`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`, `status_penentuan_ukt`, `status_pengajuan`) VALUES
-(9, 'Renaldi', 'D3 Sistem Informasi', '0898989833', 10107050, 'elang@gmail.com', '$2y$10$IzEQ2VnYF1x2vxwWAZRtKe7/W4UQgV.8XUytkrr/s7Wa8BiDM9DJS', 'Mahasiswa', 3, '04052023063227 Elang Muera.jpg', 'Belum', 'Tidak');
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `nomor_telepon`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`, `status_pengajuan`) VALUES
+(9, 'Renaldi', 'D3 Sistem Informasi', '0898989833', 10107050, 'renaldinoviandi9@gmail.com', '$2y$10$/oFu8Dbj4wpis1h7jVzNKeKagW1eueETJAwWgvB2DU.mbKpU/x/wa', 'Mahasiswa', 2, '04052023063227 Elang Muera.jpg', 'Tidak');
 
 -- --------------------------------------------------------
 
@@ -257,6 +277,13 @@ CREATE TABLE `nilai_kriteria` (
   `nilai_kriteria` varchar(100) DEFAULT NULL,
   `ukt` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `nilai_kriteria`
+--
+
+INSERT INTO `nilai_kriteria` (`id_nilai_kriteria`, `id_kriteria`, `nilai_kriteria`, `ukt`) VALUES
+(2, 5, '1000000-2000000', 1);
 
 -- --------------------------------------------------------
 
@@ -278,9 +305,11 @@ CREATE TABLE `penangguhan_ukt` (
   `angsuran_kedua` int(11) DEFAULT NULL,
   `tanggal_angsuran_pertama` date DEFAULT NULL,
   `tanggal_angsuran_kedua` date DEFAULT NULL,
-  `jadwal_wawancara` datetime DEFAULT NULL,
+  `tanggal_wawancara` date DEFAULT NULL,
+  `jam_wawancara` varchar(10) DEFAULT NULL,
+  `jenis_wawancara` enum('Online','Offline') DEFAULT NULL,
   `link_wawancara` text DEFAULT NULL,
-  `status_penangguhan` enum('Setuju','Tidak Setuju','Menunggu','Belum Dikirim') DEFAULT NULL,
+  `status_penangguhan` enum('Setuju','Tidak Setuju','Proses','Belum Dikirim') DEFAULT NULL,
   `tanggal_pengajuan` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -288,9 +317,8 @@ CREATE TABLE `penangguhan_ukt` (
 -- Dumping data for table `penangguhan_ukt`
 --
 
-INSERT INTO `penangguhan_ukt` (`id_penangguhan_ukt`, `id_mahasiswa`, `nama_orang_tua`, `alamat_orang_tua`, `nomor_telepon_orang_tua`, `semester`, `nominal_ukt`, `denda`, `alasan`, `angsuran_pertama`, `angsuran_kedua`, `tanggal_angsuran_pertama`, `tanggal_angsuran_kedua`, `jadwal_wawancara`, `link_wawancara`, `status_penangguhan`, `tanggal_pengajuan`) VALUES
-(3, 9, 'Nama Orang Tua', 'Subang', '08989978877', 2, 5000000, 250000, 'Alasan', 2500000, 2750000, '2023-05-06', '2023-05-13', NULL, NULL, 'Belum Dikirim', '2023-05-06'),
-(4, 9, 'Nama Orang Tua', 'Subang', '08989978877', 2, 5000000, 250000, 'Alasan', 2500000, 2750000, '2023-05-06', '2023-05-13', NULL, NULL, 'Belum Dikirim', '2023-05-06');
+INSERT INTO `penangguhan_ukt` (`id_penangguhan_ukt`, `id_mahasiswa`, `nama_orang_tua`, `alamat_orang_tua`, `nomor_telepon_orang_tua`, `semester`, `nominal_ukt`, `denda`, `alasan`, `angsuran_pertama`, `angsuran_kedua`, `tanggal_angsuran_pertama`, `tanggal_angsuran_kedua`, `tanggal_wawancara`, `jam_wawancara`, `jenis_wawancara`, `link_wawancara`, `status_penangguhan`, `tanggal_pengajuan`) VALUES
+(3, 9, 'Nama Orang Tua edit', 'Subang edit', '08989978877', 1, 5000000, 250000, 'Alasan edit', 2500000, 2750000, '2023-05-06', '2023-05-13', '2023-05-10', '15:00', 'Online', 'http://localhost:8000/kelola-penangguhan-ukt', 'Tidak Setuju', '2023-05-06');
 
 -- --------------------------------------------------------
 
@@ -313,7 +341,7 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id_staff`, `nama_staff`, `email`, `nik`, `password`, `status`, `foto_user`) VALUES
-(1, 'Pak Tri', 'renaldinoviandi9@gmail.com', '109089742154215', '$2y$10$X9WrHVrhRMA3cxx8EqYo1.S2dSgkXIMci7HWIZGOAJWHQ8KCMiQ4.', 'Staff', '04182023135918Pak Tri.jpg');
+(1, 'Bu Ida', 'renaldinoviandi9@gmail.com', '109089742154215', '$2y$10$cGu7vBKBgVpCv.x4XdwaTOLYCG69lkY7s6ZAa408LYimGRsgOIqIi', 'Staff', '04182023135918Pak Tri.jpg');
 
 --
 -- Indexes for dumped tables
@@ -393,19 +421,19 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `nilai_kriteria`
 --
 ALTER TABLE `nilai_kriteria`
-  MODIFY `id_nilai_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_nilai_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `penangguhan_ukt`

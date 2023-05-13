@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\Dashboard\Dashboard;
-use App\Http\Controllers\Admin\KelolaAdmin;
-use App\Http\Controllers\Admin\KelolaMahasiswa;
-use App\Http\Controllers\Admin\KelolaStaff;
-use App\Http\Controllers\Admin\Log;
-use App\Http\Controllers\Admin\KelompokUKT;
-use App\Http\Controllers\Admin\Kriteria;
-use App\Http\Controllers\Admin\NilaiKriteria;
-use App\Http\Controllers\Auth\Login;
-use App\Http\Controllers\PenangguhanUKT\PenangguhanUKT;
+use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\KelolaAdmin;
+use App\Http\Controllers\KelolaMahasiswa;
+use App\Http\Controllers\User;
+use App\Http\Controllers\Log;
+use App\Http\Controllers\KelompokUKT;
+use App\Http\Controllers\Kriteria;
+use App\Http\Controllers\NilaiKriteria;
+use App\Http\Controllers\Login;
+use App\Http\Controllers\PenangguhanUKT;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,26 +31,29 @@ Route::group(['middleware' => 'revalidate'], function () {
     // Login User
     Route::get('/', [Login::class, 'index'])->name('login');
     Route::get('/admin', [Login::class, 'admin'])->name('admin');
-    Route::get('/staff', [Login::class, 'staff'])->name('staff');
     Route::post('/login', [Login::class, 'loginProcess']);
+    // Route::get('/admin', [Login::class, 'admin'])->name('admin');
 
     // lupa password
-    Route::get('/lupa-password', [Login::class, 'lupaPasswordMahasiswa'])->name('lupa-password');
-    Route::get('/lupa-password-admin', [Login::class, 'lupaPasswordAdmin'])->name('lupa-password-admin');
-    Route::get('/lupa-password-staff', [Login::class, 'lupaPasswordStaff'])->name('lupa-password-staff');
+    Route::get('/lupa-password-mahasiswa', [Login::class, 'lupaPasswordMahasiswa'])->name('lupa-password-mahasiswa');
+    Route::get('/lupa-password', [Login::class, 'lupaPassword'])->name('lupa-password');
     Route::post('/lupa-password', [Login::class, 'prosesLupaPassword']);
-    Route::post('/lupa-password-admin', [Login::class, 'prosesLupaPassword']);
-    Route::post('/lupa-password-staff', [Login::class, 'prosesLupaPassword']);
-    Route::get('/reset-password/{id}', [Login::class, 'resetPasswordMahasiswa'])->name('reset-password');
-    Route::get('/reset-password-admin/{id}', [Login::class, 'resetPasswordAdmin'])->name('reset-password-admin');
-    Route::get('/reset-password-staff/{id}', [Login::class, 'resetPasswordStaff'])->name('reset-password-staff');
+
+    // reset password
+    Route::get('/reset-password/{id}', [Login::class, 'resetPassword'])->name('reset-password');
     Route::post('/reset-password/{id}', [Login::class, 'prosesResetPassword']);
 
     // Logout
     Route::get('/logout', [Login::class, 'logout'])->name('logout');
 
+    // dashboard
+    Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard');
+
+    // PROFIL
+    Route::get('/profil', [User::class, 'profil'])->name('profil');
+    Route::post('/edit-profil/{id}', [User::class, 'prosesEditProfil']);
+
     Route::group(['middleware' => 'mahasiswa'], function () {
-        Route::get('/dashboard-mahasiswa', [Dashboard::class, 'index'])->name('dashboard-mahasiswa');
 
         // PROFIL
         Route::get('/profil-mahasiswa', [KelolaMahasiswa::class, 'profil'])->name('profil-mahasiswa');
@@ -58,24 +61,15 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         // pengajuan penangguhan UKT
         Route::get('/pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'index'])->name('pengajuan-penangguhan-ukt');
-        Route::post('/pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'prosesPenangguhanUKT']);
-        Route::post('/edit-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'prosesPenangguhanUKT']);
+        Route::post('/pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'prosesTambah']);
+        Route::get('/edit-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'edit']);
+        Route::post('/edit-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'prosesEdit']);
         Route::get('/riwayat-pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'riwayat'])->name('riwayat-pengajuan-penangguhan-ukt');
         Route::get('/hapus-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'prosesHapus']);
+        Route::get('/kirim-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'prosesKirim']);
     });
 
-    Route::group(['middleware' => 'admin'], function () {
-        Route::get('/dashboard-admin', [Dashboard::class, 'admin'])->name('dashboard-admin');
-
-        // Kelola Admin
-        Route::get('/daftar-admin', [KelolaAdmin::class, 'index'])->name('daftar-admin');
-        Route::get('/tambah-admin', [KelolaAdmin::class, 'tambah'])->name('tambah-admin');
-        Route::post('/tambah-admin', [KelolaAdmin::class, 'prosesTambah']);
-        Route::get('/edit-admin/{id}', [KelolaAdmin::class, 'edit'])->name('edit-admin');
-        Route::post('/edit-admin/{id}', [KelolaAdmin::class, 'prosesEdit']);
-        Route::get('/hapus-admin/{id}', [KelolaAdmin::class, 'prosesHapus']);
-        Route::get('/profil-admin', [KelolaAdmin::class, 'profil'])->name('profil-admin');
-        Route::post('/edit-profil-admin/{id}', [KelolaAdmin::class, 'prosesEditProfil']);
+    Route::group(['middleware' => 'bagiankeuangan'], function () {
 
         // Kelola mahasiswa
         Route::get('/daftar-mahasiswa', [KelolaMahasiswa::class, 'index'])->name('daftar-mahasiswa');
@@ -84,14 +78,6 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'edit'])->name('edit-mahasiswa');
         Route::post('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEdit']);
         Route::get('/hapus-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesHapus']);
-
-        // Kelola staff
-        Route::get('/daftar-staff', [KelolaStaff::class, 'index'])->name('daftar-staff');
-        Route::get('/tambah-staff', [KelolaStaff::class, 'tambah'])->name('tambah-staff');
-        Route::post('/tambah-staff', [KelolaStaff::class, 'prosesTambah']);
-        Route::get('/edit-staff/{id}', [KelolaStaff::class, 'edit'])->name('edit-staff');
-        Route::post('/edit-staff/{id}', [KelolaStaff::class, 'prosesEdit']);
-        Route::get('/hapus-staff/{id}', [KelolaStaff::class, 'prosesHapus']);
 
         // data log
         Route::get('/daftar-log', [Log::class, 'index'])->name('daftar-log');
@@ -119,13 +105,35 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'edit'])->name('edit-nilai-kriteria');
         Route::post('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesEdit']);
         Route::get('/hapus-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesHapus']);
+
+        // kelola penangguhan UKt
+        Route::get('/kelola-penangguhan-ukt', [PenangguhanUKT::class, 'kelolaPenangguhanUKT'])->name('kelola-penangguhan-ukt');
+        Route::post('/beri-jadwal/{id}', [PenangguhanUKT::class, 'beriJadwal']);
+        Route::get('/tidak-setuju-penangguhan/{id}', [PenangguhanUKT::class, 'tidakSetuju']);
+        Route::get('/setuju-penangguhan/{id}', [PenangguhanUKT::class, 'setuju']);
+        Route::get('/laporan-penangguhan-ukt', [PenangguhanUKT::class, 'laporanPenangguhanUKT'])->name('laporan-penangguhan-ukt');
+
+        // Kelola Admin
+        // Route::get('/daftar-admin', [KelolaAdmin::class, 'index'])->name('daftar-admin');
+        // Route::get('/tambah-admin', [KelolaAdmin::class, 'tambah'])->name('tambah-admin');
+        // Route::post('/tambah-admin', [KelolaAdmin::class, 'prosesTambah']);
+        // Route::get('/edit-admin/{id}', [KelolaAdmin::class, 'edit'])->name('edit-admin');
+        // Route::post('/edit-admin/{id}', [KelolaAdmin::class, 'prosesEdit']);
+        // Route::get('/hapus-admin/{id}', [KelolaAdmin::class, 'prosesHapus']);
+        // Route::get('/profil-admin', [KelolaAdmin::class, 'profil'])->name('profil-admin');
+        // Route::post('/edit-profil-admin/{id}', [KelolaAdmin::class, 'prosesEditProfil']);
+
+        // Kelola staff
+        // Route::get('/daftar-staff', [User::class, 'index'])->name('daftar-staff');
+        // Route::get('/tambah-staff', [User::class, 'tambah'])->name('tambah-staff');
+        // Route::post('/tambah-staff', [User::class, 'prosesTambah']);
+        // Route::get('/edit-staff/{id}', [User::class, 'edit'])->name('edit-staff');
+        // Route::post('/edit-staff/{id}', [User::class, 'prosesEdit']);
+        // Route::get('/hapus-staff/{id}', [User::class, 'prosesHapus']);
     });
 
-    Route::group(['middleware' => 'staff'], function () {
-        Route::get('/dashboard-staff', [Dashboard::class, 'staff'])->name('dashboard-staff');
+    // Route::group(['middleware' => 'staff'], function () {
 
-        // PROFIL
-        Route::get('/profil-staff', [KelolaStaff::class, 'profil'])->name('profil-staff');
-        Route::post('/edit-profil-staff/{id}', [KelolaStaff::class, 'prosesEditProfil']);
-    });
+
+    // });
 });

@@ -4,6 +4,31 @@
 <div class="row">
     <div class="col-xl-12 col-lg-12">
         <div class="card">
+            @if ($user->id_kelompok_ukt === null )
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Anda belum mempunyai golongan UKT. Silahkan melakukan penentuan UKT terlebih dahulu!</h4>
+                </div>
+            </div>
+            @elseif ($user->kelompok_ukt == 1 )
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Anda tidak dapat melakukan pengajuan penangguhan UKT, karena Anda termasuk kelompok UKT 1!</h4>
+                </div>
+            </div>
+            @elseif ($user->status_pengajuan === 'Penangguhan' && $form !== 'Edit')
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Anda tidak dapat mengisi form penangguhan UKT, karena Anda sedang melakukan proses penangguhan UKT!</h4>
+                </div>
+            </div>
+            @elseif ($user->status_pengajuan === 'Penurunan')
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Anda tidak dapat mengisi form penangguhan UKT, karena Anda sedang melakukan proses penurunan UKT!</h4>
+                </div>
+            </div>
+            @elseif ($user->status_pengajuan === 'Tidak' || $form === 'Edit')
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
                     <h4 class="card-title">{{$subTitle}}</h4>
@@ -11,7 +36,7 @@
             </div>
             <div class="card-body">
                 <div class="new-user-info">
-                    <form action="@if($form === 'Tambah') pengajuan-penangguhan-ukt @elseif($form === 'Edit') edit-pengajuan-penangguhan-ukt/{{$detail->id_penangguhan_ukt}} @endif" method="POST" enctype="multipart/form-data">
+                    <form action="@if($form === 'Tambah') /pengajuan-penangguhan-ukt @elseif($form === 'Edit') /edit-pengajuan-penangguhan-ukt/{{$detail->id_penangguhan_ukt}} @endif" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -135,7 +160,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="form-label" for="angsuran_pertama">Angsuran Pertama (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('angsuran_pertama') is-invalid @enderror" id="angsuran_pertama" name="angsuran_pertama" value="@if($form === 'Tambah') {{ old('angsuran_pertama') }} @elseif($form === 'Edit') {{$detail->angsuran_pertama}} @endif" placeholder="Masukkan Angsuran Pertama ">
+                            <input type="number" class="form-control @error('angsuran_pertama') is-invalid @enderror" id="angsuran_pertama" name="angsuran_pertama" value="@if($form === 'Tambah'){{ old('angsuran_pertama') }}@elseif($form === 'Edit'){{$detail->angsuran_pertama}}@endif" placeholder="Masukkan Angsuran Pertama ">
                             @error('angsuran_pertama')
                                 <div class="invalid-feedback">
                                 {{ $message }}
@@ -144,7 +169,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="form-label" for="tanggal_angsuran_pertama">Tanggal Angsuran Pertama <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_angsuran_pertama') is-invalid @enderror" id="tanggal_angsuran_pertama" name="tanggal_angsuran_pertama" value="@if($form === 'Tambah') {{ old('tanggal_angsuran_pertama') }} @elseif($form === 'Edit') {{$detail->tanggal_angsuran_pertama}} @endif" placeholder="Masukkan Tanggal Angsuran Pertama ">
+                            <input type="date" class="form-control @error('tanggal_angsuran_pertama') is-invalid @enderror" id="tanggal_angsuran_pertama" name="tanggal_angsuran_pertama" value="@if($form === 'Tambah'){{ old('tanggal_angsuran_pertama') }}@elseif($form === 'Edit'){{$detail->tanggal_angsuran_pertama}}@endif" placeholder="Masukkan Tanggal Angsuran Pertama ">
                             @error('tanggal_angsuran_pertama')
                                 <div class="invalid-feedback">
                                 {{ $message }}
@@ -153,7 +178,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="form-label" for="angsuran_kedua">Angsuran Kedua (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('angsuran_kedua') is-invalid @enderror" id="angsuran_kedua" name="angsuran_kedua" value="@if($form === 'Tambah') {{ old('angsuran_kedua') }} @elseif($form === 'Edit') {{$detail->angsuran_kedua}} @endif" placeholder="Masukkan Angsuran Kedua ">
+                            <input type="number" class="form-control @error('angsuran_kedua') is-invalid @enderror" id="angsuran_kedua" name="angsuran_kedua" value="@if($form === 'Tambah'){{ old('angsuran_kedua') }}@elseif($form === 'Edit'){{$detail->angsuran_kedua}}@endif" placeholder="Masukkan Angsuran Kedua ">
                             @error('angsuran_kedua')
                                 <div class="invalid-feedback">
                                 {{ $message }}
@@ -162,8 +187,25 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="form-label" for="tanggal_angsuran_kedua">Tanggal Angsuran Kedua <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_angsuran_kedua') is-invalid @enderror" id="tanggal_angsuran_kedua" name="tanggal_angsuran_kedua" value="@if($form === 'Tambah') {{ old('tanggal_angsuran_kedua') }} @elseif($form === 'Edit') {{$detail->tanggal_angsuran_kedua}} @endif" placeholder="Masukkan Tanggal Angsuran Kedua ">
+                            <input type="date" class="form-control @error('tanggal_angsuran_kedua') is-invalid @enderror" id="tanggal_angsuran_kedua" name="tanggal_angsuran_kedua" value="@if($form === 'Tambah'){{ old('tanggal_angsuran_kedua') }}@elseif($form === 'Edit'){{$detail->tanggal_angsuran_kedua}}@endif" placeholder="Masukkan Tanggal Angsuran Kedua ">
                             @error('tanggal_angsuran_kedua')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="jenis_wawancara">Jenis Wawancara <span class="text-danger">*</span></label>
+                            <select name="jenis_wawancara" id="jenis_wawancara" class="selectpicker form-control @error('jenis_wawancara') is-invalid @enderror" data-style="py-0">
+                                @if ($form === 'Tambah')
+                                    <option>-- Pilih --</option>
+                                @elseif($form === 'Edit')
+                                    <option value="{{$detail->jenis_wawancara}}">{{$detail->jenis_wawancara}}</option>
+                                @endif
+                                <option value="Online">Online</option>
+                                <option value="Offline">Offline</option>
+                            </select>
+                            @error('jenis_wawancara')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
@@ -173,10 +215,11 @@
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <button type="reset" class="btn btn-danger">Reset</button>
-                        <a href="/riwayat-penangguhan-ukt" class="btn btn-secondary">Kembali</a>
+                        <a href="/riwayat-pengajuan-penangguhan-ukt" class="btn btn-secondary">Kembali</a>
                     </form>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>
