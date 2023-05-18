@@ -10,6 +10,7 @@ use App\Http\Controllers\Kriteria;
 use App\Http\Controllers\NilaiKriteria;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\PenangguhanUKT;
+use App\Http\Controllers\PenurunanUKT;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,6 +73,9 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/riwayat-pengajuan-penangguhan-ukt', [PenangguhanUKT::class, 'riwayat'])->name('riwayat-pengajuan-penangguhan-ukt');
         Route::get('/hapus-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'prosesHapus']);
         Route::get('/kirim-pengajuan-penangguhan-ukt/{id}', [PenangguhanUKT::class, 'prosesKirim']);
+
+        // pengajuan penangguhan UKT
+        Route::get('/pengajuan-penurunan-ukt', [PenurunanUKT::class, 'index'])->name('pengajuan-penurunan-ukt');
     });
 
     Route::group(['middleware' => 'bagiankeuangan'], function () {
