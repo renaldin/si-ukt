@@ -75,21 +75,12 @@
                 </div>
             </div>
             <div class="card-header mx-2">
-                @if ($detail->status_penurunan == 'Belum Dikirim')
-                    <a href="/edit-pengajuan-penurunan-ukt/{{$detail->id_penurunan_ukt}}" class="btn btn-success">Edit</a>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kirim">Kirim</button>
-                @elseif($detail->status_penurunan == 'Proses')
-                    <p><strong>Keterangan:</strong></p>
-                    <p>Pengajuan penurunan UKT Anda sedang diproses, silahkan ditunggu.</p>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#jadwalSurvey">Jadwal Survey</button>
-                @elseif($detail->status_penurunan == 'Setuju')
+                @if ($detail->status_penurunan == 'Setuju')
                     <p>Keterangan:</p>
-                    <p>Pengajuan penurunan UKT <strong>Disetujui</strong>.</p>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#jadwalSurvey">Jadwal Survey</button>
+                    <p>Pengajuan penurunan UKT disetujui.</p>
                 @elseif($detail->status_penurunan == 'Tidak Setuju')
                     <p>Keterangan:</p>
-                    <p>Pengajuan penurunan UKT <strong>Tidak Disetujui</strong>.</p>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#jadwalSurvey">Jadwal Survey</button>
+                    <p>Pengajuan penurunan UKT tidak disetujui.</p>
                 @endif
             </div>
             <div class="card-body px-2">
@@ -322,55 +313,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kembali</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="kirim" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Kirim Pengajuan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Apakah Anda yakin akan kirim data pengajuan ini?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-                <a href="/kirim-pengajuan-penurunan-ukt/{{$detail->id_penurunan_ukt}}" type="button" class="btn btn-primary">Kirim</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="jadwalSurvey" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Jadwal Survey</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        @if ($detail->tanggal_survey === null)
-                        <p>Anda belum menerima jadwal survey pengajuan penurunan UKT. Silahkan ditunggu!</p> 
-                        @else
-                        <table>
-                            <tr>
-                                <th>Tanggal</th>
-                                <td>:</td>
-                                <td>{{date('d F Y', strtotime($detail->tanggal_survey))}}</td>
-                            </tr>
-                        </table>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
             </div>
         </div>
     </div>

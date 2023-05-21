@@ -140,7 +140,7 @@ class PenurunanUKT extends Controller
 
         $data = [
             'title'             => 'Penurunan UKT',
-            'subTitle'          => 'Informasi Pengajuan Penurunan UKT',
+            'subTitle'          => 'Informasi Penurunan UKT',
             'detail'            => $this->ModelPenurunanUKT->detail($id_penurunan_ukt),
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
         ];
@@ -297,5 +297,131 @@ class PenurunanUKT extends Controller
 
         $this->ModelPenurunanUKT->edit($data);
         return redirect('informasi-pengajuan-penurunan-ukt/' . $id_penurunan_ukt)->with('success', 'Anda berhasil kirim pengajuan penurunan UKT!');
+    }
+
+    public function kelolaPenurunanUKT()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'             => 'Penurunan UKT',
+            'subTitle'          => 'Kelola Penurunan UKT',
+            'dataPenurunanUKT'  => $this->ModelPenurunanUKT->dataPenurunanUKT(),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+        ];
+
+        return view('bagianKeuangan.penurunanUKT.kelola', $data);
+    }
+
+    public function cekPemberkasan($id_penurunan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'             => 'Penurunan UKT',
+            'subTitle'          => 'Cek Pemberkasan',
+            'detail'            => $this->ModelPenurunanUKT->detail($id_penurunan_ukt),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+        ];
+
+        return view('bagianKeuangan.penurunanUKT.cekBerkas', $data);
+    }
+
+    public function beriJadwalSurvey($id_penurunan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'id_penurunan_ukt'  => $id_penurunan_ukt,
+            'tanggal_survey'    => Request()->tanggal_survey
+        ];
+
+        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+
+        // log
+        $dataLog = [
+            'id_user'       => Session()->get('id_user'),
+            'keterangan'    => 'Memberikan jadwal survey pengajuan penurunan UKT ' . $detail->nama_mahasiswa,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenurunanUKT->edit($data);
+        return back()->with('success', 'Anda berhasil memberikan jadwal survey pengajuan penurunan UKT ' . $detail->nama_mahasiswa . '.');
+    }
+
+    public function setuju($id_penurunan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'id_penurunan_ukt'  => $id_penurunan_ukt,
+            'status_penurunan'  => 'Setuju'
+        ];
+
+        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+
+        // log
+        $dataLog = [
+            'id_user'       => Session()->get('id_user'),
+            'keterangan'    => 'Memberikan keputusan setuju untuk pengajuan penurunan UKT ' . $detail->nama_mahasiswa,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenurunanUKT->edit($data);
+        return back()->with('success', 'Anda berhasil memberikan keputusan setuju pengajuan penurunan UKT ' . $detail->nama_mahasiswa . '.');
+    }
+
+    public function tidakSetuju($id_penurunan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'id_penurunan_ukt'  => $id_penurunan_ukt,
+            'status_penurunan'  => 'Tidak Setuju'
+        ];
+
+        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+
+        // log
+        $dataLog = [
+            'id_user'       => Session()->get('id_user'),
+            'keterangan'    => 'Memberikan keputusan tidak setuju untuk pengajuan penurunan UKT ' . $detail->nama_mahasiswa,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenurunanUKT->edit($data);
+        return back()->with('success', 'Anda berhasil memberikan keputusan tidak setuju pengajuan penurunan UKT ' . $detail->nama_mahasiswa . '.');
+    }
+
+    public function laporanPenurunanUKT()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'             => 'Penurunan UKT',
+            'subTitle'          => 'Laporan Penurunan UKT',
+            'dataPenurunanUKT'  => $this->ModelPenurunanUKT->dataPenurunanUKT(),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+        ];
+
+        return view('bagianKeuangan.penurunanUKT.laporan', $data);
     }
 }

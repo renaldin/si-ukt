@@ -127,6 +127,14 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/setuju-penangguhan/{id}', [PenangguhanUKT::class, 'setuju']);
         Route::get('/laporan-penangguhan-ukt', [PenangguhanUKT::class, 'laporanPenangguhanUKT'])->name('laporan-penangguhan-ukt');
 
+        // kelola penurunan UKt
+        Route::get('/kelola-penurunan-ukt', [PenurunanUKT::class, 'kelolaPenurunanUKT'])->name('kelola-penurunan-ukt');
+        Route::get('/cek-berkas-penurunan-ukt/{id}', [PenurunanUKT::class, 'cekPemberkasan'])->name('cek-berkas-penurunan-ukt');
+        Route::post('/beri-jadwal-survey/{id}', [PenurunanUKT::class, 'beriJadwalSurvey']);
+        Route::get('/tidak-setuju-penurunan/{id}', [PenurunanUKT::class, 'tidakSetuju']);
+        Route::get('/setuju-penurunan/{id}', [PenurunanUKT::class, 'setuju']);
+        Route::get('/laporan-penurunan-ukt', [PenurunanUKT::class, 'laporanPenurunanUKT'])->name('laporan-penurunan-ukt');
+
         // Kelola Admin
         // Route::get('/daftar-admin', [KelolaAdmin::class, 'index'])->name('daftar-admin');
         // Route::get('/tambah-admin', [KelolaAdmin::class, 'tambah'])->name('tambah-admin');

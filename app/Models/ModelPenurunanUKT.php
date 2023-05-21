@@ -10,13 +10,13 @@ class ModelPenurunanUKT extends Model
 {
     use HasFactory;
 
-    // public function dataPenangguhanUKT()
-    // {
-    //     return DB::table('penurunan_ukt')
-    //         ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penurunan_ukt.id_mahasiswa', 'left')
-    //         ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
-    //         ->orderBy('id_penurunan_ukt', 'ASC')->get();
-    // }
+    public function dataPenurunanUKT()
+    {
+        return DB::table('penurunan_ukt')
+            ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penurunan_ukt.id_mahasiswa', 'left')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
+            ->orderBy('id_penurunan_ukt', 'DESC')->get();
+    }
 
     public function detailByMahasiswa($id_mahasiswa)
     {
