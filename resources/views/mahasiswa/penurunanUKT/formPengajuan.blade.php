@@ -13,22 +13,23 @@
             @elseif ($user->kelompok_ukt == 1 )
             <div class="card-header d-flex justify-content-between mb-4">
                 <div class="header-title text-center">
-                    <h4 class="card-title ">Anda tidak dapat melakukan pengajuan penangguhan UKT, karena Anda termasuk kelompok UKT 1!</h4>
+                    <h4 class="card-title ">Anda tidak dapat melakukan pengajuan penurunan UKT, karena Anda termasuk kelompok UKT 1!</h4>
                 </div>
             </div>
             @elseif ($user->status_pengajuan === 'Penangguhan' && $form !== 'Edit')
             <div class="card-header d-flex justify-content-between mb-4">
                 <div class="header-title text-center">
-                    <h4 class="card-title ">Anda tidak dapat mengisi form penangguhan UKT, karena Anda sedang melakukan proses penangguhan UKT!</h4>
+                    <h4 class="card-title ">Anda tidak dapat mengisi form penurunan UKT, karena Anda sedang melakukan proses penangguhan UKT!</h4>
                 </div>
             </div>
-            @elseif ($user->status_pengajuan === 'Penurunan')
+            @elseif ($user->status_pengajuan === 'Penurunan' && $dataPenurunanUKT !== null && $form !== 'Edit')
             <div class="card-header d-flex justify-content-between mb-4">
                 <div class="header-title text-center">
-                    <h4 class="card-title ">Anda tidak dapat mengisi form penangguhan UKT, karena Anda sedang melakukan proses penurunan UKT!</h4>
+                    <h4 class="card-title ">Anda tidak dapat mengisi form penurunan UKT, karena Anda sedang melakukan proses penurunan UKT!</h4>
+                    <a href="/informasi-pengajuan-penurunan-ukt/{{$dataPenurunanUKT->id_penurunan_ukt}}" class="btn btn-primary mt-3">Informasi Pengajuan Penurunan UKT</a>
                 </div>
             </div>
-            @elseif ($user->status_pengajuan === 'Tidak' || $form === 'Edit')
+            @elseif ($user->status_pengajuan === 'Tidak' && $dataPenurunanUKT === null || $form === 'Edit')
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
                     <h4 class="card-title">{{$subTitle}}</h4>
@@ -36,7 +37,7 @@
             </div>
             <div class="card-body">
                 <div class="new-user-info">
-                    <form action="@if($form === 'Tambah') /pengajuan-penangguhan-ukt @elseif($form === 'Edit') /edit-pengajuan-penangguhan-ukt/{{$detail->id_penangguhan_ukt}} @endif" method="POST" enctype="multipart/form-data">
+                    <form action="@if($form === 'Tambah') /pengajuan-penurunan-ukt @elseif($form === 'Edit') /edit-pengajuan-penurunan-ukt/{{$detail->id_penurunan_ukt}} @endif" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -76,59 +77,11 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="form-label"><strong>Orang Tua/Wali dari Mahasiswa Politeknik Negeri Subang:</strong></label>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="nama_orang_tua">Nama Orang Tua/Wali <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('nama_orang_tua') is-invalid @enderror" id="nama_orang_tua" name="nama_orang_tua" value="@if($form === 'Tambah'){{ old('nama_orang_tua') }}@elseif($form === 'Edit'){{$detail->nama_orang_tua}}@endif" autofocus placeholder="Masukkan Nama Orang Tua/Wali">
-                            @error('nama_orang_tua')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="alamat_orang_tua">Alamat <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('alamat_orang_tua') is-invalid @enderror" id="alamat_orang_tua" name="alamat_orang_tua" value="@if($form === 'Tambah'){{ old('alamat_orang_tua') }}@elseif($form === 'Edit'){{$detail->alamat_orang_tua}}@endif" placeholder="Masukkan Alamat">
-                            @error('alamat_orang_tua')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="nomor_telepon_orang_tua">No. HP <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('nomor_telepon_orang_tua') is-invalid @enderror" id="nomor_telepon_orang_tua" name="nomor_telepon_orang_tua" value="@if($form === 'Tambah'){{ old('nomor_telepon_orang_tua') }}@elseif($form === 'Edit'){{$detail->nomor_telepon_orang_tua}}@endif" placeholder="Masukkan No. HP">
-                            @error('nomor_telepon_orang_tua')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-12">
                             <label class="form-label"><strong>Data Tambahan:</strong></label>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="nominal_ukt">Nominal UKT</label>
-                            <input type="text" class="form-control @error('nominal_ukt') is-invalid @enderror" id="nominal_ukt" name="nominal_ukt" value="{{ $user->nominal }}" readonly placeholder="Masukkan Nominal UKT ">
-                            @error('nominal_ukt')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="denda">Nominal Denda (5% dari Nominal UKT)</label>
-                            <input type="text" class="form-control @error('denda') is-invalid @enderror" id="denda" name="denda" value="{{ $user->nominal * 5 / 100 }}" readonly placeholder="Masukkan Nominal Denda ">
-                            @error('denda')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
                             <label class="form-label" for="semester">Semester <span class="text-danger">*</span></label>
-                            <select name="semester" id="semester" class="selectpicker form-control @error('semester') is-invalid @enderror" data-style="py-0">
+                            <select name="semester" id="semester" class="selectpicker form-control @error('semester') is-invalid @enderror" autofocus data-style="py-0" required>
                                 @if ($form === 'Tambah')
                                     <option>-- Pilih --</option>
                                 @elseif($form === 'Edit')
@@ -150,62 +103,54 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="alasan">Alasan Penangguhan UKT <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('alasan') is-invalid @enderror" id="alasan" name="alasan" value="@if($form === 'Tambah'){{ old('alasan') }}@elseif($form === 'Edit'){{$detail->alasan}}@endif" placeholder="Masukkan Alasan Penangguhan UKT ">
-                            @error('alasan')
+                            <label class="form-label" for="sktm">SKTM (Surat Keterangan Tidak Mampu)</label>
+                            <input type="file" class="form-control @error('sktm') is-invalid @enderror" id="sktm" name="sktm" placeholder="Masukkan SKTM" required>
+                            @error('sktm')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="angsuran_pertama">Angsuran Pertama (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('angsuran_pertama') is-invalid @enderror" id="angsuran_pertama" name="angsuran_pertama" value="@if($form === 'Tambah'){{ old('angsuran_pertama') }}@elseif($form === 'Edit'){{$detail->angsuran_pertama}}@endif" placeholder="Masukkan Angsuran Pertama ">
-                            @error('angsuran_pertama')
+                            <label class="form-label" for="khs">KHS (Semester Berjalan)</label>
+                            <input type="file" class="form-control @error('khs') is-invalid @enderror" id="khs" name="khs" placeholder="Masukkan KHS" required>
+                            @error('khs')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="tanggal_angsuran_pertama">Tanggal Angsuran Pertama <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_angsuran_pertama') is-invalid @enderror" id="tanggal_angsuran_pertama" name="tanggal_angsuran_pertama" value="@if($form === 'Tambah'){{ old('tanggal_angsuran_pertama') }}@elseif($form === 'Edit'){{$detail->tanggal_angsuran_pertama}}@endif" placeholder="Masukkan Tanggal Angsuran Pertama ">
-                            @error('tanggal_angsuran_pertama')
+                            <label class="form-label" for="struk_listrik">Struk Listrik</label>
+                            <input type="file" class="form-control @error('struk_listrik') is-invalid @enderror" id="struk_listrik" name="struk_listrik" placeholder="Masukkan Struk Listrik" required>
+                            @error('struk_listrik')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="angsuran_kedua">Angsuran Kedua (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('angsuran_kedua') is-invalid @enderror" id="angsuran_kedua" name="angsuran_kedua" value="@if($form === 'Tambah'){{ old('angsuran_kedua') }}@elseif($form === 'Edit'){{$detail->angsuran_kedua}}@endif" placeholder="Masukkan Angsuran Kedua ">
-                            @error('angsuran_kedua')
+                            <label class="form-label" for="foto_rumah">Foto Rumah</label>
+                            <input type="file" class="form-control @error('foto_rumah') is-invalid @enderror" id="foto_rumah" name="foto_rumah" placeholder="Masukkan Foto Rumah" required>
+                            @error('foto_rumah')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="tanggal_angsuran_kedua">Tanggal Angsuran Kedua <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_angsuran_kedua') is-invalid @enderror" id="tanggal_angsuran_kedua" name="tanggal_angsuran_kedua" value="@if($form === 'Tambah'){{ old('tanggal_angsuran_kedua') }}@elseif($form === 'Edit'){{$detail->tanggal_angsuran_kedua}}@endif" placeholder="Masukkan Tanggal Angsuran Kedua ">
-                            @error('tanggal_angsuran_kedua')
+                            <label class="form-label" for="slip_gaji">Slip Gaji (Opsional)</label>
+                            <input type="file" class="form-control @error('slip_gaji') is-invalid @enderror" id="slip_gaji" name="slip_gaji" placeholder="Masukkan Foto Rumah" required>
+                            @error('slip_gaji')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="jenis_wawancara">Jenis Wawancara <span class="text-danger">*</span></label>
-                            <select name="jenis_wawancara" id="jenis_wawancara" class="selectpicker form-control @error('jenis_wawancara') is-invalid @enderror" data-style="py-0">
-                                @if ($form === 'Tambah')
-                                    <option>-- Pilih --</option>
-                                @elseif($form === 'Edit')
-                                    <option value="{{$detail->jenis_wawancara}}">{{$detail->jenis_wawancara}}</option>
-                                @endif
-                                <option value="Online">Online</option>
-                                <option value="Offline">Offline</option>
-                            </select>
-                            @error('jenis_wawancara')
+                            <label class="form-label" for="surat_pengajuan">Surat Pengajuan (Anda buat sendiri dengan format bebas dengan tujuan ke Wadir II)</label>
+                            <input type="file" class="form-control @error('surat_pengajuan') is-invalid @enderror" id="surat_pengajuan" name="surat_pengajuan" placeholder="Masukkan Surat Pengajuan" required>
+                            @error('surat_pengajuan')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
@@ -215,8 +160,17 @@
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <button type="reset" class="btn btn-danger">Reset</button>
-                        <a href="/riwayat-pengajuan-penangguhan-ukt" class="btn btn-secondary">Kembali</a>
+                        @if ($form == 'Edit')
+                            <a href="/informasi-pengajuan-penurunan-ukt/{{$detail->id_penurunan_ukt}}"" class="btn btn-secondary">Kembali</a>
+                        @endif
                     </form>
+                </div>
+            </div>
+            @elseif ($user->status_pengajuan === 'Tidak' && $dataPenurunanUKT !== null)
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Anda tidak dapat mengisi form penurunan UKT, karena Anda sudah pernah melakukan proses penurunan UKT!</h4>
+                    <a href="/informasi-pengajuan-penurunan-ukt/{{$dataPenurunanUKT->id_penurunan_ukt}}" class="btn btn-primary mt-3">Informasi Pengajuan Penurunan UKT</a>
                 </div>
             </div>
             @endif

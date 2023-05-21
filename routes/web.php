@@ -76,6 +76,11 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         // pengajuan penangguhan UKT
         Route::get('/pengajuan-penurunan-ukt', [PenurunanUKT::class, 'index'])->name('pengajuan-penurunan-ukt');
+        Route::post('/pengajuan-penurunan-ukt', [PenurunanUKT::class, 'prosesTambah']);
+        Route::get('/informasi-pengajuan-penurunan-ukt/{id}', [PenurunanUKT::class, 'informasiPenurunanUKT']);
+        Route::get('/edit-pengajuan-penurunan-ukt/{id}', [PenurunanUKT::class, 'edit'])->name('edit-pengajuan-penurunan-ukt');
+        Route::post('/edit-pengajuan-penurunan-ukt/{id}', [PenurunanUKT::class, 'prosesEdit']);
+        Route::get('/kirim-pengajuan-penurunan-ukt/{id}', [PenurunanUKT::class, 'prosesKirim'])->name('kirim-pengajuan-penurunan-ukt');
     });
 
     Route::group(['middleware' => 'bagiankeuangan'], function () {

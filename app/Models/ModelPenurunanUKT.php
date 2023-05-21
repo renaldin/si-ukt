@@ -10,12 +10,20 @@ class ModelPenurunanUKT extends Model
 {
     use HasFactory;
 
-    public function dataPenangguhanUKT()
+    // public function dataPenangguhanUKT()
+    // {
+    //     return DB::table('penurunan_ukt')
+    //         ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penurunan_ukt.id_mahasiswa', 'left')
+    //         ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
+    //         ->orderBy('id_penurunan_ukt', 'ASC')->get();
+    // }
+
+    public function detailByMahasiswa($id_mahasiswa)
     {
         return DB::table('penurunan_ukt')
             ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penurunan_ukt.id_mahasiswa', 'left')
             ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
-            ->orderBy('id_penurunan_ukt', 'ASC')->get();
+            ->where('penurunan_ukt.id_mahasiswa', $id_mahasiswa)->first();
     }
 
     public function detail($id_penurunan_ukt)
@@ -26,13 +34,13 @@ class ModelPenurunanUKT extends Model
             ->where('id_penurunan_ukt', $id_penurunan_ukt)->first();
     }
 
-    public function dataPenangguhanUKTByMahasiswa($id_mahasiswa)
-    {
-        return DB::table('penurunan_ukt')
-            ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penurunan_ukt.id_mahasiswa', 'left')
-            ->where('penurunan_ukt.id_mahasiswa', $id_mahasiswa)
-            ->orderBy('id_penurunan_ukt', 'ASC')->get();
-    }
+    // public function dataPenangguhanUKTByMahasiswa($id_mahasiswa)
+    // {
+    //     return DB::table('penurunan_ukt')
+    //         ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penurunan_ukt.id_mahasiswa', 'left')
+    //         ->where('penurunan_ukt.id_mahasiswa', $id_mahasiswa)
+    //         ->orderBy('id_penurunan_ukt', 'ASC')->get();
+    // }
 
     public function tambah($data)
     {
@@ -44,8 +52,17 @@ class ModelPenurunanUKT extends Model
         DB::table('penurunan_ukt')->where('id_penurunan_ukt', $data['id_penurunan_ukt'])->update($data);
     }
 
-    public function hapus($id_penurunan_ukt)
+    // public function hapus($id_penurunan_ukt)
+    // {
+    //     DB::table('penurunan_ukt')->where('id_penurunan_ukt', $id_penurunan_ukt)->delete();
+    // }
+
+    public function dataTerakhir()
     {
-        DB::table('penurunan_ukt')->where('id_penurunan_ukt', $id_penurunan_ukt)->delete();
+        return DB::table('penurunan_ukt')
+            ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penurunan_ukt.id_mahasiswa', 'left')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
+            ->limit(1)
+            ->orderBy('id_penurunan_ukt', 'DESC')->first();
     }
 }

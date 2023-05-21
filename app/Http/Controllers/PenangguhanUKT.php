@@ -22,6 +22,7 @@ class PenangguhanUKT extends Controller
         $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
         $this->ModelPenangguhanUKT = new ModelPenangguhanUKT();
+        date_default_timezone_set('Asia/Jakarta');
     }
 
     public function index()
@@ -86,7 +87,7 @@ class PenangguhanUKT extends Controller
             'tanggal_angsuran_pertama'  => Request()->tanggal_angsuran_pertama,
             'tanggal_angsuran_kedua'    => Request()->tanggal_angsuran_kedua,
             'jenis_wawancara'           => Request()->jenis_wawancara,
-            'tanggal_pengajuan'         => date('Y-m-d'),
+            'tanggal_pengajuan'         => date('Y-m-d H:i:s'),
             'status_penangguhan'        => 'Belum Dikirim',
         ];
 

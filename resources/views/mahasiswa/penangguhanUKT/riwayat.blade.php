@@ -198,7 +198,9 @@
                             </tr>
                             @endif
                         </table>
-                        <p>{{$item->link_wawancara}}</p>
+                        <a href="{{$item->link_wawancara}}" target="__blank">
+                            <p>{{$item->link_wawancara}}</p>
+                        </a>
                         @endif
                     </div>
                 </div>
