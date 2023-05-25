@@ -1,6 +1,15 @@
 @extends('layout.main')
 
 @section('content')
+
+@php
+    date_default_timezone_set('Asia/Jakarta');
+
+    $currentDate = date('Y-m-d'); // Get the current date
+    $batasTanggalAngsuran  = date('d F Y', strtotime('+30 days', strtotime($currentDate))); // Add 30 days to the current date
+
+@endphp
+
 <div class="row">
     <div class="col-xl-12 col-lg-12">
         <div class="card">
@@ -166,20 +175,22 @@
                                 {{ $message }}
                                 </div>
                             @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="tanggal_angsuran_pertama">Tanggal Angsuran Pertama <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_angsuran_pertama') is-invalid @enderror" id="tanggal_angsuran_pertama" name="tanggal_angsuran_pertama" value="@if($form === 'Tambah'){{ old('tanggal_angsuran_pertama') }}@elseif($form === 'Edit'){{$detail->tanggal_angsuran_pertama}}@endif" placeholder="Masukkan Tanggal Angsuran Pertama ">
-                            @error('tanggal_angsuran_pertama')
+                        </div><div class="form-group col-md-6">
+                            <label class="form-label" for="angsuran_kedua">Angsuran Kedua (Rp) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('angsuran_kedua') is-invalid @enderror" id="angsuran_kedua" name="angsuran_kedua" value="@if($form === 'Tambah'){{ old('angsuran_kedua') }}@elseif($form === 'Edit'){{$detail->angsuran_kedua}}@endif" placeholder="Masukkan Angsuran Kedua ">
+                            @error('angsuran_kedua')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
                             @enderror
                         </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label"><strong>Batas tanggal angsuran {{ $batasTanggalAngsuran }}</strong></label>
+                        </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="angsuran_kedua">Angsuran Kedua (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('angsuran_kedua') is-invalid @enderror" id="angsuran_kedua" name="angsuran_kedua" value="@if($form === 'Tambah'){{ old('angsuran_kedua') }}@elseif($form === 'Edit'){{$detail->angsuran_kedua}}@endif" placeholder="Masukkan Angsuran Kedua ">
-                            @error('angsuran_kedua')
+                            <label class="form-label" for="tanggal_angsuran_pertama">Tanggal Angsuran Pertama <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control @error('tanggal_angsuran_pertama') is-invalid @enderror" id="tanggal_angsuran_pertama" name="tanggal_angsuran_pertama" value="@if($form === 'Tambah'){{ old('tanggal_angsuran_pertama') }}@elseif($form === 'Edit'){{$detail->tanggal_angsuran_pertama}}@endif" placeholder="Masukkan Tanggal Angsuran Pertama ">
+                            @error('tanggal_angsuran_pertama')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
