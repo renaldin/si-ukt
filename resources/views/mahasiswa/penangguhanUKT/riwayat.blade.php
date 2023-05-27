@@ -296,13 +296,13 @@
                                 <td width="20px">1.</td>
                                 <td width="160px">Angsuran Pertama</td>
                                 <td width="140px">Rp. {{$item->angsuran_pertama}}</td>
-                                <td width="120px">Tanggal {{$item->tanggal_angsuran_pertama}}</td>
+                                <td width="120px">Tanggal {{date('d F Y', strtotime($item->tanggal_angsuran_pertama))}}</td>
                             </tr>
                             <tr>
                                 <td>2.</td>
                                 <td>Angsuran Kedua</td>
                                 <td>Rp. {{$item->angsuran_kedua}}</td>
-                                <td>Tanggal {{$item->tanggal_angsuran_kedua}}</td>
+                                <td>Tanggal {{date('d F Y', strtotime($item->tanggal_angsuran_kedua))}}</td>
                             </tr>
                         </table>
                         <p class="mt-4" style="font-weight: bold;">

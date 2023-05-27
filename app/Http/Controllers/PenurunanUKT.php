@@ -7,6 +7,7 @@ use App\Models\ModelMahasiswa;
 use App\Models\ModelUser;
 use App\Models\ModelLog;
 use App\Models\ModelPenurunanUKT;
+use App\Models\ModelSetting;
 
 class PenurunanUKT extends Controller
 {
@@ -15,6 +16,7 @@ class PenurunanUKT extends Controller
     private $ModelUser;
     private $ModelLog;
     private $ModelPenurunanUKT;
+    private $ModelSetting;
 
     public function __construct()
     {
@@ -22,6 +24,7 @@ class PenurunanUKT extends Controller
         $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
         $this->ModelPenurunanUKT = new ModelPenurunanUKT();
+        $this->ModelSetting = new ModelSetting();
         date_default_timezone_set('Asia/Jakarta');
     }
 
@@ -35,6 +38,7 @@ class PenurunanUKT extends Controller
             'title'             => 'Penurunan UKT',
             'subTitle'          => 'Pengajuan Penurunan UKT',
             'form'              => 'Tambah',
+            'setting'           => $this->ModelSetting->dataSetting(),
             'dataPenurunanUKT'  => $this->ModelPenurunanUKT->detailByMahasiswa(Session()->get('id_mahasiswa')),
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
         ];
@@ -47,6 +51,8 @@ class PenurunanUKT extends Controller
         if (!Session()->get('status')) {
             return redirect()->route('login');
         }
+
+        $setting = $this->ModelSetting->dataSetting();
 
         Request()->validate([
             'sktm'           => 'mimes:jpeg,png,jpg,pdf|max:2048',
@@ -73,35 +79,60 @@ class PenurunanUKT extends Controller
         $mahasiswa = $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa'));
 
         // Dokumen
-        $fileSuratPengajuan = Request()->surat_pengajuan;
-        $fileNameSuratPengajuan = date('mdYHis') . ' Surat Pengajuan ' . $mahasiswa->nama_mahasiswa . '.' . $fileSuratPengajuan->extension();
-        $fileSuratPengajuan->move(public_path('dokumen_penurunan_ukt/surat_pengajuan'), $fileNameSuratPengajuan);
+        if ($setting->form_penurunan_surat_pengajuan == 1) {
+            $fileSuratPengajuan = Request()->surat_pengajuan;
+            $fileNameSuratPengajuan = date('mdYHis') . ' Surat Pengajuan ' . $mahasiswa->nama_mahasiswa . '.' . $fileSuratPengajuan->extension();
+            $fileSuratPengajuan->move(public_path('dokumen_penurunan_ukt/surat_pengajuan'), $fileNameSuratPengajuan);
+        } else {
+            $fileNameSuratPengajuan = null;
+        }
 
-        $fileSKTM = Request()->sktm;
-        $fileNameSKTM = date('mdYHis') . ' SKTM ' . $mahasiswa->nama_mahasiswa . '.' . $fileSKTM->extension();
-        $fileSKTM->move(public_path('dokumen_penurunan_ukt/sktm'), $fileNameSKTM);
+        if ($setting->form_penurunan_sktm == 1) {
+            $fileSKTM = Request()->sktm;
+            $fileNameSKTM = date('mdYHis') . ' SKTM ' . $mahasiswa->nama_mahasiswa . '.' . $fileSKTM->extension();
+            $fileSKTM->move(public_path('dokumen_penurunan_ukt/sktm'), $fileNameSKTM);
+        } else {
+            $fileNameSKTM = null;
+        }
 
-        $fileKHS = Request()->khs;
-        $fileNameKHS = date('mdYHis') . ' KHS ' . $mahasiswa->nama_mahasiswa . '.' . $fileKHS->extension();
-        $fileKHS->move(public_path('dokumen_penurunan_ukt/khs'), $fileNameKHS);
+        if ($setting->form_penurunan_khs == 1) {
+            $fileKHS = Request()->khs;
+            $fileNameKHS = date('mdYHis') . ' KHS ' . $mahasiswa->nama_mahasiswa . '.' . $fileKHS->extension();
+            $fileKHS->move(public_path('dokumen_penurunan_ukt/khs'), $fileNameKHS);
+        } else {
+            $fileNameKHS = null;
+        }
 
-        $fileStrukListrik = Request()->struk_listrik;
-        $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
-        $fileStrukListrik->move(public_path('dokumen_penurunan_ukt/struk_listrik'), $fileNameStrukListrik);
+        if ($setting->form_penurunan_struk_listrik == 1) {
+            $fileStrukListrik = Request()->struk_listrik;
+            $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
+            $fileStrukListrik->move(public_path('dokumen_penurunan_ukt/struk_listrik'), $fileNameStrukListrik);
+        } else {
+            $fileNameStrukListrik = null;
+        }
 
-        $fileFotoRumah = Request()->foto_rumah;
-        $fileNameFotoRumah = date('mdYHis') . ' Foto Rumah ' . $mahasiswa->nama_mahasiswa . '.' . $fileFotoRumah->extension();
-        $fileFotoRumah->move(public_path('dokumen_penurunan_ukt/foto_rumah'), $fileNameFotoRumah);
+        if ($setting->form_penurunan_foto_rumah == 1) {
+            $fileFotoRumah = Request()->foto_rumah;
+            $fileNameFotoRumah = date('mdYHis') . ' Foto Rumah ' . $mahasiswa->nama_mahasiswa . '.' . $fileFotoRumah->extension();
+            $fileFotoRumah->move(public_path('dokumen_penurunan_ukt/foto_rumah'), $fileNameFotoRumah);
+        } else {
+            $fileNameFotoRumah = null;
+        }
 
-        $fileSlipGaji = Request()->slip_gaji;
-        $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
-        $fileSlipGaji->move(public_path('dokumen_penurunan_ukt/slip_gaji'), $fileNameSlipGaji);
+        if ($setting->form_penurunan_slip_gaji == 1) {
+            $fileSlipGaji = Request()->slip_gaji;
+            $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
+            $fileSlipGaji->move(public_path('dokumen_penurunan_ukt/slip_gaji'), $fileNameSlipGaji);
+        } else {
+            $fileNameSlipGaji = null;
+        }
 
         // Tutup Dokumen
 
         $data = [
             'id_mahasiswa'              => Session()->get('id_mahasiswa'),
             'semester'                  => Request()->semester,
+            'alamat_rumah'              => Request()->alamat_rumah,
             'surat_pengajuan'           => $fileNameSuratPengajuan,
             'sktm'                      => $fileNameSKTM,
             'khs'                       => $fileNameKHS,
@@ -158,6 +189,7 @@ class PenurunanUKT extends Controller
             'title'             => 'Penurunan UKT',
             'subTitle'          => 'Edit Pengajuan Penurunan UKT',
             'form'              => 'Edit',
+            'setting'           => $this->ModelSetting->dataSetting(),
             'dataPenurunanUKT'  => $this->ModelPenurunanUKT->detailByMahasiswa(Session()->get('id_mahasiswa')),
             'detail'            => $this->ModelPenurunanUKT->detail($id_penurunan_ukt),
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
@@ -171,6 +203,8 @@ class PenurunanUKT extends Controller
         if (!Session()->get('status')) {
             return redirect()->route('login');
         }
+
+        $setting = $this->ModelSetting->dataSetting();
 
         Request()->validate([
             'sktm'           => 'mimes:jpeg,png,jpg,pdf|max:2048',
@@ -199,47 +233,71 @@ class PenurunanUKT extends Controller
         // Dokumen
         $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
 
-        if ($detail->surat_pengajuan <> "") {
-            unlink(public_path('dokumen_penurunan_ukt/surat_pengajuan') . '/' . $detail->surat_pengajuan);
+        if ($setting->form_penurunan_surat_pengajuan == 1) {
+            if ($detail->surat_pengajuan <> "") {
+                unlink(public_path('dokumen_penurunan_ukt/surat_pengajuan') . '/' . $detail->surat_pengajuan);
+            }
+            $fileSuratPengajuan = Request()->surat_pengajuan;
+            $fileNameSuratPengajuan = date('mdYHis') . ' Surat Pengajuan ' . $mahasiswa->nama_mahasiswa . '.' . $fileSuratPengajuan->extension();
+            $fileSuratPengajuan->move(public_path('dokumen_penurunan_ukt/surat_pengajuan'), $fileNameSuratPengajuan);
+        } else {
+            $fileNameSuratPengajuan = null;
         }
-        $fileSuratPengajuan = Request()->surat_pengajuan;
-        $fileNameSuratPengajuan = date('mdYHis') . ' Surat Pengajuan ' . $mahasiswa->nama_mahasiswa . '.' . $fileSuratPengajuan->extension();
-        $fileSuratPengajuan->move(public_path('dokumen_penurunan_ukt/surat_pengajuan'), $fileNameSuratPengajuan);
 
-        if ($detail->sktm <> "") {
-            unlink(public_path('dokumen_penurunan_ukt/sktm') . '/' . $detail->sktm);
+        if ($setting->form_penurunan_sktm == 1) {
+            if ($detail->sktm <> "") {
+                unlink(public_path('dokumen_penurunan_ukt/sktm') . '/' . $detail->sktm);
+            }
+            $fileSKTM = Request()->sktm;
+            $fileNameSKTM = date('mdYHis') . ' SKTM ' . $mahasiswa->nama_mahasiswa . '.' . $fileSKTM->extension();
+            $fileSKTM->move(public_path('dokumen_penurunan_ukt/sktm'), $fileNameSKTM);
+        } else {
+            $fileNameSKTM = null;
         }
-        $fileSKTM = Request()->sktm;
-        $fileNameSKTM = date('mdYHis') . ' SKTM ' . $mahasiswa->nama_mahasiswa . '.' . $fileSKTM->extension();
-        $fileSKTM->move(public_path('dokumen_penurunan_ukt/sktm'), $fileNameSKTM);
 
-        if ($detail->khs <> "") {
-            unlink(public_path('dokumen_penurunan_ukt/khs') . '/' . $detail->khs);
+        if ($setting->form_penurunan_khs == 1) {
+            if ($detail->khs <> "") {
+                unlink(public_path('dokumen_penurunan_ukt/khs') . '/' . $detail->khs);
+            }
+            $fileKHS = Request()->khs;
+            $fileNameKHS = date('mdYHis') . ' KHS ' . $mahasiswa->nama_mahasiswa . '.' . $fileKHS->extension();
+            $fileKHS->move(public_path('dokumen_penurunan_ukt/khs'), $fileNameKHS);
+        } else {
+            $fileNameKHS = null;
         }
-        $fileKHS = Request()->khs;
-        $fileNameKHS = date('mdYHis') . ' KHS ' . $mahasiswa->nama_mahasiswa . '.' . $fileKHS->extension();
-        $fileKHS->move(public_path('dokumen_penurunan_ukt/khs'), $fileNameKHS);
 
-        if ($detail->struk_listrik <> "") {
-            unlink(public_path('dokumen_penurunan_ukt/struk_listrik') . '/' . $detail->struk_listrik);
+        if ($setting->form_penurunan_struk_listrik == 1) {
+            if ($detail->struk_listrik <> "") {
+                unlink(public_path('dokumen_penurunan_ukt/struk_listrik') . '/' . $detail->struk_listrik);
+            }
+            $fileStrukListrik = Request()->struk_listrik;
+            $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
+            $fileStrukListrik->move(public_path('dokumen_penurunan_ukt/struk_listrik'), $fileNameStrukListrik);
+        } else {
+            $fileNameStrukListrik = null;
         }
-        $fileStrukListrik = Request()->struk_listrik;
-        $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
-        $fileStrukListrik->move(public_path('dokumen_penurunan_ukt/struk_listrik'), $fileNameStrukListrik);
 
-        if ($detail->foto_rumah <> "") {
-            unlink(public_path('dokumen_penurunan_ukt/foto_rumah') . '/' . $detail->foto_rumah);
+        if ($setting->form_penurunan_foto_rumah == 1) {
+            if ($detail->foto_rumah <> "") {
+                unlink(public_path('dokumen_penurunan_ukt/foto_rumah') . '/' . $detail->foto_rumah);
+            }
+            $fileFotoRumah = Request()->foto_rumah;
+            $fileNameFotoRumah = date('mdYHis') . ' Foto Rumah ' . $mahasiswa->nama_mahasiswa . '.' . $fileFotoRumah->extension();
+            $fileFotoRumah->move(public_path('dokumen_penurunan_ukt/foto_rumah'), $fileNameFotoRumah);
+        } else {
+            $fileNameFotoRumah = null;
         }
-        $fileFotoRumah = Request()->foto_rumah;
-        $fileNameFotoRumah = date('mdYHis') . ' Foto Rumah ' . $mahasiswa->nama_mahasiswa . '.' . $fileFotoRumah->extension();
-        $fileFotoRumah->move(public_path('dokumen_penurunan_ukt/foto_rumah'), $fileNameFotoRumah);
 
-        if ($detail->slip_gaji <> "") {
-            unlink(public_path('dokumen_penurunan_ukt/slip_gaji') . '/' . $detail->slip_gaji);
+        if ($setting->form_penurunan_slip_gaji == 1) {
+            if ($detail->slip_gaji <> "") {
+                unlink(public_path('dokumen_penurunan_ukt/slip_gaji') . '/' . $detail->slip_gaji);
+            }
+            $fileSlipGaji = Request()->slip_gaji;
+            $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
+            $fileSlipGaji->move(public_path('dokumen_penurunan_ukt/slip_gaji'), $fileNameSlipGaji);
+        } else {
+            $fileNameSlipGaji = null;
         }
-        $fileSlipGaji = Request()->slip_gaji;
-        $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
-        $fileSlipGaji->move(public_path('dokumen_penurunan_ukt/slip_gaji'), $fileNameSlipGaji);
 
         // Tutup Dokumen
 
@@ -247,6 +305,7 @@ class PenurunanUKT extends Controller
             'id_penurunan_ukt'          => $id_penurunan_ukt,
             'id_mahasiswa'              => Session()->get('id_mahasiswa'),
             'semester'                  => Request()->semester,
+            'alamat_rumah'              => Request()->alamat_rumah,
             'surat_pengajuan'           => $fileNameSuratPengajuan,
             'sktm'                      => $fileNameSKTM,
             'khs'                       => $fileNameKHS,

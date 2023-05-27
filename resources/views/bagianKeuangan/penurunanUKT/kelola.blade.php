@@ -46,7 +46,7 @@
                     <tbody>
                         <?php $no = 1;?>
                         @foreach ($dataPenurunanUKT as $item)
-                        @if ($item->status_penurunan !== 'Belum Dikirim')
+                        @if ($item->status_penurunan == 'Proses')
                         <tr>
                             <td>{{$no++}}</td>
                             <td>{{$item->nama_mahasiswa}}</td>

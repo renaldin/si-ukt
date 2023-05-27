@@ -5,8 +5,14 @@
 @php
     date_default_timezone_set('Asia/Jakarta');
 
-    $currentDate = date('Y-m-d'); // Get the current date
-    $batasTanggalAngsuran  = date('d F Y', strtotime('+30 days', strtotime($currentDate))); // Add 30 days to the current date
+    $currentDate = date('Y-m-d'); 
+    $tambahHari = '+'.$setting->batas_tanggal_angsuran.' days';
+    $batasTanggalAngsuran  = date('d F Y', strtotime($tambahHari, strtotime($currentDate)));
+
+    $denda = $user->nominal * $setting->persen_denda / 100;
+    $totalNominal = $user->nominal + $denda;
+    $angsuranPertama = $totalNominal * $setting->persen_angsuran_pertama / 100;
+    $angsuranKedua = $totalNominal - $angsuranPertama;
 
 @endphp
 
@@ -19,10 +25,10 @@
                     <h4 class="card-title ">Anda belum mempunyai golongan UKT. Silahkan melakukan penentuan UKT terlebih dahulu!</h4>
                 </div>
             </div>
-            @elseif ($user->kelompok_ukt == 1 )
+            @elseif ($user->kelompok_ukt < $setting->batas_ukt_penangguhan )
             <div class="card-header d-flex justify-content-between mb-4">
                 <div class="header-title text-center">
-                    <h4 class="card-title ">Anda tidak dapat melakukan pengajuan penangguhan UKT, karena Anda termasuk kelompok UKT 1!</h4>
+                    <h4 class="card-title ">Anda tidak dapat melakukan pengajuan penangguhan UKT, karena Anda termasuk kelompok UKT {{$user->kelompok_ukt}}!</h4>
                 </div>
             </div>
             @elseif ($user->status_pengajuan === 'Penangguhan' && $form !== 'Edit')
@@ -42,6 +48,18 @@
                 <div class="header-title">
                     <h4 class="card-title">{{$subTitle}}</h4>
                 </div>
+            </div>
+            <div class="card-body px-4" style="margin-bottom: -50px;">
+                @if (session('fail'))
+                    <div class="col-lg-12">
+                        <div class="alert bg-danger text-white alert-dismissible">
+                            <span>
+                                <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9852 21.606C11.9852 21.606 19.6572 19.283 19.6572 12.879C19.6572 6.474 19.9352 5.974 19.3192 5.358C18.7042 4.742 12.9912 2.75 11.9852 2.75C10.9792 2.75 5.26616 4.742 4.65016 5.358C4.03516 5.974 4.31316 6.474 4.31316 12.879C4.31316 19.283 11.9852 21.606 11.9852 21.606Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M13.864 13.8249L10.106 10.0669" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M10.106 13.8249L13.864 10.0669" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                            
+                                {{ session('fail') }}
+                            </span>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="card-body">
                 <div class="new-user-info">
@@ -127,8 +145,8 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="denda">Nominal Denda (5% dari Nominal UKT)</label>
-                            <input type="text" class="form-control @error('denda') is-invalid @enderror" id="denda" name="denda" value="{{ $user->nominal * 5 / 100 }}" readonly placeholder="Masukkan Nominal Denda ">
+                            <label class="form-label" for="denda">Nominal Denda ({{$setting->persen_denda}}% dari Nominal UKT)</label>
+                            <input type="text" class="form-control @error('denda') is-invalid @enderror" id="denda" name="denda" value="{{ $user->nominal * $setting->persen_denda / 100 }}" readonly placeholder="Masukkan Nominal Denda ">
                             @error('denda')
                                 <div class="invalid-feedback">
                                 {{ $message }}
@@ -169,7 +187,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="form-label" for="angsuran_pertama">Angsuran Pertama (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('angsuran_pertama') is-invalid @enderror" id="angsuran_pertama" name="angsuran_pertama" value="@if($form === 'Tambah'){{ old('angsuran_pertama') }}@elseif($form === 'Edit'){{$detail->angsuran_pertama}}@endif" placeholder="Masukkan Angsuran Pertama ">
+                            <input type="number" class="form-control @error('angsuran_pertama') is-invalid @enderror" id="angsuran_pertama" name="angsuran_pertama" value="@if($form === 'Tambah'){{ $angsuranPertama }}@elseif($form === 'Edit'){{$detail->angsuran_pertama}}@endif" readonly placeholder="Masukkan Angsuran Pertama ">
                             @error('angsuran_pertama')
                                 <div class="invalid-feedback">
                                 {{ $message }}
@@ -177,7 +195,7 @@
                             @enderror
                         </div><div class="form-group col-md-6">
                             <label class="form-label" for="angsuran_kedua">Angsuran Kedua (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('angsuran_kedua') is-invalid @enderror" id="angsuran_kedua" name="angsuran_kedua" value="@if($form === 'Tambah'){{ old('angsuran_kedua') }}@elseif($form === 'Edit'){{$detail->angsuran_kedua}}@endif" placeholder="Masukkan Angsuran Kedua ">
+                            <input type="number" class="form-control @error('angsuran_kedua') is-invalid @enderror" id="angsuran_kedua" name="angsuran_kedua" value="@if($form === 'Tambah'){{ $angsuranKedua }}@elseif($form === 'Edit'){{$detail->angsuran_kedua}}@endif" readonly placeholder="Masukkan Angsuran Kedua ">
                             @error('angsuran_kedua')
                                 <div class="invalid-feedback">
                                 {{ $message }}
@@ -207,7 +225,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="form-label" for="jenis_wawancara">Jenis Wawancara <span class="text-danger">*</span></label>
-                            <select name="jenis_wawancara" id="jenis_wawancara" class="selectpicker form-control @error('jenis_wawancara') is-invalid @enderror" data-style="py-0">
+                            <select name="jenis_wawancara" id="jenis_wawancara" class="selectpicker form-control @error('jenis_wawancara') is-invalid @enderror" required data-style="py-0">
                                 @if ($form === 'Tambah')
                                     <option>-- Pilih --</option>
                                 @elseif($form === 'Edit')

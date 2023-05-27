@@ -7,6 +7,7 @@ use App\Models\ModelMahasiswa;
 use App\Models\ModelUser;
 use App\Models\ModelLog;
 use App\Models\ModelPenangguhanUKT;
+use App\Models\ModelSetting;
 
 class PenangguhanUKT extends Controller
 {
@@ -15,6 +16,7 @@ class PenangguhanUKT extends Controller
     private $ModelUser;
     private $ModelLog;
     private $ModelPenangguhanUKT;
+    private $ModelSetting;
 
     public function __construct()
     {
@@ -22,6 +24,7 @@ class PenangguhanUKT extends Controller
         $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
         $this->ModelPenangguhanUKT = new ModelPenangguhanUKT();
+        $this->ModelSetting = new ModelSetting();
         date_default_timezone_set('Asia/Jakarta');
     }
 
@@ -35,6 +38,7 @@ class PenangguhanUKT extends Controller
             'title'             => 'Penangguhan UKT',
             'subTitle'          => 'Pengajuan Penangguhan UKT',
             'form'              => 'Tambah',
+            'setting'           => $this->ModelSetting->dataSetting(),
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
         ];
 
@@ -73,41 +77,52 @@ class PenangguhanUKT extends Controller
             'jenis_wawancara.required'          => 'Jenis wawancara harus diisi!',
         ]);
 
-        $data = [
-            'id_mahasiswa'              => Session()->get('id_mahasiswa'),
-            'nama_orang_tua'            => Request()->nama_orang_tua,
-            'alamat_orang_tua'          => Request()->alamat_orang_tua,
-            'nomor_telepon_orang_tua'   => Request()->nomor_telepon_orang_tua,
-            'semester'                  => Request()->semester,
-            'nominal_ukt'               => Request()->nominal_ukt,
-            'denda'                     => Request()->denda,
-            'alasan'                    => Request()->alasan,
-            'angsuran_pertama'          => Request()->angsuran_pertama,
-            'angsuran_kedua'            => Request()->angsuran_kedua,
-            'tanggal_angsuran_pertama'  => Request()->tanggal_angsuran_pertama,
-            'tanggal_angsuran_kedua'    => Request()->tanggal_angsuran_kedua,
-            'jenis_wawancara'           => Request()->jenis_wawancara,
-            'tanggal_pengajuan'         => date('Y-m-d H:i:s'),
-            'status_penangguhan'        => 'Belum Dikirim',
-        ];
+        $setting = $this->ModelSetting->dataSetting();
+        $currentDate = date('Y-m-d');
+        $tambahHari = '+' . $setting->batas_tanggal_angsuran . ' days';
+        $batasTanggalAngsuran  = date('Y-m-d', strtotime($tambahHari, strtotime($currentDate)));
 
-        $dataMahasiswa = [
-            'id_mahasiswa'      => Session()->get('id_mahasiswa'),
-            'status_pengajuan'  => 'Penangguhan'
-        ];
-        $this->ModelMahasiswa->edit($dataMahasiswa);
+        if (Request()->tanggal_angsuran_pertama > $batasTanggalAngsuran) {
+            return redirect()->back()->with('fail', 'Tanggal angsuran pertama melebihi batas tanggal angsuran, mohon diperbaiki!');
+        } elseif (Request()->tanggal_angsuran_kedua > $batasTanggalAngsuran) {
+            return redirect()->back()->with('fail', 'Tanggal angsuran kedua melebihi batas tanggal angsuran, mohon diperbaiki!');
+        } else {
+            $data = [
+                'id_mahasiswa'              => Session()->get('id_mahasiswa'),
+                'nama_orang_tua'            => Request()->nama_orang_tua,
+                'alamat_orang_tua'          => Request()->alamat_orang_tua,
+                'nomor_telepon_orang_tua'   => Request()->nomor_telepon_orang_tua,
+                'semester'                  => Request()->semester,
+                'nominal_ukt'               => Request()->nominal_ukt,
+                'denda'                     => Request()->denda,
+                'alasan'                    => Request()->alasan,
+                'angsuran_pertama'          => Request()->angsuran_pertama,
+                'angsuran_kedua'            => Request()->angsuran_kedua,
+                'tanggal_angsuran_pertama'  => Request()->tanggal_angsuran_pertama,
+                'tanggal_angsuran_kedua'    => Request()->tanggal_angsuran_kedua,
+                'jenis_wawancara'           => Request()->jenis_wawancara,
+                'tanggal_pengajuan'         => date('Y-m-d H:i:s'),
+                'status_penangguhan'        => 'Belum Dikirim',
+            ];
 
-        // log
-        $dataLog = [
-            'id_mahasiswa'  => Session()->get('id_mahasiswa'),
-            'keterangan'    => 'Melakukan pengajuan penangguhan UKT ',
-            'status_user'   => session()->get('status')
-        ];
-        $this->ModelLog->tambah($dataLog);
-        // end log
+            $dataMahasiswa = [
+                'id_mahasiswa'      => Session()->get('id_mahasiswa'),
+                'status_pengajuan'  => 'Penangguhan'
+            ];
+            $this->ModelMahasiswa->edit($dataMahasiswa);
 
-        $this->ModelPenangguhanUKT->tambah($data);
-        return redirect()->route('riwayat-pengajuan-penangguhan-ukt')->with('success', 'Anda berhasil menambahkan pengajuan penangguhan UKT!');
+            // log
+            $dataLog = [
+                'id_mahasiswa'  => Session()->get('id_mahasiswa'),
+                'keterangan'    => 'Melakukan pengajuan penangguhan UKT ',
+                'status_user'   => session()->get('status')
+            ];
+            $this->ModelLog->tambah($dataLog);
+            // end log
+
+            $this->ModelPenangguhanUKT->tambah($data);
+            return redirect()->route('riwayat-pengajuan-penangguhan-ukt')->with('success', 'Anda berhasil menambahkan pengajuan penangguhan UKT!');
+        }
     }
 
     public function edit($id_penangguhan_ukt)
@@ -120,6 +135,7 @@ class PenangguhanUKT extends Controller
             'title'             => 'Penangguhan UKT',
             'subTitle'          => 'Edit Penangguhan UKT',
             'form'              => 'Edit',
+            'setting'           => $this->ModelSetting->dataSetting(),
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
             'detail'            => $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt),
         ];

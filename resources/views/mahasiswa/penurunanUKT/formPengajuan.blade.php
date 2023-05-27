@@ -10,10 +10,10 @@
                     <h4 class="card-title ">Anda belum mempunyai golongan UKT. Silahkan melakukan penentuan UKT terlebih dahulu!</h4>
                 </div>
             </div>
-            @elseif ($user->kelompok_ukt == 1 )
+            @elseif ($user->kelompok_ukt < $setting->batas_ukt_penurunan )
             <div class="card-header d-flex justify-content-between mb-4">
                 <div class="header-title text-center">
-                    <h4 class="card-title ">Anda tidak dapat melakukan pengajuan penurunan UKT, karena Anda termasuk kelompok UKT 1!</h4>
+                    <h4 class="card-title ">Anda tidak dapat melakukan pengajuan penurunan UKT, karena Anda termasuk kelompok UKT {{$user->kelompok_ukt}}!</h4>
                 </div>
             </div>
             @elseif ($user->status_pengajuan === 'Penangguhan' && $form !== 'Edit')
@@ -103,59 +103,80 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="sktm">SKTM (Surat Keterangan Tidak Mampu)</label>
-                            <input type="file" class="form-control @error('sktm') is-invalid @enderror" id="sktm" name="sktm" placeholder="Masukkan SKTM" required>
-                            @error('sktm')
+                            <label class="form-label" for="alamat_rumah">Alamat Rumah Lengkap (Untuk Kebutuhan Survey)</label>
+                            <input type="text" class="form-control @error('alamat_rumah') is-invalid @enderror" id="alamat_rumah" name="alamat_rumah" value="@if($form == 'Tambah'){{old('alamat_rumah')}}@elseif($form == 'Edit'){{$detail->alamat_rumah}}@endif" placeholder="Masukkan Alamat Rumah Lengkap" required>
+                            @error('alamat_rumah')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="khs">KHS (Semester Berjalan)</label>
-                            <input type="file" class="form-control @error('khs') is-invalid @enderror" id="khs" name="khs" placeholder="Masukkan KHS" required>
-                            @error('khs')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="struk_listrik">Struk Listrik</label>
-                            <input type="file" class="form-control @error('struk_listrik') is-invalid @enderror" id="struk_listrik" name="struk_listrik" placeholder="Masukkan Struk Listrik" required>
-                            @error('struk_listrik')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="foto_rumah">Foto Rumah</label>
-                            <input type="file" class="form-control @error('foto_rumah') is-invalid @enderror" id="foto_rumah" name="foto_rumah" placeholder="Masukkan Foto Rumah" required>
-                            @error('foto_rumah')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="slip_gaji">Slip Gaji (Opsional)</label>
-                            <input type="file" class="form-control @error('slip_gaji') is-invalid @enderror" id="slip_gaji" name="slip_gaji" placeholder="Masukkan Foto Rumah" required>
-                            @error('slip_gaji')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="surat_pengajuan">Surat Pengajuan (Anda buat sendiri dengan format bebas dengan tujuan ke Wadir II)</label>
-                            <input type="file" class="form-control @error('surat_pengajuan') is-invalid @enderror" id="surat_pengajuan" name="surat_pengajuan" placeholder="Masukkan Surat Pengajuan" required>
-                            @error('surat_pengajuan')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
+                        @if ($setting->form_penurunan_sktm == 1)
+                            <div class="form-group col-md-6">
+                                <label class="form-label" for="sktm">SKTM (Surat Keterangan Tidak Mampu)</label>
+                                <input type="file" class="form-control @error('sktm') is-invalid @enderror" id="sktm" name="sktm" placeholder="Masukkan SKTM" required>
+                                @error('sktm')
+                                    <div class="invalid-feedback">
+                                    {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        @endif
+                        @if ($setting->form_penurunan_khs == 1)
+                            <div class="form-group col-md-6">
+                                <label class="form-label" for="khs">KHS (Semester Berjalan)</label>
+                                <input type="file" class="form-control @error('khs') is-invalid @enderror" id="khs" name="khs" placeholder="Masukkan KHS" required>
+                                @error('khs')
+                                    <div class="invalid-feedback">
+                                    {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        @endif
+                        @if ($setting->form_penurunan_struk_listrik == 1)
+                            <div class="form-group col-md-6">
+                                <label class="form-label" for="struk_listrik">Struk Listrik</label>
+                                <input type="file" class="form-control @error('struk_listrik') is-invalid @enderror" id="struk_listrik" name="struk_listrik" placeholder="Masukkan Struk Listrik" required>
+                                @error('struk_listrik')
+                                    <div class="invalid-feedback">
+                                    {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        @endif
+                        @if ($setting->form_penurunan_foto_rumah == 1)
+                            <div class="form-group col-md-6">
+                                <label class="form-label" for="foto_rumah">Foto Rumah</label>
+                                <input type="file" class="form-control @error('foto_rumah') is-invalid @enderror" id="foto_rumah" name="foto_rumah" placeholder="Masukkan Foto Rumah" required>
+                                @error('foto_rumah')
+                                    <div class="invalid-feedback">
+                                    {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        @endif
+                        @if ($setting->form_penurunan_slip_gaji == 1)
+                            <div class="form-group col-md-6">
+                                <label class="form-label" for="slip_gaji">Slip Gaji (Opsional)</label>
+                                <input type="file" class="form-control @error('slip_gaji') is-invalid @enderror" id="slip_gaji" name="slip_gaji" placeholder="Masukkan Foto Rumah" required>
+                                @error('slip_gaji')
+                                    <div class="invalid-feedback">
+                                    {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        @endif
+                        @if ($setting->form_penurunan_surat_pengajuan == 1)
+                            <div class="form-group col-md-6">
+                                <label class="form-label" for="surat_pengajuan">Surat Pengajuan (Anda buat sendiri dengan format bebas dengan tujuan ke Wadir II)</label>
+                                <input type="file" class="form-control @error('surat_pengajuan') is-invalid @enderror" id="surat_pengajuan" name="surat_pengajuan" placeholder="Masukkan Surat Pengajuan" required>
+                                @error('surat_pengajuan')
+                                    <div class="invalid-feedback">
+                                    {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        @endif
                     </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>

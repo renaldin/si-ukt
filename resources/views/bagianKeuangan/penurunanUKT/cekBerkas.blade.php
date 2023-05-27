@@ -61,6 +61,11 @@
                                 <td>{{$detail->nomor_telepon}}</td>
                             </tr>
                             <tr>
+                                <th>Alamat Rumah Lengkap</th>
+                                <td>:</td>
+                                <td>{{$detail->alamat_rumah}}</td>
+                            </tr>
+                            <tr>
                                 <th>Semester</th>
                                 <td>:</td>
                                 <td>{{$detail->semester}}</td>
@@ -94,6 +99,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if ($detail->surat_pengajuan != null)
                         <tr>
                             <td>Surat Pengajuan</td>
                             <td>
@@ -112,7 +118,9 @@
                                     </button>
                                 </div>
                             </td>
-                        </tr>
+                        </tr>  
+                        @endif
+                        @if ($detail->sktm != null)
                         <tr>
                             <td>SKTM (Surat Keterangan Tidak Mampu)</td>
                             <td>
@@ -132,6 +140,8 @@
                                 </div>
                             </td>
                         </tr>
+                        @endif
+                        @if ($detail->khs != null)
                         <tr>
                             <td>KHS (Semester Yang Sedang Berjalan)</td>
                             <td>
@@ -151,6 +161,8 @@
                                 </div>
                             </td>
                         </tr>
+                        @endif
+                        @if ($detail->struk_listrik != null)
                         <tr>
                             <td>Struk Listrik</td>
                             <td>
@@ -169,7 +181,9 @@
                                     </button>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> 
+                        @endif
+                        @if ($detail->foto_rumah != null)
                         <tr>
                             <td>Foto Rumah</td>
                             <td>
@@ -189,6 +203,8 @@
                                 </div>
                             </td>
                         </tr>
+                        @endif
+                        @if ($detail->slip_gaji != null)
                         <tr>
                             <td>Slip Gaji</td>
                             <td>
@@ -207,7 +223,8 @@
                                     </button>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> 
+                        @endif
                     </tbody>
                 </table>
                 </div>

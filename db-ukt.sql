@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2023 at 06:57 PM
+-- Generation Time: May 27, 2023 at 03:58 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -269,7 +269,29 @@ INSERT INTO `log` (`id_log`, `id_user`, `id_mahasiswa`, `keterangan`, `waktu`, `
 (163, NULL, 19, 'Melakukan pengajuan penurunan UKT ', '2023-05-25 10:21:50', 'Mahasiswa'),
 (164, NULL, 19, 'Melakukan kirim pengajuan penurunan UKT ', '2023-05-25 10:22:49', 'Mahasiswa'),
 (165, 1, NULL, 'Memberikan jadwal survey pengajuan penurunan UKT Mahasiswa 1', '2023-05-25 10:26:37', 'Bagian Keuangan'),
-(166, 1, NULL, 'Memberikan keputusan setuju untuk pengajuan penurunan UKT Mahasiswa 1', '2023-05-25 10:27:05', 'Bagian Keuangan');
+(166, 1, NULL, 'Memberikan keputusan setuju untuk pengajuan penurunan UKT Mahasiswa 1', '2023-05-25 10:27:05', 'Bagian Keuangan'),
+(167, NULL, 19, 'Melakukan pengajuan penurunan UKT ', '2023-05-26 13:23:07', 'Mahasiswa'),
+(168, NULL, 19, 'Melakukan kirim pengajuan penurunan UKT ', '2023-05-26 13:23:30', 'Mahasiswa'),
+(169, 1, NULL, 'Memberikan jadwal survey pengajuan penurunan UKT Mahasiswa 1', '2023-05-26 13:25:16', 'Bagian Keuangan'),
+(170, 1, NULL, 'Memberikan keputusan setuju untuk pengajuan penurunan UKT Mahasiswa 1', '2023-05-26 13:25:49', 'Bagian Keuangan'),
+(171, NULL, 19, 'Melakukan pengajuan penangguhan UKT ', '2023-05-26 21:44:51', 'Mahasiswa'),
+(172, NULL, 19, 'Melakukan pengajuan penangguhan UKT ', '2023-05-26 21:54:11', 'Mahasiswa'),
+(173, NULL, 19, 'Melakukan edit pengajuan penangguhan UKT ', '2023-05-26 21:54:54', 'Mahasiswa'),
+(174, NULL, 19, 'Melakukan kirim data pengajuan', '2023-05-26 21:55:19', 'Mahasiswa'),
+(175, 1, NULL, 'Memberi jadwal wawancara', '2023-05-26 22:00:27', 'Bagian Keuangan'),
+(176, 1, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Mahasiswa 1', '2023-05-26 22:02:12', 'Bagian Keuangan'),
+(177, 1, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Renaldi 5', '2023-05-26 22:02:17', 'Bagian Keuangan'),
+(178, 1, NULL, 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari Renaldi', '2023-05-26 22:02:21', 'Bagian Keuangan'),
+(179, NULL, 19, 'Melakukan pengajuan penurunan UKT ', '2023-05-26 23:03:35', 'Mahasiswa'),
+(180, NULL, 19, 'Melakukan edit pengajuan penurunan UKT ', '2023-05-26 23:07:13', 'Mahasiswa'),
+(181, NULL, 19, 'Melakukan kirim pengajuan penurunan UKT ', '2023-05-26 23:07:42', 'Mahasiswa'),
+(182, 1, NULL, 'Memberikan jadwal survey pengajuan penurunan UKT Mahasiswa 1', '2023-05-26 23:08:27', 'Bagian Keuangan'),
+(183, 1, NULL, 'Memberikan keputusan setuju untuk pengajuan penurunan UKT Mahasiswa 1', '2023-05-26 23:08:33', 'Bagian Keuangan'),
+(184, 1, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107003', '2023-05-27 18:48:09', 'Bagian Keuangan'),
+(185, NULL, 21, 'Melakukan pengajuan penurunan UKT ', '2023-05-27 19:50:07', 'Mahasiswa'),
+(186, NULL, 21, 'Melakukan edit pengajuan penurunan UKT ', '2023-05-27 19:51:48', 'Mahasiswa'),
+(187, NULL, 21, 'Melakukan kirim pengajuan penurunan UKT ', '2023-05-27 19:58:24', 'Mahasiswa'),
+(188, 1, NULL, 'Memberikan jadwal survey pengajuan penurunan UKT Mahasiswa 3', '2023-05-27 20:01:16', 'Bagian Keuangan');
 
 -- --------------------------------------------------------
 
@@ -299,8 +321,9 @@ INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `nomor_telep
 (16, 'Mahasiswa 5', 'D3 Sistem Informasi', '08989784353', 10107054, 'sistempakar2022@gmail.com', '$2y$10$nPZZw0.69g30t.5CaqRv2e0NGybSqkxWnhpVihgxLSKU6r/vXlvHq', 'Mahasiswa', NULL, '05152023031354 Mahasiswa 5.png', 'Tidak'),
 (17, 'Renaldi', 'D3 Sistem Informasi', '08989784353', 10107050, 'renaldinoviandi9@gmail.com', '$2y$10$NghATCuiW6ZCt.RVMKg.seM6RXNLWHcmuopT.KpCp0iXQOExYPqa.', 'Mahasiswa', 2, '05152023032715 Renaldi.png', 'Penurunan'),
 (18, 'Renaldi 5', 'D3 Sistem Informasi', '08989784353', 10107052, 'renaldinoviandi1@gmail.com', '$2y$10$dP0d5PU7OzgxbHBQb1KYk.Fx4FO4rmn6h4bs4mNMb/BE7zs6LBWUm', 'Mahasiswa', 2, '05222023043449 Renaldi 5.png', 'Penangguhan'),
-(19, 'Mahasiswa 1', 'D3 Sistem Informasi', '08989784353', 10107001, 'mahasiswa1@gmail.com', '$2y$10$na3hRZiiwLIdfeyXhw71vergfSvc7ovOY845EbbKYwnOwSU.ZR7im', 'Mahasiswa', 2, '05242023023750 Mahasiswa 1.png', 'Tidak'),
-(20, 'Mahasiswa 2', 'D3 Sistem Informasi', '08989784353', 10107002, 'mahasiswa2@gmail.com', '$2y$10$g5frxdYKZHG5jwSP0QvjHOlgfmoSeOiDwjGo8fZjaoRAjFdhlUKnq', 'Mahasiswa', 2, '05242023023903 Mahasiswa 2.png', 'Penurunan');
+(19, 'Mahasiswa 1', 'D3 Sistem Informasi', '08989784353', 10107001, 'mahasiswa1@gmail.com', '$2y$10$na3hRZiiwLIdfeyXhw71vergfSvc7ovOY845EbbKYwnOwSU.ZR7im', 'Mahasiswa', 2, '05242023023750 Mahasiswa 1.png', 'Penurunan'),
+(20, 'Mahasiswa 2', 'D3 Sistem Informasi', '08989784353', 10107002, 'mahasiswa2@gmail.com', '$2y$10$g5frxdYKZHG5jwSP0QvjHOlgfmoSeOiDwjGo8fZjaoRAjFdhlUKnq', 'Mahasiswa', 2, '05242023023903 Mahasiswa 2.png', 'Penurunan'),
+(21, 'Mahasiswa 3', 'D3 Sistem Informasi', '08989784353', 10107003, 'mahasiswa3@gmail.com', '$2y$10$3..nSR4cOdzururkffmmSedqg4tuhmxhx4xEmO5PRj/kZnGmDEPeS', 'Mahasiswa', 2, '05272023114808 Mahasiswa 3.png', 'Tidak');
 
 -- --------------------------------------------------------
 
@@ -356,9 +379,9 @@ CREATE TABLE `penangguhan_ukt` (
 --
 
 INSERT INTO `penangguhan_ukt` (`id_penangguhan_ukt`, `id_mahasiswa`, `nama_orang_tua`, `alamat_orang_tua`, `nomor_telepon_orang_tua`, `semester`, `nominal_ukt`, `denda`, `alasan`, `angsuran_pertama`, `angsuran_kedua`, `tanggal_angsuran_pertama`, `tanggal_angsuran_kedua`, `tanggal_wawancara`, `jam_wawancara`, `jenis_wawancara`, `link_wawancara`, `status_penangguhan`, `tanggal_pengajuan`) VALUES
-(3, 9, 'Nama Orang Tua edit', 'Subang edit', '08989978877', 1, 5000000, 250000, 'Alasan edit', 2500000, 2750000, '2023-05-06', '2023-05-13', '2023-05-10', '15:00', 'Online', 'http://localhost:8000/kelola-penangguhan-ukt', 'Tidak Setuju', '2023-05-06 00:00:00'),
-(6, 17, 'Nama Orang Tua', 'Subang', '0893489734', 2, 1000000, 50000, 'Alasan', 20322, 200000, '2023-05-16', '2023-05-18', '2023-05-17', '10:33', 'Online', 'http://localhost:8000/kelola-penangguhan-ukt', 'Proses', '2023-05-15 00:00:00'),
-(7, 18, 'Nama Orang Tua', 'Subang', '089886554566', 3, 1000000, 50000, 'Alasan', 500000, 500000, '2023-05-22', '2023-05-22', NULL, NULL, 'Online', NULL, 'Proses', '2023-05-22 11:37:00');
+(6, 17, 'Nama Orang Tua', 'Subang', '0893489734', 2, 1000000, 50000, 'Alasan', 20322, 200000, '2023-05-16', '2023-05-18', '2023-05-17', '10:33', 'Online', 'http://localhost:8000/kelola-penangguhan-ukt', 'Setuju', '2023-05-15 00:00:00'),
+(7, 18, 'Nama Orang Tua', 'Subang', '089886554566', 3, 1000000, 50000, 'Alasan', 500000, 500000, '2023-05-22', '2023-05-22', NULL, NULL, 'Online', NULL, 'Setuju', '2023-05-22 11:37:00'),
+(8, 19, 'Nama Orang Tua', 'Subang', '08989786786', 3, 1000000, 50000, 'Alasan', 525000, 525000, '2023-06-08', '2023-06-25', '2023-06-07', '22:00', 'Online', 'http://localhost:8000/kelola-penangguhan-ukt', 'Setuju', '2023-05-26 21:54:11');
 
 -- --------------------------------------------------------
 
@@ -369,6 +392,7 @@ INSERT INTO `penangguhan_ukt` (`id_penangguhan_ukt`, `id_mahasiswa`, `nama_orang
 CREATE TABLE `penurunan_ukt` (
   `id_penurunan_ukt` int(11) NOT NULL,
   `id_mahasiswa` int(11) NOT NULL,
+  `alamat_rumah` varchar(255) NOT NULL,
   `semester` int(11) NOT NULL,
   `tanggal_survey` date DEFAULT NULL,
   `status_penurunan` enum('Belum Dikirim','Proses','Setuju','Tidak Setuju') NOT NULL,
@@ -385,10 +409,38 @@ CREATE TABLE `penurunan_ukt` (
 -- Dumping data for table `penurunan_ukt`
 --
 
-INSERT INTO `penurunan_ukt` (`id_penurunan_ukt`, `id_mahasiswa`, `semester`, `tanggal_survey`, `status_penurunan`, `tanggal_pengajuan`, `surat_pengajuan`, `sktm`, `khs`, `struk_listrik`, `foto_rumah`, `slip_gaji`) VALUES
-(2, 17, 5, '2023-05-31', 'Setuju', '2023-05-21 18:21:41', '05212023181358 Surat Pengajuan Renaldi.pdf', '05212023181358 SKTM Renaldi.pdf', '05212023181358 KHS Renaldi.pdf', '05212023181358 Struk Listrik Renaldi.pdf', '05212023181358 Foto Rumah Renaldi.pdf', '05212023181358 Slip Gaji Renaldi.pdf'),
-(3, 20, 6, '2023-05-31', 'Setuju', '2023-05-24 09:43:47', '05242023094256 Surat Pengajuan Mahasiswa 2.pdf', '05242023094256 SKTM Mahasiswa 2.pdf', '05242023094256 KHS Mahasiswa 2.pdf', '05242023094256 Struk Listrik Mahasiswa 2.pdf', '05242023094256 Foto Rumah Mahasiswa 2.pdf', '05242023094256 Slip Gaji Mahasiswa 2.pdf'),
-(4, 19, 3, '2023-05-31', 'Setuju', '2023-05-25 10:22:49', '05252023102149 Surat Pengajuan Mahasiswa 1.pdf', '05252023102149 SKTM Mahasiswa 1.pdf', '05252023102149 KHS Mahasiswa 1.pdf', '05252023102149 Struk Listrik Mahasiswa 1.pdf', '05252023102150 Foto Rumah Mahasiswa 1.pdf', '05252023102150 Slip Gaji Mahasiswa 1.pdf');
+INSERT INTO `penurunan_ukt` (`id_penurunan_ukt`, `id_mahasiswa`, `alamat_rumah`, `semester`, `tanggal_survey`, `status_penurunan`, `tanggal_pengajuan`, `surat_pengajuan`, `sktm`, `khs`, `struk_listrik`, `foto_rumah`, `slip_gaji`) VALUES
+(2, 17, 'Suabng', 5, '2023-05-31', 'Setuju', '2023-05-21 18:21:41', '05212023181358 Surat Pengajuan Renaldi.pdf', '05212023181358 SKTM Renaldi.pdf', '05212023181358 KHS Renaldi.pdf', '05212023181358 Struk Listrik Renaldi.pdf', '05212023181358 Foto Rumah Renaldi.pdf', '05212023181358 Slip Gaji Renaldi.pdf'),
+(3, 20, 'Subang', 6, '2023-05-31', 'Setuju', '2023-05-24 09:43:47', '05242023094256 Surat Pengajuan Mahasiswa 2.pdf', '05242023094256 SKTM Mahasiswa 2.pdf', '05242023094256 KHS Mahasiswa 2.pdf', '05242023094256 Struk Listrik Mahasiswa 2.pdf', '05242023094256 Foto Rumah Mahasiswa 2.pdf', '05242023094256 Slip Gaji Mahasiswa 2.pdf'),
+(6, 19, 'Jl. Mayjen Sutoyo No.46, Karanganyar, Kec. Subang, Kab. Subang, Jawa Barat 41211', 3, '2023-06-07', 'Setuju', '2023-05-26 23:07:42', '05262023230713 Surat Pengajuan Mahasiswa 1.pdf', '05262023230713 SKTM Mahasiswa 1.pdf', '05262023230713 KHS Mahasiswa 1.pdf', '05262023230713 Struk Listrik Mahasiswa 1.pdf', '05262023230713 Foto Rumah Mahasiswa 1.pdf', '05262023230713 Slip Gaji Mahasiswa 1.pdf');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting`
+--
+
+CREATE TABLE `setting` (
+  `id_setting` int(11) NOT NULL,
+  `batas_ukt_penangguhan` int(11) NOT NULL,
+  `batas_ukt_penurunan` int(11) NOT NULL,
+  `persen_denda` int(11) NOT NULL,
+  `persen_angsuran_pertama` int(11) NOT NULL,
+  `batas_tanggal_angsuran` int(11) NOT NULL,
+  `form_penurunan_sktm` int(11) NOT NULL,
+  `form_penurunan_khs` int(11) NOT NULL,
+  `form_penurunan_struk_listrik` int(11) NOT NULL,
+  `form_penurunan_slip_gaji` int(11) NOT NULL,
+  `form_penurunan_foto_rumah` int(11) NOT NULL,
+  `form_penurunan_surat_pengajuan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `setting`
+--
+
+INSERT INTO `setting` (`id_setting`, `batas_ukt_penangguhan`, `batas_ukt_penurunan`, `persen_denda`, `persen_angsuran_pertama`, `batas_tanggal_angsuran`, `form_penurunan_sktm`, `form_penurunan_khs`, `form_penurunan_struk_listrik`, `form_penurunan_slip_gaji`, `form_penurunan_foto_rumah`, `form_penurunan_surat_pengajuan`) VALUES
+(1, 2, 2, 5, 50, 30, 1, 1, 1, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -460,6 +512,12 @@ ALTER TABLE `penurunan_ukt`
   ADD PRIMARY KEY (`id_penurunan_ukt`);
 
 --
+-- Indexes for table `setting`
+--
+ALTER TABLE `setting`
+  ADD PRIMARY KEY (`id_setting`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -485,13 +543,13 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `nilai_kriteria`
@@ -503,13 +561,19 @@ ALTER TABLE `nilai_kriteria`
 -- AUTO_INCREMENT for table `penangguhan_ukt`
 --
 ALTER TABLE `penangguhan_ukt`
-  MODIFY `id_penangguhan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_penangguhan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `penurunan_ukt`
 --
 ALTER TABLE `penurunan_ukt`
-  MODIFY `id_penurunan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_penurunan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `setting`
+--
+ALTER TABLE `setting`
+  MODIFY `id_setting` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user`
