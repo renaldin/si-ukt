@@ -14,4 +14,9 @@ class ModelSetting extends Model
     {
         return DB::table('setting')->where('id_setting', 1)->first();
     }
+
+    public function edit($data)
+    {
+        DB::table('setting')->where('id_setting', $data['id_setting'])->update($data);
+    }
 }

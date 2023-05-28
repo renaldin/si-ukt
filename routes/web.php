@@ -5,6 +5,7 @@ use App\Http\Controllers\KelolaMahasiswa;
 use App\Http\Controllers\User;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Log;
+use App\Http\Controllers\Pengaturan;
 use App\Http\Controllers\KelompokUKT;
 use App\Http\Controllers\Kriteria;
 use App\Http\Controllers\NilaiKriteria;
@@ -95,6 +96,10 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         // data log
         Route::get('/daftar-log', [Log::class, 'index'])->name('daftar-log');
+
+        // data pengatuaran
+        Route::get('/pengaturan', [Pengaturan::class, 'index'])->name('pengaturan');
+        Route::post('/edit-pengaturan/{id}', [Pengaturan::class, 'prosesEdit']);
 
         // kelola kelompok UKT
         Route::get('/daftar-kelompok-ukt', [KelompokUKT::class, 'index'])->name('daftar-kelompok-ukt');
