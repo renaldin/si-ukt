@@ -39,4 +39,9 @@ class ModelKriteria extends Model
     {
         return DB::table('kriteria')->sum('bobot');
     }
+
+    public function jumlahKriteria()
+    {
+        return DB::table('kriteria')->count();
+    }
 }

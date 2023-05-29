@@ -12,6 +12,7 @@ use App\Http\Controllers\NilaiKriteria;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\PenangguhanUKT;
 use App\Http\Controllers\PenurunanUKT;
+use App\Http\Controllers\PenentuanUKT;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,6 +83,10 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-pengajuan-penurunan-ukt/{id}', [PenurunanUKT::class, 'edit'])->name('edit-pengajuan-penurunan-ukt');
         Route::post('/edit-pengajuan-penurunan-ukt/{id}', [PenurunanUKT::class, 'prosesEdit']);
         Route::get('/kirim-pengajuan-penurunan-ukt/{id}', [PenurunanUKT::class, 'prosesKirim'])->name('kirim-pengajuan-penurunan-ukt');
+
+        // penentuan UKT
+        Route::get('/penentuan-ukt', [PenentuanUKT::class, 'index'])->name('penentuan-ukt');
+        Route::post('/penentuan-ukt', [PenentuanUKT::class, 'prosesPenentuan']);
     });
 
     Route::group(['middleware' => 'bagiankeuangan'], function () {
