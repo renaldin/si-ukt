@@ -99,6 +99,14 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEdit']);
         Route::get('/hapus-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesHapus']);
 
+        // Kelola user
+        Route::get('/daftar-user', [User::class, 'index'])->name('daftar-user');
+        Route::get('/tambah-user', [User::class, 'tambah'])->name('tambah-user');
+        Route::post('/tambah-user', [User::class, 'prosesTambah']);
+        Route::get('/edit-user/{id}', [User::class, 'edit'])->name('edit-user');
+        Route::post('/edit-user/{id}', [User::class, 'prosesEdit']);
+        Route::get('/hapus-user/{id}', [User::class, 'prosesHapus']);
+
         // data log
         Route::get('/daftar-log', [Log::class, 'index'])->name('daftar-log');
 

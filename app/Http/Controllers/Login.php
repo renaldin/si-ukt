@@ -80,13 +80,13 @@ class Login extends Controller
             } else {
                 return back()->with('fail', 'Login gagal! NIM belum terdaftar.');
             }
-        } else if (Request()->status === "Bagian Keuangan") {
+        } else if (Request()->status === "Admin") {
             Request()->validate([
                 'nik'             => 'required|numeric',
                 'password'        => 'min:6|required',
             ], [
-                'nik.required'              => 'NIK harus diisi!',
-                'nik.numeric'               => 'Format NIK harus angka!',
+                'nik.required'              => 'NIK/NIP harus diisi!',
+                'nik.numeric'               => 'Format NIK/NIP harus angka!',
                 'password.required'         => 'Password harus diisi!',
                 'password.min'              => 'Password minimal 6 karakter!',
             ]);
@@ -106,7 +106,7 @@ class Login extends Controller
                     return back()->with('fail', 'Login gagal! Password tidak sesuai.');
                 }
             } else {
-                return back()->with('fail', 'Login gagal! NIK belum terdaftar.');
+                return back()->with('fail', 'Login gagal! NIK/NIP belum terdaftar.');
             }
         }
     }
