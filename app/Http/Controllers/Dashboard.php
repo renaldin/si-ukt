@@ -33,6 +33,12 @@ class Dashboard extends Controller
         } elseif ($status === 'Mahasiswa') {
             $route = 'mahasiswa.dashboard';
             $user = $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa'));
+        } elseif ($status === 'Akademik') {
+            $route = 'akademik.dashboard';
+            $user = $this->ModelUser->detail(Session()->get('id_user'));
+        } elseif ($status === 'Kabag Umum & Akademik') {
+            $route = 'kepalaBagian.dashboard';
+            $user = $this->ModelUser->detail(Session()->get('id_user'));
         }
 
         $data = [

@@ -120,7 +120,7 @@ class Login extends Controller
             Session()->forget('status');
             Session()->forget('log');
             return redirect()->route('login')->with('success', 'Logout berhasil!');
-        } else if (Session()->get('status') === 'Bagian Keuangan') {
+        } else if (Session()->get('status') === 'Bagian Keuangan' || Session()->get('status') === 'Kabag Umum & Akademik' || Session()->get('status') === 'Akademik') {
             Session()->forget('id_user');
             Session()->forget('nik');
             Session()->forget('email');
@@ -168,7 +168,7 @@ class Login extends Controller
             $id_user = $user->id_mahasiswa;
             $urlReset = 'http://127.0.0.1:8000/reset-password-mahasiswa/' . $id_user;
             $route = 'login';
-        } elseif (Request()->status === "Bagian Keuangan") {
+        } elseif (Request()->status === "Admin") {
             $user = $this->ModelAuth->cekEmail($email);
             if (!$user) {
                 return back()->with('fail', 'Email tidak terdaftar.');
@@ -242,7 +242,7 @@ class Login extends Controller
             $route = 'login';
 
             $this->ModelMahasiswa->edit($data);
-        } elseif ($status === 'Bagian Keuangan') {
+        } elseif ($status === 'Bagian Keuangan' || $status === 'Kabag Umum & Akademik' || $status === 'Akademik') {
             $data = [
                 'id_user'      => $id_user,
                 'password'      => Hash::make(Request()->password)

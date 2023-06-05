@@ -79,13 +79,13 @@
                   <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="@if($user->foto_user === null) {{ asset('foto_user/default.jpg') }} @else {{ asset('foto_user/'.$user->foto_user) }} @endif" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
                     <div class="caption ms-3 d-none d-md-block ">
-                        <h6 class="mb-0 caption-title">@if($user->status === 'Bagian Keuangan'){{$user->nama_user}}@elseif($user->status === 'Mahasiswa'){{$user->nama_mahasiswa}}@endif</h6>
+                        <h6 class="mb-0 caption-title">@if($user->status === 'Bagian Keuangan' || $user->status === 'Kabag Umum & Akademik' || $user->status === 'Akademik'){{$user->nama_user}}@elseif($user->status === 'Mahasiswa'){{$user->nama_mahasiswa}}@endif</h6>
                         <p class="mb-0 caption-sub-title">{{$user->status}}</p>
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="@if($user->status === 'Bagian Keuangan') /profil @elseif($user->status === 'Mahasiswa') /profil-mahasiswa @endif">Profil</a></li>
-                    <li><a class="dropdown-item" href="@if($user->status === 'Bagian Keuangan') /ubah-password @elseif($user->status === 'Mahasiswa') /ubah-password-mahasiswa @endif">Ubah Password</a></li>
+                    <li><a class="dropdown-item" href="@if($user->status === 'Bagian Keuangan'||$user->status === 'Kabag Umum & Akademik'||$user->status === 'Akademik') /profil @elseif($user->status === 'Mahasiswa') /profil-mahasiswa @endif">Profil</a></li>
+                    <li><a class="dropdown-item" href="@if($user->status === 'Bagian Keuangan'||$user->status === 'Kabag Umum & Akademik'||$user->status === 'Akademik') /ubah-password @elseif($user->status === 'Mahasiswa') /ubah-password-mahasiswa @endif">Ubah Password</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout">Logout</button></li>
                   </ul>
@@ -101,7 +101,7 @@
                           <div class="flex-wrap d-flex justify-content-between align-items-center">
                               <div>
                                 @if($subTitle === 'Dashboard')
-                                  <h1>Hello, @if($user->status === 'Bagian Keuangan'){{$user->nama_user}}@elseif($user->status === 'Mahasiswa'){{$user->nama_mahasiswa}}@endif</h1>
+                                  <h1>Hello, @if($user->status === 'Bagian Keuangan' || $user->status === 'Kabag Umum & Akademik' || $user->status === 'Akademik'){{$user->nama_user}}@elseif($user->status === 'Mahasiswa'){{$user->nama_mahasiswa}}@endif</h1>
                                   <p>Selamat Datang Di Website Sistem Informasi Uang Kuliah Tunggal (UKT).</p>
                                 @else
                                   <h1>{{$subTitle}}</h1>

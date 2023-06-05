@@ -68,7 +68,7 @@
                                     <option value="{{$detail->status}}">{{$detail->status}}</option>
                                 @endif
                                 <option value="Bagian Keuangan">Bagian Keuangan</option>
-                                <option value="Kepala Bagian Umum">Kepala Bagian Umum</option>
+                                <option value="Kabag Umum & Akademik">Kabag Umum & Akademik</option>
                                 <option value="Akademik">Akademik</option>
                             </select>
                             @error('status')

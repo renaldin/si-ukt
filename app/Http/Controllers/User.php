@@ -269,7 +269,7 @@ class User extends Controller
             'nama_user'         => 'required',
             'nik'               => 'required|numeric',
             'nomor_telepon'     => 'required|numeric',
-            'email'             => 'required|unique:admin,email|unique:mahasiswa,email|email',
+            'email'             => 'required|unique:mahasiswa,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'nama_user.required'        => 'Nama lengkap harus diisi!',
@@ -285,9 +285,9 @@ class User extends Controller
         ]);
 
         if (Request()->foto_user <> "") {
-            $staff = $this->ModelUser->detail($id_user);
-            if ($staff->foto_user <> "") {
-                unlink(public_path('foto_user') . '/' . $staff->foto_user);
+            $user = $this->ModelUser->detail($id_user);
+            if ($user->foto_user <> "") {
+                unlink(public_path('foto_user') . '/' . $user->foto_user);
             }
 
             $file = Request()->foto_user;

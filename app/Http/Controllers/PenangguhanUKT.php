@@ -260,7 +260,7 @@ class PenangguhanUKT extends Controller
 
         $data = [
             'id_penangguhan_ukt'    => $id_penangguhan_ukt,
-            'status_penangguhan'    => 'Proses',
+            'status_penangguhan'    => 'Proses di Bagian Keuangan',
         ];
 
         // log
@@ -354,11 +354,17 @@ class PenangguhanUKT extends Controller
         $this->ModelLog->tambah($dataLog);
         // end log
 
+        if (Session()->get('status') == 'Bagian Keuangan') {
+            $route = 'kelola-penangguhan-ukt';
+        } elseif (Session()->get('status') == 'Kabag Umum & Akademik') {
+            $route = 'approve-penangguhan-ukt';
+        }
+
         $this->ModelPenangguhanUKT->edit($data);
-        return redirect()->route('kelola-penangguhan-ukt')->with('success', 'Anda berhasil memberikan keputusan tidak setuju !');
+        return redirect()->route($route)->with('success', 'Anda berhasil memberikan keputusan tidak setuju !');
     }
 
-    public function setuju($id_penangguhan_ukt)
+    public function setujuBagianKeuangan($id_penangguhan_ukt)
     {
         if (!Session()->get('status')) {
             return redirect()->route('login');
@@ -366,7 +372,7 @@ class PenangguhanUKT extends Controller
 
         $data = [
             'id_penangguhan_ukt'    => $id_penangguhan_ukt,
-            'status_penangguhan'    => 'Setuju',
+            'status_penangguhan'    => 'Proses di Kepala Bagian',
         ];
 
         $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
@@ -374,14 +380,14 @@ class PenangguhanUKT extends Controller
         // log
         $dataLog = [
             'id_user'      => Session()->get('id_user'),
-            'keterangan'    => 'Memberi keputusan setuju untuk pengajuan penangguhan UKT dari ' . $detail->nama_mahasiswa,
+            'keterangan'    => 'Memberi keputusan setuju dan mengirim data pengajuan penangguhan UKT ke Kabag Umum & Akademik',
             'status_user'   => session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log
 
         $this->ModelPenangguhanUKT->edit($data);
-        return redirect()->route('kelola-penangguhan-ukt')->with('success', 'Anda berhasil memberikan keputusan setuju !');
+        return redirect()->route('kelola-penangguhan-ukt')->with('success', 'Anda berhasil memberikan keputusan setuju dan kirim data ke Kabag Umum & Akademik!');
     }
 
     public function laporanPenangguhanUKT()

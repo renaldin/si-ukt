@@ -91,14 +91,6 @@ Route::group(['middleware' => 'revalidate'], function () {
 
     Route::group(['middleware' => 'bagiankeuangan'], function () {
 
-        // Kelola mahasiswa
-        Route::get('/daftar-mahasiswa', [KelolaMahasiswa::class, 'index'])->name('daftar-mahasiswa');
-        Route::get('/tambah-mahasiswa', [KelolaMahasiswa::class, 'tambah'])->name('tambah-mahasiswa');
-        Route::post('/tambah-mahasiswa', [KelolaMahasiswa::class, 'prosesTambah']);
-        Route::get('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'edit'])->name('edit-mahasiswa');
-        Route::post('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEdit']);
-        Route::get('/hapus-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesHapus']);
-
         // Kelola user
         Route::get('/daftar-user', [User::class, 'index'])->name('daftar-user');
         Route::get('/tambah-user', [User::class, 'tambah'])->name('tambah-user');
@@ -141,8 +133,8 @@ Route::group(['middleware' => 'revalidate'], function () {
         // kelola penangguhan UKt
         Route::get('/kelola-penangguhan-ukt', [PenangguhanUKT::class, 'kelolaPenangguhanUKT'])->name('kelola-penangguhan-ukt');
         Route::post('/beri-jadwal/{id}', [PenangguhanUKT::class, 'beriJadwal']);
-        Route::get('/tidak-setuju-penangguhan/{id}', [PenangguhanUKT::class, 'tidakSetuju']);
-        Route::get('/setuju-penangguhan/{id}', [PenangguhanUKT::class, 'setuju']);
+        Route::get('/tidak-setuju/{id}', [PenangguhanUKT::class, 'tidakSetuju']);
+        Route::get('/setuju-bagian-keuangan/{id}', [PenangguhanUKT::class, 'setujuBagianKeuangan']);
         Route::get('/laporan-penangguhan-ukt', [PenangguhanUKT::class, 'laporanPenangguhanUKT'])->name('laporan-penangguhan-ukt');
 
         // kelola penurunan UKt
@@ -172,8 +164,17 @@ Route::group(['middleware' => 'revalidate'], function () {
         // Route::get('/hapus-staff/{id}', [User::class, 'prosesHapus']);
     });
 
-    // Route::group(['middleware' => 'staff'], function () {
+    Route::group(['middleware' => 'akademik'], function () {
 
+        // Kelola mahasiswa
+        Route::get('/daftar-mahasiswa', [KelolaMahasiswa::class, 'index'])->name('daftar-mahasiswa');
+        Route::get('/tambah-mahasiswa', [KelolaMahasiswa::class, 'tambah'])->name('tambah-mahasiswa');
+        Route::post('/tambah-mahasiswa', [KelolaMahasiswa::class, 'prosesTambah']);
+        Route::get('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'edit'])->name('edit-mahasiswa');
+        Route::post('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEdit']);
+        Route::get('/hapus-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesHapus']);
+    });
 
-    // });
+    Route::group(['middleware' => 'kepalabagian'], function () {
+    });
 });
