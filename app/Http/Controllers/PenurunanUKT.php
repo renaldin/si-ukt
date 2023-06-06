@@ -342,13 +342,13 @@ class PenurunanUKT extends Controller
         $data = [
             'id_penurunan_ukt'  => $id_penurunan_ukt,
             'tanggal_pengajuan' => date('Y-m-d H:i:s'),
-            'status_penurunan'  => 'Proses',
+            'status_penurunan'  => 'Proses di Bagian Keuangan',
         ];
 
         // log
         $dataLog = [
             'id_mahasiswa'  => Session()->get('id_mahasiswa'),
-            'keterangan'    => 'Melakukan kirim pengajuan penurunan UKT ',
+            'keterangan'    => 'Melakukan kirim pengajuan penurunan UKT Mahasiswa dengan NIM ' . Session()->get('nim'),
             'status_user'   => session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
@@ -358,6 +358,7 @@ class PenurunanUKT extends Controller
         return redirect('informasi-pengajuan-penurunan-ukt/' . $id_penurunan_ukt)->with('success', 'Anda berhasil kirim pengajuan penurunan UKT!');
     }
 
+    // Bagian Keuangan
     public function kelolaPenurunanUKT()
     {
         if (!Session()->get('status')) {
@@ -380,6 +381,14 @@ class PenurunanUKT extends Controller
             return redirect()->route('admin');
         }
 
+        $user = $this->ModelUser->detail(Session()->get('id_user'));
+
+        if ($user->status == 'Bagian Keuangan') {
+            $route = 'bagianKeuangan.penurunanUKT.cekBerkas';
+        } elseif ($user->status == 'Kabag Umum & Akademik') {
+            $route = 'kepalaBagian.penurunanUKT.cekBerkas';
+        }
+
         $data = [
             'title'             => 'Penurunan UKT',
             'subTitle'          => 'Cek Pemberkasan',
@@ -387,7 +396,7 @@ class PenurunanUKT extends Controller
             'user'              => $this->ModelUser->detail(Session()->get('id_user')),
         ];
 
-        return view('bagianKeuangan.penurunanUKT.cekBerkas', $data);
+        return view($route, $data);
     }
 
     public function beriJadwalSurvey($id_penurunan_ukt)
@@ -416,15 +425,18 @@ class PenurunanUKT extends Controller
         return back()->with('success', 'Anda berhasil memberikan jadwal survey pengajuan penurunan UKT ' . $detail->nama_mahasiswa . '.');
     }
 
-    public function setuju($id_penurunan_ukt)
+    public function setujuBagianKeuangan($id_penurunan_ukt)
     {
         if (!Session()->get('status')) {
             return redirect()->route('admin');
         }
 
+        $user = $this->ModelUser->detail(Session()->get('id_user'));
+
         $data = [
             'id_penurunan_ukt'  => $id_penurunan_ukt,
-            'status_penurunan'  => 'Setuju'
+            'status_penurunan'  => 'Proses di Kepala Bagian',
+            'bagian_keuangan'   => $user->nama_user
         ];
 
         $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
@@ -432,7 +444,7 @@ class PenurunanUKT extends Controller
         // log
         $dataLog = [
             'id_user'       => Session()->get('id_user'),
-            'keterangan'    => 'Memberikan keputusan setuju untuk pengajuan penurunan UKT ' . $detail->nama_mahasiswa,
+            'keterangan'    => 'Memberikan keputusan setuju dan kirim data ke Kabag Umum & Akademik untuk pengajuan penurunan UKT ' . $detail->nama_mahasiswa,
             'status_user'   => session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
@@ -448,10 +460,23 @@ class PenurunanUKT extends Controller
             return redirect()->route('admin');
         }
 
-        $data = [
-            'id_penurunan_ukt'  => $id_penurunan_ukt,
-            'status_penurunan'  => 'Tidak Setuju'
-        ];
+        $user = $this->ModelUser->detail(Session()->get('id_user'));
+
+        if ($user->status == 'Bagian Keuangan') {
+            $data = [
+                'id_penurunan_ukt'  => $id_penurunan_ukt,
+                'status_penurunan'  => 'Tidak Setuju',
+                'bagian_keuangan'   => $user->nama_user
+            ];
+        } elseif ($user->status == 'Kabag Umum & Akademik') {
+            $data = [
+                'id_penurunan_ukt'  => $id_penurunan_ukt,
+                'status_penurunan'  => 'Tidak Setuju',
+                'kabag'             => $user->nama_user
+            ];
+        }
+
+
 
         $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
 
@@ -482,5 +507,53 @@ class PenurunanUKT extends Controller
         ];
 
         return view('bagianKeuangan.penurunanUKT.laporan', $data);
+    }
+    // Tutup Bagian Keuangan
+
+    // Kepala Bagian
+    public function approvePenurunanUKT()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'             => 'Penurunan UKT',
+            'subTitle'          => 'Approve Penurunan UKT',
+            'dataPenurunanUKT'  => $this->ModelPenurunanUKT->dataPenurunanUKT(),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+        ];
+
+        return view('kepalaBagian.penurunanUKT.approve', $data);
+    }
+    // Tutup Kepala Bagian
+
+    public function setujuKepalaBagian($id_penurunan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $user = $this->ModelUser->detail(Session()->get('id_user'));
+
+        $data = [
+            'id_penurunan_ukt'  => $id_penurunan_ukt,
+            'status_penurunan'  => 'Setuju',
+            'kabag'             => $user->nama_user
+        ];
+
+        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+
+        // log
+        $dataLog = [
+            'id_user'       => Session()->get('id_user'),
+            'keterangan'    => 'Memberikan keputusan setuju untuk pengajuan penurunan UKT ' . $detail->nama_mahasiswa,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenurunanUKT->edit($data);
+        return back()->with('success', 'Anda berhasil memberikan keputusan setuju pengajuan penurunan UKT ' . $detail->nama_mahasiswa . '.');
     }
 }

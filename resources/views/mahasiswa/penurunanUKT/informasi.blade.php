@@ -34,67 +34,82 @@
             <div class="card-header mx-2">
                 <div class="row">
                     <div class="col-lg-12">
-                        <table>
-                            <tr>
-                                <th>Nama Mahassiwa</th>
-                                <td>:</td>
-                                <td>{{$detail->nama_mahasiswa}}</td>
-                            </tr>
-                            <tr>
-                                <th>NIM</th>
-                                <td>:</td>
-                                <td>{{$detail->nim}}</td>
-                            </tr>
-                            <tr>
-                                <th>Program Studi</th>
-                                <td>:</td>
-                                <td>{{$detail->prodi}}</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>:</td>
-                                <td>{{$detail->email}}</td>
-                            </tr>
-                            <tr>
-                                <th>Nomor Telepon</th>
-                                <td>:</td>
-                                <td>{{$detail->nomor_telepon}}</td>
-                            </tr>
-                            <tr>
-                                <th>Alamat Rumah Lengkap</th>
-                                <td>:</td>
-                                <td>{{$detail->alamat_rumah}}</td>
-                            </tr>
-                            <tr>
-                                <th>Semester</th>
-                                <td>:</td>
-                                <td>{{$detail->semester}}</td>
-                            </tr>
-                            <tr>
-                                <th>Uang Kuliah Tunggal (UKT)</th>
-                                <td>:</td>
-                                <td>{{$detail->kelompok_ukt}} / {{'Rp '.number_format($detail->nominal, 0, ',', '.')}}</td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table>
+                                <tr>
+                                    <th>Nama Mahassiwa</th>
+                                    <td>:</td>
+                                    <td>{{$detail->nama_mahasiswa}}</td>
+                                </tr>
+                                <tr>
+                                    <th>NIM</th>
+                                    <td>:</td>
+                                    <td>{{$detail->nim}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Program Studi</th>
+                                    <td>:</td>
+                                    <td>{{$detail->prodi}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>:</td>
+                                    <td>{{$detail->email}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nomor Telepon</th>
+                                    <td>:</td>
+                                    <td>{{$detail->nomor_telepon}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Alamat Rumah Lengkap</th>
+                                    <td>:</td>
+                                    <td>{{$detail->alamat_rumah}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Semester</th>
+                                    <td>:</td>
+                                    <td>{{$detail->semester}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Uang Kuliah Tunggal (UKT)</th>
+                                    <td>:</td>
+                                    <td>{{$detail->kelompok_ukt}} / {{'Rp '.number_format($detail->nominal, 0, ',', '.')}}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card-header mx-2">
                 @if ($detail->status_penurunan == 'Belum Dikirim')
+                    <p><strong>Keterangan:</strong></p>
+                    <p>Pengajuan penurunan UKT Anda belum dikirim, silahkan klik tombol kirim jika Anda sudah yakin dengan data yang telah diinput.</p>
                     <a href="/edit-pengajuan-penurunan-ukt/{{$detail->id_penurunan_ukt}}" class="btn btn-success">Edit</a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kirim">Kirim</button>
-                @elseif($detail->status_penurunan == 'Proses')
+                @elseif($detail->status_penurunan == 'Proses di Bagian Keuangan')
                     <p><strong>Keterangan:</strong></p>
-                    <p>Pengajuan penurunan UKT Anda sedang diproses, silahkan ditunggu.</p>
+                    @if ($detail->tanggal_survey)
+                    <p>Data pengajuan penurunan UKT Anda sudah dilakukan pengecekan oleh Bagian Keuangan. Silahkan cek jadwal survey!</p>
+                        @else
+                    <p>Data pengajuan penurunan UKT Anda sedang dilakukan pengecekan oleh Bagian Keuangan. Jika proses pengecekan data lolos maka akan diberi jadwal survey. Silahkan cek jadwal survey secara berkala!</p>
+                    @endif
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#jadwalSurvey">Jadwal Survey</button>
+                @elseif($detail->status_penurunan == 'Proses di Kepala Bagian')
+                    <p><strong>Keterangan:</strong></p>
+                    <p>Data pengajuan penurunan UKT Anda sedang dilakukan pengecekan oleh Kabag Umum & Akademik. Silahkan ditunggu dan cek informasinya secara berkala!</p>
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#jadwalSurvey">Jadwal Survey</button>
                 @elseif($detail->status_penurunan == 'Setuju')
-                    <p>Keterangan:</p>
+                    <p><strong>Keterangan:</strong></p>
                     <p>Pengajuan penurunan UKT <strong>Disetujui</strong>.</p>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#jadwalSurvey">Jadwal Survey</button>
                 @elseif($detail->status_penurunan == 'Tidak Setuju')
-                    <p>Keterangan:</p>
-                    <p>Pengajuan penurunan UKT <strong>Tidak Disetujui</strong>.</p>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#jadwalSurvey">Jadwal Survey</button>
+                    @if ($detail->kabag === null)
+                        <p><strong>Keterangan:</strong></p>
+                        <p>Pengajuan penurunan UKT <strong>Tidak Disetujui</strong>. Karena data pengajuan penurunan UKT tidak sesuai dengan ketentuan.</p>
+                    @else 
+                        <p><strong>Keterangan:</strong></p>
+                        <p>Pengajuan penurunan UKT <strong>Tidak Disetujui</strong>. Karena data pengajuan penurunan UKT dan hasil survey tidak sesuai dengan ketentuan.</p>
+                    @endif
                 @endif
             </div>
             <div class="card-body px-2">

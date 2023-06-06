@@ -46,7 +46,7 @@
                     <tbody>
                         <?php $no = 1;?>
                         @foreach ($dataPenurunanUKT as $item)
-                        @if ($item->status_penurunan == 'Proses di Bagian Keuangan' || $item->status_penurunan == 'Proses di Kepala Bagian')
+                        @if ($item->status_penurunan == 'Proses di Kepala Bagian')
                         <tr>
                             <td>{{$no++}}</td>
                             <td>{{$item->nama_mahasiswa}}</td>
@@ -54,24 +54,19 @@
                             <td>{{$item->status_penurunan}}</td>
                             <td>
                                 <div class="flex align-items-center list-user-action">
-                                    @if($item->status_penurunan === 'Proses di Bagian Keuangan')
-                                    <button type="button" class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#keputusan{{$item->id_penurunan_ukt}}" data-placement="top" title="Kirim Data" data-original-title="Kirim Data">
+                                    @if($item->status_penurunan === 'Proses di Kepala Bagian')
+                                    <button type="button" class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#keputusan{{$item->id_penurunan_ukt}}" data-placement="top" title="Approve" data-original-title="Approve">
                                         <span class="btn-inner">
                                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.3345 2.75024H7.66549C4.64449 2.75024 2.75049 4.88924 2.75049 7.91624V16.0842C2.75049 19.1112 4.63549 21.2502 7.66549 21.2502H16.3335C19.3645 21.2502 21.2505 19.1112 21.2505 16.0842V7.91624C21.2505 4.88924 19.3645 2.75024 16.3345 2.75024Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M8.43994 12.0002L10.8139 14.3732L15.5599 9.6272" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                            
                                         </span>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#jadwal{{$item->id_penurunan_ukt}}" data-placement="top" title="Jadwal Wawancara" data-original-title="Jadwal Wawancara">
-                                        <span class="btn-inner">
-                                          <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                                
-                                        </span>
-                                    </button>
-                                    <a href="/cek-berkas-penurunan-ukt/{{$item->id_penurunan_ukt}}" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="Cek Pemberkasan" data-original-title="Cek Pemberkasan">
+                                    <a href="/cek-berkas-penurunan-ukt-kabag/{{$item->id_penurunan_ukt}}" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="Cek Pemberkasan" data-original-title="Cek Pemberkasan">
                                         <span class="btn-inner">
                                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M22.4541 11.3918C22.7819 11.7385 22.7819 12.2615 22.4541 12.6082C21.0124 14.1335 16.8768 18 12 18C7.12317 18 2.98759 14.1335 1.54586 12.6082C1.21811 12.2615 1.21811 11.7385 1.54586 11.3918C2.98759 9.86647 7.12317 6 12 6C16.8768 6 21.0124 9.86647 22.4541 11.3918Z" stroke="currentColor"></path>                                    <circle cx="12" cy="12" r="5" stroke="currentColor"></circle>                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    <mask mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="6" height="6">                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    </mask>                                    <circle opacity="0.89" cx="13.5" cy="10.5" r="1.5" fill="white"></circle>                                    </svg>                                
                                         </span>
                                     </a>
                                     @else
-                                    <a href="/cek-berkas-penurunan-ukt/{{$item->id_penurunan_ukt}}" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="Cek Pemberkasan" data-original-title="Cek Pemberkasan">
+                                    <a href="/cek-berkas-penurunan-ukt-kabag/{{$item->id_penurunan_ukt}}" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="Cek Pemberkasan" data-original-title="Cek Pemberkasan">
                                         <span class="btn-inner">
                                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M22.4541 11.3918C22.7819 11.7385 22.7819 12.2615 22.4541 12.6082C21.0124 14.1335 16.8768 18 12 18C7.12317 18 2.98759 14.1335 1.54586 12.6082C1.21811 12.2615 1.21811 11.7385 1.54586 11.3918C2.98759 9.86647 7.12317 6 12 6C16.8768 6 21.0124 9.86647 22.4541 11.3918Z" stroke="currentColor"></path>                                    <circle cx="12" cy="12" r="5" stroke="currentColor"></circle>                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    <mask mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="6" height="6">                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    </mask>                                    <circle opacity="0.89" cx="13.5" cy="10.5" r="1.5" fill="white"></circle>                                    </svg>                                
                                         </span>
@@ -91,52 +86,19 @@
 </div>
 
 @foreach ($dataPenurunanUKT as $item)
-<div class="modal fade" id="jadwal{{$item->id_penurunan_ukt}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Jadwal Survey</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/beri-jadwal-survey/{{$item->id_penurunan_ukt}}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label class="form-label" for="tanggal_survey">Tanggal Wawancara <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_survey') is-invalid @enderror" id="tanggal_survey" name="tanggal_survey" value="{{$item->tanggal_survey}}" placeholder="Masukkan Tanggal Wawancara.">
-                            @error('tanggal_survey')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
-
-@foreach ($dataPenurunanUKT as $item)
 <div class="modal fade" id="keputusan{{$item->id_penurunan_ukt}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Approve & Kirim Data</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Approve</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Apakah Anda yakin setuju dan akan kirim data pengajuan penurunan UKT ini ke Kepala Bagian?</p>
+                <p>Silahkan beri keputusan untuk pengajuan penangguhan UKT dari Mahasiswa yang bernama <strong>{{$item->nama_mahasiswa}}</strong>!</p>
             </div>
             <div class="modal-footer">
-                <a href="/tidak-setuju-bagian-keuangan-penurunan/{{$item->id_penurunan_ukt}}" class="btn btn-danger">Tidak Setuju</a>
-                <a href="/setuju-bagian-keuangan-penurunan/{{$item->id_penurunan_ukt}}" class="btn btn-success">Setuju</a>
+                <a href="/tidak-setuju-kepala-bagian-penurunan/{{$item->id_penurunan_ukt}}" class="btn btn-danger">Tidak Setuju</a>
+                <a href="/setuju-kepala-bagian-penurunan/{{$item->id_penurunan_ukt}}" class="btn btn-success">Setuju</a>
             </div>
         </div>
     </div>

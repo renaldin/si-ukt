@@ -141,8 +141,8 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/kelola-penurunan-ukt', [PenurunanUKT::class, 'kelolaPenurunanUKT'])->name('kelola-penurunan-ukt');
         Route::get('/cek-berkas-penurunan-ukt/{id}', [PenurunanUKT::class, 'cekPemberkasan'])->name('cek-berkas-penurunan-ukt');
         Route::post('/beri-jadwal-survey/{id}', [PenurunanUKT::class, 'beriJadwalSurvey']);
-        Route::get('/tidak-setuju-penurunan/{id}', [PenurunanUKT::class, 'tidakSetuju']);
-        Route::get('/setuju-penurunan/{id}', [PenurunanUKT::class, 'setuju']);
+        Route::get('/tidak-setuju-bagian-keuangan-penurunan/{id}', [PenurunanUKT::class, 'tidakSetuju']);
+        Route::get('/setuju-bagian-keuangan-penurunan/{id}', [PenurunanUKT::class, 'setujuBagianKeuangan']);
         Route::get('/laporan-penurunan-ukt', [PenurunanUKT::class, 'laporanPenurunanUKT'])->name('laporan-penurunan-ukt');
 
         // Kelola Admin
@@ -181,5 +181,11 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/approve-penangguhan-ukt', [PenangguhanUKT::class, 'approvePenangguhanUKT'])->name('approve-penangguhan-ukt');
         Route::get('/tidak-setuju-kepala-bagian/{id}', [PenangguhanUKT::class, 'tidakSetuju']);
         Route::get('/setuju-kepala-bagian/{id}', [PenangguhanUKT::class, 'setujuKepalaBagian']);
+
+        // approve penurunan UKt
+        Route::get('/approve-penurunan-ukt', [PenurunanUKT::class, 'approvePenurunanUKT'])->name('approve-penurunan-ukt');
+        Route::get('/cek-berkas-penurunan-ukt-kabag/{id}', [PenurunanUKT::class, 'cekPemberkasan'])->name('cek-berkas-penurunan-ukt-kabag');
+        Route::get('/tidak-setuju-kepala-bagian-penurunan/{id}', [PenurunanUKT::class, 'tidakSetuju']);
+        Route::get('/setuju-kepala-bagian-penurunan/{id}', [PenurunanUKT::class, 'setujuKepalaBagian']);
     });
 });
