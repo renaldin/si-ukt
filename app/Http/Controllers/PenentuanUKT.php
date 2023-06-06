@@ -41,7 +41,7 @@ class PenentuanUKT extends Controller
         }
 
         $data = [
-            'title'             => 'Penentaun UKT',
+            'title'             => 'Penentuan UKT',
             'subTitle'          => 'Proses Penentuan UKT',
             'form'              => 'Tambah',
             'setting'           => $this->ModelSetting->dataSetting(),

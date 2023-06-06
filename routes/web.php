@@ -133,7 +133,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         // kelola penangguhan UKt
         Route::get('/kelola-penangguhan-ukt', [PenangguhanUKT::class, 'kelolaPenangguhanUKT'])->name('kelola-penangguhan-ukt');
         Route::post('/beri-jadwal/{id}', [PenangguhanUKT::class, 'beriJadwal']);
-        Route::get('/tidak-setuju/{id}', [PenangguhanUKT::class, 'tidakSetuju']);
+        Route::get('/tidak-setuju-bagian-keuangan/{id}', [PenangguhanUKT::class, 'tidakSetuju']);
         Route::get('/setuju-bagian-keuangan/{id}', [PenangguhanUKT::class, 'setujuBagianKeuangan']);
         Route::get('/laporan-penangguhan-ukt', [PenangguhanUKT::class, 'laporanPenangguhanUKT'])->name('laporan-penangguhan-ukt');
 
@@ -176,5 +176,10 @@ Route::group(['middleware' => 'revalidate'], function () {
     });
 
     Route::group(['middleware' => 'kepalabagian'], function () {
+
+        // approve penangguhan UKt
+        Route::get('/approve-penangguhan-ukt', [PenangguhanUKT::class, 'approvePenangguhanUKT'])->name('approve-penangguhan-ukt');
+        Route::get('/tidak-setuju-kepala-bagian/{id}', [PenangguhanUKT::class, 'tidakSetuju']);
+        Route::get('/setuju-kepala-bagian/{id}', [PenangguhanUKT::class, 'setujuKepalaBagian']);
     });
 });

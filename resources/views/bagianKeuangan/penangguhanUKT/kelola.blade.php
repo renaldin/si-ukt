@@ -157,7 +157,7 @@
                 <p>Apakah Anda yakin setuju dan akan kirim data pengajuan penangguhan UKT ini ke Kepala Bagian?</p>
             </div>
             <div class="modal-footer">
-                <a href="/tidak-setuju/{{$item->id_penangguhan_ukt}}" class="btn btn-danger">Tidak Setuju</a>
+                <a href="/tidak-setuju-bagian-keuangan/{{$item->id_penangguhan_ukt}}" class="btn btn-danger">Tidak Setuju</a>
                 <a href="/setuju-bagian-keuangan/{{$item->id_penangguhan_ukt}}" class="btn btn-success">Setuju</a>
             </div>
         </div>
@@ -270,8 +270,16 @@
                             </div>
                             <div class="col-md-6">
                                 Menyetujui,<br>
-                                Koordinator Ketatausahaan,<br>
-                                <br><br><br>
+                                Koordinator Ketatausahaan,
+                                <br>
+                                @if ($item->kabag && $item->status_penangguhan == 'Setuju')
+                                    <br>
+                                    <img src="{{ asset('gambar/'.$setting->tanda_tangan_kabag) }}" alt="Tanda Tangan Kepala Bagian" id="load_image2" class="theme-color-default-img profile-pic rounded" style="margin-left: 20px;" width="47%">
+                                    <br>
+                                @else 
+                                    <br><br>
+                                @endif
+                                <br>
                                 Zaenal Abidin, S.Pdl., M.Si <br>
                                 NIP 196704221996011000
                             </div>

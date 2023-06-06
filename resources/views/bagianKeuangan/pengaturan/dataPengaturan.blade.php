@@ -28,6 +28,31 @@
                   <div class="row">
                      <div class="col-sm-12 col-lg-12">
                         <div class="form-group">
+                           <label class="form-label"><strong>Data Tambahan</strong></label>
+                        </div>
+                     </div>
+                     <div class="col-sm-12 col-lg-6">
+                        <label class="form-label" for="tanda_tangan_kabag">Tanda Tangan Kabag (QR Code)</label>
+                        <input type="file" class="form-control @error('tanda_tangan_kabag') is-invalid @enderror" id="preview_image" name="tanda_tangan_kabag">
+                        @error('tanda_tangan_kabag')
+                            <div class="invalid-feedback">
+                            {{ $message }}
+                            </div>
+                        @enderror
+                     </div>
+                     <div class="col-sm-12 col-lg-6">
+                        <label class="form-label" for="tanda_tangan_kabag"></label>
+                        <div class="profile-img-edit position-relative">
+                              <img src="@if($detail->tanda_tangan_kabag){{ asset('gambar/'.$detail->tanda_tangan_kabag) }}@else{{ asset('gambar/default1.jpg') }}@endif" alt="Tanda Tangan Kabag" id="load_image" class="theme-color-default-img profile-pic rounded avatar-100">
+                        </div>
+                     </div>
+                  </div>
+
+                  <br>
+
+                  <div class="row">
+                     <div class="col-sm-12 col-lg-12">
+                        <div class="form-group">
                            <label class="form-label"><strong>Form Pengajuan Penangguhan UKT</strong></label>
                         </div>
                      </div>

@@ -342,8 +342,16 @@
                                 </div>
                                 <div class="col-md-6">
                                     Menyetujui,<br>
-                                    Koordinator Ketatausahaan,<br>
-                                    <br><br><br>
+                                    Koordinator Ketatausahaan,
+                                    <br>
+                                    @if ($item->kabag && $item->status_penangguhan == 'Setuju')
+                                        <br>
+                                        <img src="{{ asset('gambar/'.$setting->tanda_tangan_kabag) }}" alt="Tanda Tangan Kepala Bagian" id="load_image2" class="theme-color-default-img profile-pic rounded" style="margin-left: 20px;" width="47%">
+                                        <br>
+                                    @else 
+                                        <br><br>
+                                    @endif
+                                    <br>
                                     Zaenal Abidin, S.Pdl., M.Si <br>
                                     NIP 196704221996011000
                                 </div>

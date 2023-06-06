@@ -221,6 +221,7 @@ class PenangguhanUKT extends Controller
             'title'             => 'Penangguhan UKT',
             'subTitle'          => 'Riwayat Penangguhan UKT',
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
+            'setting'           => $this->ModelSetting->dataSetting(),
             'dataPenangguhanUKT' => $this->ModelPenangguhanUKT->dataPenangguhanUKTByMahasiswa(Session()->get('id_mahasiswa')),
         ];
 
@@ -286,6 +287,7 @@ class PenangguhanUKT extends Controller
             'title'             => 'Penangguhan UKT',
             'subTitle'          => 'Kelola Penangguhan UKT',
             'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
             'dataPenangguhanUKT' => $this->ModelPenangguhanUKT->dataPenangguhanUKT(),
         ];
 
@@ -332,10 +334,21 @@ class PenangguhanUKT extends Controller
             return redirect()->route('login');
         }
 
-        $data = [
-            'id_penangguhan_ukt'    => $id_penangguhan_ukt,
-            'status_penangguhan'    => 'Tidak Setuju',
-        ];
+        $user = $this->ModelUser->detail(Session()->get('id_user'));
+
+        if ($user->status == 'Bagian Keuangan') {
+            $data = [
+                'id_penangguhan_ukt'    => $id_penangguhan_ukt,
+                'status_penangguhan'    => 'Tidak Setuju',
+                'bagian_keuangan'       => $user->nama_user
+            ];
+        } elseif ($user->status == 'Kabag Umum & Akademik') {
+            $data = [
+                'id_penangguhan_ukt'    => $id_penangguhan_ukt,
+                'status_penangguhan'    => 'Tidak Setuju',
+                'kabag'                 => $user->nama_user
+            ];
+        }
 
         $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
 
@@ -370,9 +383,12 @@ class PenangguhanUKT extends Controller
             return redirect()->route('login');
         }
 
+        $user = $this->ModelUser->detail(Session()->get('id_user'));
+
         $data = [
             'id_penangguhan_ukt'    => $id_penangguhan_ukt,
             'status_penangguhan'    => 'Proses di Kepala Bagian',
+            'bagian_keuangan'       => $user->nama_user
         ];
 
         $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
@@ -400,9 +416,58 @@ class PenangguhanUKT extends Controller
             'title'             => 'Penangguhan UKT',
             'subTitle'          => 'Laporan Penangguhan UKT',
             'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
             'dataPenangguhanUKT' => $this->ModelPenangguhanUKT->dataPenangguhanUKT(),
         ];
 
         return view('bagianKeuangan.penangguhanUKT.laporan', $data);
+    }
+
+    // Tutup Bagian Keuangan
+
+    // Kepala Bagian
+    public function approvePenangguhanUKT()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $data = [
+            'title'             => 'Penangguhan UKT',
+            'subTitle'          => 'Approve Penangguhan UKT',
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'dataPenangguhanUKT' => $this->ModelPenangguhanUKT->dataPenangguhanUKT(),
+        ];
+
+        return view('kepalaBagian.penangguhanUKT.approve', $data);
+    }
+
+    public function setujuKepalaBagian($id_penangguhan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $user = $this->ModelUser->detail(Session()->get('id_user'));
+
+        $data = [
+            'id_penangguhan_ukt'    => $id_penangguhan_ukt,
+            'status_penangguhan'    => 'Setuju',
+            'kabag'                 => $user->nama_user,
+        ];
+
+        $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
+
+        // log
+        $dataLog = [
+            'id_user'      => Session()->get('id_user'),
+            'keterangan'    => 'Memberi keputusan setuju data pengajuan penangguhan UKT Mahasiwa yang bernama ' . $detail->nama_mahasiswa,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenangguhanUKT->edit($data);
+        return redirect()->route('approve-penangguhan-ukt')->with('success', 'Anda berhasil memberikan keputusan setuju dan kirim data ke Kabag Umum & Akademik!');
     }
 }

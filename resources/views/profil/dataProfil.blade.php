@@ -115,22 +115,27 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="foto">Foto</label>
-                            <input type="file" class="form-control @error('foto_user') is-invalid @enderror" id="preview_image" name="foto_user">
-                            @error('foto_user')
-                                <div class="invalid-feedback">
-                                {{ $message }}
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="form-label" for="foto">Foto</label>
+                                    <input type="file" class="form-control @error('foto_user') is-invalid @enderror" id="preview_image" name="foto_user">
+                                    @error('foto_user')
+                                        <div class="invalid-feedback">
+                                        {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="foto_user"></label>
-                            <div class="profile-img-edit position-relative">
-                                <img src="{{ asset('foto_user/'.$user->foto_user) }}" alt="profile-pic" id="load_image" class="theme-color-default-img profile-pic rounded avatar-100">
+                                <div class="form-group col-md-12">
+                                    <label class="form-label" for="foto_user"></label>
+                                    <div class="profile-img-edit position-relative">
+                                        <img src="@if($user->foto_user){{ asset('foto_user/'.$user->foto_user) }}@else{{ asset('foto_user/default1.jpg') }}@endif" alt="profile-pic" id="load_image" class="theme-color-default-img profile-pic rounded avatar-100">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
                 </div>

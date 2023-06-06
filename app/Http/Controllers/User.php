@@ -291,7 +291,7 @@ class User extends Controller
             }
 
             $file = Request()->foto_user;
-            $fileName = date('mdYHis') . Request()->nama_user . '.' . $file->extension();
+            $fileName = date('mdYHis') . ' ' . Request()->nama_user . '.' . $file->extension();
             $file->move(public_path('foto_user'), $fileName);
 
             $data = [

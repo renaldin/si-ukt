@@ -44,20 +44,48 @@ class Pengaturan extends Controller
             return redirect()->route('admin');
         }
 
-        $data = [
-            'id_setting'                    => $id_setting,
-            'batas_ukt_penangguhan'         => Request()->batas_ukt_penangguhan,
-            'batas_ukt_penurunan'           => Request()->batas_ukt_penurunan,
-            'persen_denda'                  => Request()->persen_denda,
-            'persen_angsuran_pertama'       => Request()->persen_angsuran_pertama,
-            'batas_tanggal_angsuran'        => Request()->batas_tanggal_angsuran,
-            'form_penurunan_sktm'           => Request()->form_penurunan_sktm,
-            'form_penurunan_khs'            => Request()->form_penurunan_khs,
-            'form_penurunan_struk_listrik'  => Request()->form_penurunan_struk_listrik,
-            'form_penurunan_slip_gaji'      => Request()->form_penurunan_slip_gaji,
-            'form_penurunan_foto_rumah'     => Request()->form_penurunan_foto_rumah,
-            'form_penurunan_surat_pengajuan' => Request()->form_penurunan_surat_pengajuan,
-        ];
+        if (Request()->tanda_tangan_kabag <> "") {
+            $detail = $this->ModelSetting->dataSetting();
+            if ($detail->tanda_tangan_kabag <> "") {
+                unlink(public_path('gambar') . '/' . $detail->tanda_tangan_kabag);
+            }
+
+            $file = Request()->tanda_tangan_kabag;
+            $fileName = ' Tanda Tangan Kepala Bagian' . '.' . $file->extension();
+            $file->move(public_path('gambar'), $fileName);
+
+            $data = [
+                'id_setting'                    => $id_setting,
+                'batas_ukt_penangguhan'         => Request()->batas_ukt_penangguhan,
+                'batas_ukt_penurunan'           => Request()->batas_ukt_penurunan,
+                'persen_denda'                  => Request()->persen_denda,
+                'persen_angsuran_pertama'       => Request()->persen_angsuran_pertama,
+                'batas_tanggal_angsuran'        => Request()->batas_tanggal_angsuran,
+                'form_penurunan_sktm'           => Request()->form_penurunan_sktm,
+                'form_penurunan_khs'            => Request()->form_penurunan_khs,
+                'form_penurunan_struk_listrik'  => Request()->form_penurunan_struk_listrik,
+                'form_penurunan_slip_gaji'      => Request()->form_penurunan_slip_gaji,
+                'form_penurunan_foto_rumah'     => Request()->form_penurunan_foto_rumah,
+                'form_penurunan_surat_pengajuan' => Request()->form_penurunan_surat_pengajuan,
+                'tanda_tangan_kabag'            => $fileName
+            ];
+        } else {
+            $data = [
+                'id_setting'                    => $id_setting,
+                'batas_ukt_penangguhan'         => Request()->batas_ukt_penangguhan,
+                'batas_ukt_penurunan'           => Request()->batas_ukt_penurunan,
+                'persen_denda'                  => Request()->persen_denda,
+                'persen_angsuran_pertama'       => Request()->persen_angsuran_pertama,
+                'batas_tanggal_angsuran'        => Request()->batas_tanggal_angsuran,
+                'form_penurunan_sktm'           => Request()->form_penurunan_sktm,
+                'form_penurunan_khs'            => Request()->form_penurunan_khs,
+                'form_penurunan_struk_listrik'  => Request()->form_penurunan_struk_listrik,
+                'form_penurunan_slip_gaji'      => Request()->form_penurunan_slip_gaji,
+                'form_penurunan_foto_rumah'     => Request()->form_penurunan_foto_rumah,
+                'form_penurunan_surat_pengajuan' => Request()->form_penurunan_surat_pengajuan,
+            ];
+        }
+
 
         // log
         $dataLog = [
