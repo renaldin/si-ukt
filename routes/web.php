@@ -136,6 +136,8 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/tidak-setuju-bagian-keuangan/{id}', [PenangguhanUKT::class, 'tidakSetuju']);
         Route::get('/setuju-bagian-keuangan/{id}', [PenangguhanUKT::class, 'setujuBagianKeuangan']);
         Route::get('/laporan-penangguhan-ukt', [PenangguhanUKT::class, 'laporanPenangguhanUKT'])->name('laporan-penangguhan-ukt');
+        Route::post('/cetak-semua-penangguhan', [PenangguhanUKT::class, 'cetakSemua']);
+        Route::get('/cetak-satuan-penangguhan/{id}', [PenangguhanUKT::class, 'cetakSatuan']);
 
         // kelola penurunan UKt
         Route::get('/kelola-penurunan-ukt', [PenurunanUKT::class, 'kelolaPenurunanUKT'])->name('kelola-penurunan-ukt');
@@ -144,6 +146,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/tidak-setuju-bagian-keuangan-penurunan/{id}', [PenurunanUKT::class, 'tidakSetuju']);
         Route::get('/setuju-bagian-keuangan-penurunan/{id}', [PenurunanUKT::class, 'setujuBagianKeuangan']);
         Route::get('/laporan-penurunan-ukt', [PenurunanUKT::class, 'laporanPenurunanUKT'])->name('laporan-penurunan-ukt');
+        Route::post('/cetak-semua-penurunan', [PenurunanUKT::class, 'cetakSemua']);
 
         // Kelola Admin
         // Route::get('/daftar-admin', [KelolaAdmin::class, 'index'])->name('daftar-admin');

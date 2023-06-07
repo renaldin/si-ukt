@@ -17,6 +17,14 @@ class ModelPenurunanUKT extends Model
             ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
             ->orderBy('id_penurunan_ukt', 'DESC')->get();
     }
+    public function dataPenurunanUKTTanggal($tanggal_mulai, $tanggal_akhir)
+    {
+        return DB::table('penurunan_ukt')
+            ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penurunan_ukt.id_mahasiswa', 'left')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
+            ->whereBetween('tanggal_pengajuan', [$tanggal_mulai, $tanggal_akhir])
+            ->orderBy('id_penurunan_ukt', 'DESC')->get();
+    }
 
     public function detailByMahasiswa($id_mahasiswa)
     {

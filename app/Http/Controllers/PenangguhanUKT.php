@@ -8,6 +8,7 @@ use App\Models\ModelUser;
 use App\Models\ModelLog;
 use App\Models\ModelPenangguhanUKT;
 use App\Models\ModelSetting;
+use PDF;
 
 class PenangguhanUKT extends Controller
 {
@@ -115,7 +116,7 @@ class PenangguhanUKT extends Controller
             $dataLog = [
                 'id_mahasiswa'  => Session()->get('id_mahasiswa'),
                 'keterangan'    => 'Melakukan pengajuan penangguhan UKT ',
-                'status_user'   => session()->get('status')
+                'status_user'   => Session()->get('status')
             ];
             $this->ModelLog->tambah($dataLog);
             // end log
@@ -202,7 +203,7 @@ class PenangguhanUKT extends Controller
         $dataLog = [
             'id_mahasiswa'  => Session()->get('id_mahasiswa'),
             'keterangan'    => 'Melakukan edit pengajuan penangguhan UKT ',
-            'status_user'   => session()->get('status')
+            'status_user'   => Session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log
@@ -244,7 +245,7 @@ class PenangguhanUKT extends Controller
         $dataLog = [
             'id_mahasiswa'  => Session()->get('id_mahasiswa'),
             'keterangan'    => 'Melakukan hapus data pengajuan',
-            'status_user'   => session()->get('status')
+            'status_user'   => Session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log
@@ -268,7 +269,7 @@ class PenangguhanUKT extends Controller
         $dataLog = [
             'id_mahasiswa'  => Session()->get('id_mahasiswa'),
             'keterangan'    => 'Melakukan kirim data pengajuan',
-            'status_user'   => session()->get('status')
+            'status_user'   => Session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log
@@ -319,7 +320,7 @@ class PenangguhanUKT extends Controller
         $dataLog = [
             'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Memberi jadwal wawancara',
-            'status_user'   => session()->get('status')
+            'status_user'   => Session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log
@@ -362,7 +363,7 @@ class PenangguhanUKT extends Controller
         $dataLog = [
             'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Memberi keputusan tidak setuju untuk pengajuan penangguhan UKT dari ' . $detail->nama_mahasiswa,
-            'status_user'   => session()->get('status')
+            'status_user'   => Session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log
@@ -397,7 +398,7 @@ class PenangguhanUKT extends Controller
         $dataLog = [
             'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Memberi keputusan setuju dan mengirim data pengajuan penangguhan UKT ke Kabag Umum & Akademik',
-            'status_user'   => session()->get('status')
+            'status_user'   => Session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log
@@ -421,6 +422,43 @@ class PenangguhanUKT extends Controller
         ];
 
         return view('bagianKeuangan.penangguhanUKT.laporan', $data);
+    }
+
+    public function cetakSemua()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $data = [
+            'title'             => 'Rekap Penangguhan UKT',
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'dataPenangguhanUKT' => $this->ModelPenangguhanUKT->dataPenangguhanUKTTanggal(Request()->tanggal_mulai, Request()->tanggal_akhir),
+        ];
+
+        $pdf = PDF::loadview('cetak/penangguhan/cetakSemua', $data);
+        return $pdf->download($data['title'] . ' ' . date('d F Y') . '.pdf');
+    }
+
+    public function cetakSatuan($id_penangguhan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
+
+        $data = [
+            'title'             => 'Rekap Penangguhan UKT',
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'detail'            => $detail,
+        ];
+
+        $pdf = PDF::loadview('cetak/penangguhan/cetakSatuan', $data);
+        return $pdf->download($data['title'] . ' ' . $detail->nama_mahasiswa . ' ' . date('d F Y') . '.pdf');
+        // return view('cetak.penangguhan.cetakSatuan', $data);
     }
 
     // Tutup Bagian Keuangan
@@ -462,7 +500,7 @@ class PenangguhanUKT extends Controller
         $dataLog = [
             'id_user'      => Session()->get('id_user'),
             'keterangan'    => 'Memberi keputusan setuju data pengajuan penangguhan UKT Mahasiwa yang bernama ' . $detail->nama_mahasiswa,
-            'status_user'   => session()->get('status')
+            'status_user'   => Session()->get('status')
         ];
         $this->ModelLog->tambah($dataLog);
         // end log

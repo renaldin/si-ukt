@@ -8,6 +8,7 @@ use App\Models\ModelUser;
 use App\Models\ModelLog;
 use App\Models\ModelPenurunanUKT;
 use App\Models\ModelSetting;
+use PDF;
 
 class PenurunanUKT extends Controller
 {
@@ -507,6 +508,42 @@ class PenurunanUKT extends Controller
         ];
 
         return view('bagianKeuangan.penurunanUKT.laporan', $data);
+    }
+
+    public function cetakSemua()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $data = [
+            'title'             => 'Rekap Penurunan UKT',
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'dataPenurunanUKT' => $this->ModelPenurunanUKT->dataPenurunanUKTTanggal(Request()->tanggal_mulai, Request()->tanggal_akhir),
+        ];
+
+        $pdf = PDF::loadview('cetak/penurunan/cetakSemua', $data);
+        return $pdf->download($data['title'] . ' ' . date('d F Y') . '.pdf');
+    }
+
+    public function cetakSatuan($id_penurunan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+
+        $data = [
+            'title'             => 'Rekap Penurunan UKT',
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'detail'            => $detail,
+        ];
+
+        $pdf = PDF::loadview('cetak/penurunan/cetakSatuan', $data);
+        return $pdf->download($data['title'] . ' ' . $detail->nama_mahasiswa . ' ' . date('d F Y') . '.pdf');
     }
     // Tutup Bagian Keuangan
 

@@ -9,7 +9,7 @@
                     <h4 class="card-title">{{$subTitle}}</h4>
                 </div>
                 <div class="header-title">
-                    <a href="" class="btn btn-primary">Cetak Semua</a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cetak-semua">Cetak Semua</button>
                 </div>
             </div>
             <div class="card-body px-4" style="margin-bottom: -50px;">
@@ -59,7 +59,7 @@
                             <td>{{$item->status_penangguhan}}</td>
                             <td>
                                 <div class="flex align-items-center list-user-action">
-                                    <a href="" class="btn btn-sm btn-icon btn-info" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#detail{{$item->id_penangguhan_ukt}}" data-placement="top" title="Cetak" data-original-title="Cetak">
+                                    <a href="/cetak-satuan-penangguhan/{{$item->id_penangguhan_ukt}}" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="Cetak" data-original-title="Cetak">
                                         <span class="btn-inner">
                                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M12.1221 15.436L12.1221 3.39502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                             
                                         </span>
@@ -219,4 +219,31 @@
     </div>
 </div>
 @endforeach
+
+<div class="modal fade" id="cetak-semua" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Rentang Waktu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/cetak-semua-penangguhan" method="POST">
+                    @csrf
+                    <div class="form-group">
+                      <label for="tanggal_mulai">Mulai Dari Tanggal</label>
+                      <input type="date" class="form-control @error('tanggal_mulai') is-invalid @enderror" name="tanggal_mulai" id="tanggal_mulai" placeholder="Masukkan Tanggal Mulai" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="tanggal_akhir">Sampai Dengan</label>
+                      <input type="date" class="form-control @error('tanggal_akhir') is-invalid @enderror" name="tanggal_akhir" id="tanggal_akhir" placeholder="Masukkan Tanggal Akhir" required>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Cetak</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
