@@ -9,6 +9,9 @@
                 <h4 class="card-title">{{$subTitle}}</h4>
                 </div>
             </div>
+            <div class="card-header d-flex justify-content-between">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#import">Import</button>>
+            </div>
             <div class="card-body px-4" style="margin-bottom: -50px;">
                 @if (session('success'))
                     <div class="col-lg-12">
@@ -106,5 +109,31 @@
     </div>
 </div>
 @endforeach
+
+<div class="modal fade" id="import" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/import-mahasiswa" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="input-box">
+                        <label class="label-text">File Excel</label>
+                        <div class="form-group">
+                            <input class="form-control" type="file" name="file" placeholder="Masukkan File Excel" required>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                <button type="submit" class="btn btn-primary">Import</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
 
 @endsection

@@ -176,6 +176,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'edit'])->name('edit-mahasiswa');
         Route::post('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEdit']);
         Route::get('/hapus-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesHapus']);
+        Route::post('/import-mahasiswa', [KelolaMahasiswa::class, 'prosesImport']);
     });
 
     Route::group(['middleware' => 'kepalabagian'], function () {

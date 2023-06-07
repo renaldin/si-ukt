@@ -8,7 +8,7 @@
                <div class="d-flex flex-wrap align-items-center justify-content-between">
                   <div class="d-flex flex-wrap align-items-center">
                      <div class="profile-img position-relative me-3 mb-3 mb-lg-0 profile-logo profile-logo1">
-                        <img src="{{ asset('foto_user/'.$user->foto_user) }}" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
+                        <img src="@if($user->foto_user == null){{ asset('foto_user/default1.jpg') }}@else{{ asset('foto_user/'.$user->foto_user) }}@endif" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
                      </div>
                      <div class="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
                         <h4 class="me-2 h4">{{$user->nama_user}}</h4>

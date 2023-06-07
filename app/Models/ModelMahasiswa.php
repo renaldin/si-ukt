@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 class ModelMahasiswa extends Model
 {
     use HasFactory;
+    protected $guarded = ['id_mahasiswa'];
+    public $table = 'mahasiswa';
 
     public function dataMahasiswa()
     {

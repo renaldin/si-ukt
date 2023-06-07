@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Imports\Mahasiswa;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelLog;
 use App\Models\ModelUser;
+use Excel;
 
 class KelolaMahasiswa extends Controller
 {
@@ -381,5 +383,18 @@ class KelolaMahasiswa extends Controller
         } else {
             return back()->with('fail', 'Password Lama tidak sesuai.');
         }
+    }
+
+    public function prosesImport()
+    {
+        if (!Session()->get('email')) {
+            return redirect()->route('admin');
+        }
+
+        $file = Request()->file('file');
+
+        Excel::import(new Mahasiswa, $file);
+
+        return redirect()->back()->with('success', 'Data mahasiswa berhasil diimport!');
     }
 }
