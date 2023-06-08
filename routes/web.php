@@ -130,6 +130,9 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesEdit']);
         Route::get('/hapus-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesHapus']);
 
+        // kelola penentuan UKt
+        Route::get('/kelola-penentuan-ukt', [PenentuanUKT::class, 'kelolaPenentuanUKT'])->name('kelola-penentuan-ukt');
+
         // kelola penangguhan UKt
         Route::get('/kelola-penangguhan-ukt', [PenangguhanUKT::class, 'kelolaPenangguhanUKT'])->name('kelola-penangguhan-ukt');
         Route::post('/beri-jadwal/{id}', [PenangguhanUKT::class, 'beriJadwal']);

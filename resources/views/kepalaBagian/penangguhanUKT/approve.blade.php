@@ -40,7 +40,7 @@
                             <th>Nama Mahasiswa</th>
                             <th>Nama Orang Tua</th>
                             <th>Tanggal Pengajuan</th>
-                            <th>Status</th>
+                            {{-- <th>Status</th> --}}
                             <th style="min-width: 100px">Aksi</th>
                         </tr>
                     </thead>
@@ -53,7 +53,7 @@
                             <td>{{$item->nama_mahasiswa}}</td>
                             <td>{{$item->nama_orang_tua}}</td>
                             <td>{{$item->tanggal_pengajuan}}</td>
-                            <td>{{$item->status_penangguhan}}</td>
+                            {{-- <td>{{$item->status_penangguhan}}</td> --}}
                             <td>
                                 <div class="flex align-items-center list-user-action">
                                     @if($item->status_penangguhan === 'Proses di Kepala Bagian')

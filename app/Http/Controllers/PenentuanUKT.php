@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelUser;
 use App\Models\ModelLog;
-use App\Models\ModelPenurunanUKT;
+use App\Models\ModelPenentuanUKT;
 use App\Models\ModelSetting;
 use App\Models\ModelKriteria;
 use App\Models\ModelNilaiKriteria;
@@ -17,7 +17,7 @@ class PenentuanUKT extends Controller
     private $ModelMahasiswa;
     private $ModelUser;
     private $ModelLog;
-    private $ModelPenurunanUKT;
+    private $ModelPenentuanUKT;
     private $ModelSetting;
     private $ModelKriteria;
     private $ModelNilaiKriteria;
@@ -27,7 +27,7 @@ class PenentuanUKT extends Controller
         $this->ModelMahasiswa = new ModelMahasiswa();
         $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
-        $this->ModelPenurunanUKT = new ModelPenurunanUKT();
+        $this->ModelPenentuanUKT = new ModelPenentuanUKT();
         $this->ModelSetting = new ModelSetting();
         $this->ModelKriteria = new ModelKriteria();
         $this->ModelNilaiKriteria = new ModelNilaiKriteria();
@@ -59,5 +59,22 @@ class PenentuanUKT extends Controller
         for ($i = 1; $i < $jumlahKriteria + 1; $i++) {
             $data[$i] = Request()->{"data" . $i};
         }
+    }
+
+    public function kelolaPenentuanUKT()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $data = [
+            'title'             => 'Penentuan UKT',
+            'subTitle'          => 'Kelola Penentuan UKT',
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'dataPenentuanUKT' => $this->ModelPenentuanUKT->dataPenentuanUKT(),
+        ];
+
+        return view('bagianKeuangan.penentuanUKT.kelola', $data);
     }
 }

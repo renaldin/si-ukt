@@ -6,7 +6,10 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                <h4 class="card-title">{{$subTitle}}</h4>
+                    <h4 class="card-title">{{$subTitle}}</h4>
+                </div>
+                <div class="header-title">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cetak-semua">Cetak Semua</button>
                 </div>
             </div>
             <div class="card-body px-4" style="margin-bottom: -50px;">
@@ -40,45 +43,32 @@
                             <th>Nama Mahasiswa</th>
                             <th>Nama Orang Tua</th>
                             <th>Tanggal Pengajuan</th>
-                            {{-- <th>Status</th> --}}
+                            <th>Status</th>
                             <th style="min-width: 100px">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $no = 1;?>
                         @foreach ($dataPenangguhanUKT as $item)
-                        @if ($item->status_penangguhan == 'Proses di Bagian Keuangan' || $item->status_penangguhan == 'Proses di Kepala Bagian')
+                        @if ($item->status_penangguhan !== 'Belum Dikirim')
                         <tr>
                             <td>{{$no++}}</td>
                             <td>{{$item->nama_mahasiswa}}</td>
                             <td>{{$item->nama_orang_tua}}</td>
                             <td>{{$item->tanggal_pengajuan}}</td>
-                            {{-- <td>{{$item->status_penangguhan}}</td> --}}
+                            <td>{{$item->status_penangguhan}}</td>
                             <td>
                                 <div class="flex align-items-center list-user-action">
-                                    @if($item->status_penangguhan === 'Proses di Bagian Keuangan')
-                                    <button type="button" class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#kirimData{{$item->id_penangguhan_ukt}}" data-placement="top" title="Kirim Data" data-original-title="Kirim Data">
+                                    <a href="/cetak-satuan-penangguhan/{{$item->id_penangguhan_ukt}}" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="Cetak" data-original-title="Cetak">
                                         <span class="btn-inner">
-                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.3345 2.75024H7.66549C4.64449 2.75024 2.75049 4.88924 2.75049 7.91624V16.0842C2.75049 19.1112 4.63549 21.2502 7.66549 21.2502H16.3335C19.3645 21.2502 21.2505 19.1112 21.2505 16.0842V7.91624C21.2505 4.88924 19.3645 2.75024 16.3345 2.75024Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M8.43994 12.0002L10.8139 14.3732L15.5599 9.6272" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                            
+                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M12.1221 15.436L12.1221 3.39502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                             
                                         </span>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#jadwal{{$item->id_penangguhan_ukt}}" data-placement="top" title="Jadwal Wawancara" data-original-title="Jadwal Wawancara">
-                                        <span class="btn-inner">
-                                          <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                                
-                                        </span>
-                                    </button>
+                                    </a>
                                     <button type="button" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#detail{{$item->id_penangguhan_ukt}}" data-placement="top" title="Detail Pengajuan" data-original-title="Detail Pengajuan">
                                         <span class="btn-inner">
                                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M22.4541 11.3918C22.7819 11.7385 22.7819 12.2615 22.4541 12.6082C21.0124 14.1335 16.8768 18 12 18C7.12317 18 2.98759 14.1335 1.54586 12.6082C1.21811 12.2615 1.21811 11.7385 1.54586 11.3918C2.98759 9.86647 7.12317 6 12 6C16.8768 6 21.0124 9.86647 22.4541 11.3918Z" stroke="currentColor"></path>                                    <circle cx="12" cy="12" r="5" stroke="currentColor"></circle>                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    <mask mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="6" height="6">                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    </mask>                                    <circle opacity="0.89" cx="13.5" cy="10.5" r="1.5" fill="white"></circle>                                    </svg>                                
                                         </span>
                                     </button>
-                                    @else
-                                    <button type="button" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#detail{{$item->id_penangguhan_ukt}}" data-placement="top" title="Detail Pengajuan" data-original-title="Delete">
-                                        <span class="btn-inner">
-                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M22.4541 11.3918C22.7819 11.7385 22.7819 12.2615 22.4541 12.6082C21.0124 14.1335 16.8768 18 12 18C7.12317 18 2.98759 14.1335 1.54586 12.6082C1.21811 12.2615 1.21811 11.7385 1.54586 11.3918C2.98759 9.86647 7.12317 6 12 6C16.8768 6 21.0124 9.86647 22.4541 11.3918Z" stroke="currentColor"></path>                                    <circle cx="12" cy="12" r="5" stroke="currentColor"></circle>                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    <mask mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="6" height="6">                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    </mask>                                    <circle opacity="0.89" cx="13.5" cy="10.5" r="1.5" fill="white"></circle>                                    </svg>                                
-                                        </span>
-                                    </button>
-                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -91,79 +81,6 @@
         </div>
     </div>
 </div>
-
-@foreach ($dataPenangguhanUKT as $item)
-<div class="modal fade" id="jadwal{{$item->id_penangguhan_ukt}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Jadwal Wawancara ({{$item->jenis_wawancara}})</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/beri-jadwal/{{$item->id_penangguhan_ukt}}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label class="form-label" for="tanggal_wawancara">Tanggal Wawancara <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_wawancara') is-invalid @enderror" id="tanggal_wawancara" name="tanggal_wawancara" value="{{$item->tanggal_wawancara}}" placeholder="Masukkan Tanggal Wawancara.">
-                            @error('tanggal_wawancara')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label class="form-label" for="jam_wawancara">Jam Wawancara <span class="text-danger">*</span></label>
-                            <input type="time" class="form-control @error('jam_wawancara') is-invalid @enderror" id="jam_wawancara" name="jam_wawancara" value="{{$item->jam_wawancara}}" placeholder="Masukkan Tanggal Wawancara.">
-                            @error('jam_wawancara')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                        @if ($item->jenis_wawancara === 'Online')
-                        <div class="form-group col-md-12">
-                            <label class="form-label" for="link_wawancara">Link Zoom <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('link_wawancara') is-invalid @enderror" id="link_wawancara" name="link_wawancara" value="{{$item->link_wawancara}}" placeholder="Masukkan Tanggal Wawancara.">
-                            @error('link_wawancara')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                        @endif
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
-
-@foreach ($dataPenangguhanUKT as $item)
-<div class="modal fade" id="kirimData{{$item->id_penangguhan_ukt}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Approve & Kirim Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Apakah Anda yakin setuju dan akan kirim data pengajuan penangguhan UKT ini ke Kepala Bagian?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="/tidak-setuju-bagian-keuangan/{{$item->id_penangguhan_ukt}}" class="btn btn-danger">Tidak Setuju</a>
-                <a href="/setuju-bagian-keuangan/{{$item->id_penangguhan_ukt}}" class="btn btn-success">Setuju</a>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
 
 @foreach ($dataPenangguhanUKT as $item)
 <div class="modal fade" id="detail{{$item->id_penangguhan_ukt}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -303,4 +220,30 @@
 </div>
 @endforeach
 
+<div class="modal fade" id="cetak-semua" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Rentang Waktu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/cetak-semua-penangguhan" method="POST">
+                    @csrf
+                    <div class="form-group">
+                      <label for="tanggal_mulai">Mulai Dari Tanggal</label>
+                      <input type="date" class="form-control @error('tanggal_mulai') is-invalid @enderror" name="tanggal_mulai" id="tanggal_mulai" placeholder="Masukkan Tanggal Mulai" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="tanggal_akhir">Sampai Dengan</label>
+                      <input type="date" class="form-control @error('tanggal_akhir') is-invalid @enderror" name="tanggal_akhir" id="tanggal_akhir" placeholder="Masukkan Tanggal Akhir" required>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Cetak</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

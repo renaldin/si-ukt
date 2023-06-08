@@ -120,7 +120,7 @@ class Login extends Controller
             Session()->forget('status');
             Session()->forget('log');
             return redirect()->route('login')->with('success', 'Logout berhasil!');
-        } else if (Session()->get('status') === 'Bagian Keuangan' || Session()->get('status') === 'Kabag Umum & Akademik' || Session()->get('status') === 'Akademik') {
+        } else {
             Session()->forget('id_user');
             Session()->forget('nik');
             Session()->forget('email');

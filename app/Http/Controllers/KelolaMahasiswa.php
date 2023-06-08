@@ -281,14 +281,12 @@ class KelolaMahasiswa extends Controller
     {
         Request()->validate([
             'nama_mahasiswa'    => 'required',
-            'prodi'             => 'required',
             'nomor_telepon'     => 'required',
             'nim'               => 'required|numeric',
             'email'             => 'required|unique:user,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
-            'prodi.required'            => 'Program studi harus diisi!',
             'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
             'nim.required'              => 'Nim harus diisi!',
             'nim.numeric'               => 'Nim harus angka!',
@@ -300,6 +298,7 @@ class KelolaMahasiswa extends Controller
         ]);
 
         if (Request()->foto_user <> "") {
+
             $mahasiswa = $this->ModelMahasiswa->detail($id_mahasiswa);
             if ($mahasiswa->foto_user <> "") {
                 unlink(public_path('foto_user') . '/' . $mahasiswa->foto_user);
@@ -312,7 +311,6 @@ class KelolaMahasiswa extends Controller
             $data = [
                 'id_mahasiswa'      => $id_mahasiswa,
                 'nama_mahasiswa'    => Request()->nama_mahasiswa,
-                'prodi'             => Request()->prodi,
                 'nomor_telepon'     => Request()->nomor_telepon,
                 'nim'               => Request()->nim,
                 'email'             => Request()->email,
@@ -322,7 +320,6 @@ class KelolaMahasiswa extends Controller
             $data = [
                 'id_mahasiswa'      => $id_mahasiswa,
                 'nama_mahasiswa'    => Request()->nama_mahasiswa,
-                'prodi'             => Request()->prodi,
                 'nomor_telepon'     => Request()->nomor_telepon,
                 'nim'               => Request()->nim,
                 'email'             => Request()->email,

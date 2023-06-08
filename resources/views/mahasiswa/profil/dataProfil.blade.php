@@ -104,6 +104,15 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
+                            <label class="form-label" for="nomor_telepon">Nomor Telepon</label>
+                            <input type="number" class="form-control @error('nomor_telepon') is-invalid @enderror" id="nomor_telepon" name="nomor_telepon" value="{{$user->nomor_telepon}}" placeholder="Masukkan nomor_telepon ">
+                            @error('nomor_telepon')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
                             <label class="form-label" for="email">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{$user->email}}" placeholder="Masukkan Email ">
                             @error('email')
@@ -112,7 +121,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <label class="form-label" for="foto">Foto</label>
                             <input type="file" class="form-control @error('foto_user') is-invalid @enderror" id="preview_image" name="foto_user">
                             @error('foto_user')
