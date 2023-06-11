@@ -19,6 +19,14 @@ class ModelMahasiswa extends Model
             ->orderBy('id_mahasiswa', 'DESC')->get();
     }
 
+    public function dataProdi()
+    {
+        return DB::table('kelompok_ukt')
+            ->select('program_studi')
+            ->distinct('program_studi')
+            ->get();
+    }
+
     public function detail($id_mahasiswa)
     {
         return DB::table('mahasiswa')

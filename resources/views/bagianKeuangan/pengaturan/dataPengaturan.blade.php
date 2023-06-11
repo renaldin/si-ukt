@@ -53,6 +53,80 @@
                   <div class="row">
                      <div class="col-sm-12 col-lg-12">
                         <div class="form-group">
+                           <label class="form-label"><strong>Form Penentuan UKT</strong></label>
+                        </div>
+                     </div>
+                     <div class="col-sm-12 col-lg-6">
+                        <label class="form-label">Berkas Slip Gaji</label>
+                        <div class="form-check">
+                           <input type="radio" class="form-check-input" id="validationFormCheck2" @if($detail->form_penentuan_slip_gaji == 1) checked @endif name="form_penentuan_slip_gaji" value="1" required>
+                           <label class="form-check-label" for="validationFormCheck2">Show</label>
+                        </div>
+                        <div class="form-check form-group">
+                           <input type="radio" class="form-check-input" id="validationFormCheck3" name="form_penentuan_slip_gaji" @if($detail->form_penentuan_slip_gaji == 0) checked @endif value="0" required>
+                           <label class="form-check-label" for="validationFormCheck3">Hide</label>
+                           @error('form_penentuan_slip_gaji')
+                              <div class="invalid-feedback">
+                                 {{ $message }}
+                              </div>
+                           @enderror
+                        </div>
+                     </div>
+                     <div class="col-sm-12 col-lg-6">
+                        <label class="form-label">Berkas Rekening Listrik (Maksimal 3 Bulan Terakhir)</label>
+                        <div class="form-check">
+                           <input type="radio" class="form-check-input" id="validationFormCheck2" @if($detail->form_penentuan_struk_listrik == 1) checked @endif name="form_penentuan_struk_listrik" value="1" required>
+                           <label class="form-check-label" for="validationFormCheck2">Show</label>
+                        </div>
+                        <div class="form-check form-group">
+                           <input type="radio" class="form-check-input" id="validationFormCheck3" name="form_penentuan_struk_listrik" @if($detail->form_penentuan_struk_listrik == 0) checked @endif value="0" required>
+                           <label class="form-check-label" for="validationFormCheck3">Hide</label>
+                           @error('form_penentuan_struk_listrik')
+                              <div class="invalid-feedback">
+                                 {{ $message }}
+                              </div>
+                           @enderror
+                        </div>
+                     </div>
+                     <div class="col-sm-12 col-lg-6">
+                        <label class="form-label">Berkas Rekening Air (Maksimal 3 Bulan Terakhir)</label>
+                        <div class="form-check">
+                           <input type="radio" class="form-check-input" id="validationFormCheck2" @if($detail->form_penentuan_struk_air == 1) checked @endif name="form_penentuan_struk_air" value="1" required>
+                           <label class="form-check-label" for="validationFormCheck2">Show</label>
+                        </div>
+                        <div class="form-check form-group">
+                           <input type="radio" class="form-check-input" id="validationFormCheck3" name="form_penentuan_struk_air" @if($detail->form_penentuan_struk_air == 0) checked @endif value="0" required>
+                           <label class="form-check-label" for="validationFormCheck3">Hide</label>
+                           @error('form_penentuan_struk_air')
+                              <div class="invalid-feedback">
+                                 {{ $message }}
+                              </div>
+                           @enderror
+                        </div>
+                     </div>
+                     <div class="col-sm-12 col-lg-6">
+                        <label class="form-label">Berkas Kartu Keluarga</label>
+                        <div class="form-check">
+                           <input type="radio" class="form-check-input" id="validationFormCheck2" @if($detail->form_penentuan_kk == 1) checked @endif name="form_penentuan_kk" value="1" required>
+                           <label class="form-check-label" for="validationFormCheck2">Show</label>
+                        </div>
+                        <div class="form-check form-group">
+                           <input type="radio" class="form-check-input" id="validationFormCheck3" name="form_penentuan_kk" @if($detail->form_penentuan_kk == 0) checked @endif value="0" required>
+                           <label class="form-check-label" for="validationFormCheck3">Hide</label>
+                           @error('form_penentuan_kk')
+                              <div class="invalid-feedback">
+                                 {{ $message }}
+                              </div>
+                           @enderror
+                        </div>
+                     </div>
+                  </div>
+
+                  <br>
+
+                  <div class="row">
+                     <div class="col-sm-12 col-lg-12">
+                        <div class="form-group">
                            <label class="form-label"><strong>Form Pengajuan Penangguhan UKT</strong></label>
                         </div>
                      </div>

@@ -14,7 +14,16 @@ class ModelNilaiKriteria extends Model
     {
         return DB::table('nilai_kriteria')
             ->join('kriteria', 'kriteria.id_kriteria', '=', 'nilai_kriteria.id_kriteria', 'left')
-            ->orderBy('id_nilai_kriteria', 'DESC')->get();
+            ->get();
+    }
+
+    public function dataNilaiKriteriaByKriteria($id_kriteria)
+    {
+        return DB::table('nilai_kriteria')
+            ->select('ukt')
+            ->where('nilai_kriteria.id_kriteria', $id_kriteria)
+            ->distinct('ukt')
+            ->get();
     }
 
     public function detail($id_nilai_kriteria)

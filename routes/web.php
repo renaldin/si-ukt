@@ -123,12 +123,18 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/hapus-kriteria/{id}', [Kriteria::class, 'prosesHapus']);
 
         // kelola nilai kriteria
-        Route::get('/daftar-nilai-kriteria', [NilaiKriteria::class, 'index'])->name('daftar-nilai-kriteria');
+        Route::get('/daftar-nilai-kriteria/{id}', [NilaiKriteria::class, 'index'])->name('daftar-nilai-kriteria');
         Route::get('/tambah-nilai-kriteria', [NilaiKriteria::class, 'tambah'])->name('tambah-nilai-kriteria');
         Route::post('/tambah-nilai-kriteria', [NilaiKriteria::class, 'prosesTambah']);
         Route::get('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'edit'])->name('edit-nilai-kriteria');
         Route::post('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesEdit']);
         Route::get('/hapus-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesHapus']);
+        // Route::get('/daftar-nilai-kriteria', [NilaiKriteria::class, 'index'])->name('daftar-nilai-kriteria');
+        // Route::get('/tambah-nilai-kriteria', [NilaiKriteria::class, 'tambah'])->name('tambah-nilai-kriteria');
+        // Route::post('/tambah-nilai-kriteria', [NilaiKriteria::class, 'prosesTambah']);
+        // Route::get('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'edit'])->name('edit-nilai-kriteria');
+        // Route::post('/edit-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesEdit']);
+        // Route::get('/hapus-nilai-kriteria/{id}', [NilaiKriteria::class, 'prosesHapus']);
 
         // kelola penentuan UKt
         Route::get('/kelola-penentuan-ukt', [PenentuanUKT::class, 'kelolaPenentuanUKT'])->name('kelola-penentuan-ukt');

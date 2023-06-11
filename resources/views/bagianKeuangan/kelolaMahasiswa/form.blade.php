@@ -15,7 +15,7 @@
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="nama_mahasiswa">Nama Lengkap</label>
+                            <label class="form-label" for="nama_mahasiswa">Nama Lengkap <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('nama_mahasiswa') is-invalid @enderror" id="nama_mahasiswa" name="nama_mahasiswa" value="@if($form === 'Tambah'){{ old('nama_mahasiswa') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->nama_mahasiswa}}@endif" @if($form === 'Detail') disabled @endif autofocus placeholder="Masukkan Nama Lengkap ">
                             @error('nama_mahasiswa')
                                 <div class="invalid-feedback">
@@ -24,7 +24,7 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="nim">NIM</label>
+                            <label class="form-label" for="nim">NIM <span class="text-danger">*</span></label>
                             <input type="number" class="form-control @error('nim') is-invalid @enderror" id="nim" name="nim" value="@if($form === 'Tambah'){{ old('nim') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->nim}}@endif"  @if($form === 'Detail') disabled @endif placeholder="Masukkan NIM">
                             @error('nim')
                                 <div class="invalid-feedback">
@@ -33,7 +33,16 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="nomor_telepon">Nomor Telepon</label>
+                            <label class="form-label" for="tahun_angkatan">Tahun Angkatan <span class="text-danger">* Contoh: 2020</span></label>
+                            <input type="number" class="form-control @error('tahun_angkatan') is-invalid @enderror" id="tahun_angkatan" name="tahun_angkatan" value="@if($form === 'Tambah'){{ old('tahun_angkatan') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->tahun_angkatan}}@endif"  @if($form === 'Detail') disabled @endif placeholder="Masukkan Tahun Angkatan" min="2000" max="2099">
+                            @error('tahun_angkatan')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="nomor_telepon">Nomor Telepon <span class="text-danger">*</span></label>
                             <input type="number" class="form-control @error('nomor_telepon') is-invalid @enderror" id="nomor_telepon" name="nomor_telepon" value="@if($form === 'Tambah'){{ old('nomor_telepon') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->nomor_telepon}}@endif"  @if($form === 'Detail') disabled @endif placeholder="Masukkan Nomor Telepon">
                             @error('nomor_telepon')
                                 <div class="invalid-feedback">
@@ -42,20 +51,16 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="prodi">Program Studi</label>
+                            <label class="form-label" for="prodi">Program Studi <span class="text-danger">*</span></label>
                             <select name="prodi" id="prodi" class="selectpicker form-control @error('prodi') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>
                                 @if ($form === 'Tambah')
                                     <option>-- Pilih --</option>    
                                 @elseif ($form === 'Edit' || $form === 'Detail')
                                     <option value="{{$detail->prodi}}">{{$detail->prodi}}</option>
                                 @endif
-                                <option>D3 Sistem Informasi</option>
-                                <option>D3 Agroindustri</option>
-                                <option>D3 Pemeliharaan Mesin</option>
-                                <option>D3 Keperawatan</option>
-                                <option>D4 Teknologi Produksi Tanaman Pangan</option>
-                                <option>D4 Teknologi Rekayasa Manufaktur</option>
-                                <option>D4 Teknologi Rekayasa Perangkat Lunak</option>
+                                @foreach ($dataProdi as $item)
+                                    <option value="{{$item->program_studi}}">{{$item->program_studi}}</option>
+                                @endforeach
                             </select>
                             @error('prodi')
                                 <div class="invalid-feedback">
@@ -64,7 +69,7 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="email">Email</label>
+                            <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="@if($form === 'Tambah'){{ old('email') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->email}}@endif" @if($form === 'Detail') disabled @endif placeholder="Masukkan Email ">
                             @error('email')
                                 <div class="invalid-feedback">
@@ -73,7 +78,7 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="password">Password</label>
+                            <label class="form-label" for="password">Password <span class="text-danger">*</span></label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" @if($form === 'Detail') disabled @endif placeholder="Masukkan Password ">
                             @error('password')
                                 <div class="invalid-feedback">
@@ -82,7 +87,7 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="foto">Foto</label>
+                            <label class="form-label" for="foto">Foto <span class="text-danger">*</span></label>
                             <input type="file" class="form-control @error('foto_user') is-invalid @enderror" id="preview_image" name="foto_user" @if($form === 'Detail') disabled @endif>
                             @error('foto_user')
                                 <div class="invalid-feedback">
@@ -97,7 +102,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="status_pengajuan">Status Pengajuan</label>
+                            <label class="form-label" for="status_pengajuan">Status Pengajuan <span class="text-danger">*</span></label>
                             <select name="status_pengajuan" id="status_pengajuan" class="selectpicker form-control @error('status_pengajuan') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>
                                 @if ($form === 'Tambah')
                                     <option>-- Pilih --</option>    

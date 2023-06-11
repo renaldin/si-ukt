@@ -49,8 +49,9 @@ class KelolaMahasiswa extends Controller
         $data = [
             'title'     => 'Data Mahasiswa',
             'subTitle'  => 'Tambah Mahasiswa',
-            'user'      => $this->ModelUser->detail(Session()->get('id_user')),
             'form'      => 'Tambah',
+            'user'      => $this->ModelUser->detail(Session()->get('id_user')),
+            'dataProdi' => $this->ModelMahasiswa->dataProdi(),
         ];
 
         return view('bagianKeuangan.kelolaMahasiswa.form', $data);
@@ -62,6 +63,7 @@ class KelolaMahasiswa extends Controller
             'nama_mahasiswa'    => 'required',
             'prodi'             => 'required',
             'nomor_telepon'     => 'required',
+            'tahun_angkatan'    => 'required',
             'nim'               => 'required|numeric|unique:mahasiswa,nim',
             'email'             => 'required|unique:user,email|unique:mahasiswa,email|email',
             'password'          => 'min:6|required',
@@ -71,6 +73,7 @@ class KelolaMahasiswa extends Controller
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
             'prodi.required'            => 'Program studi harus diisi!',
             'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
+            'tahun_angkatan.required'   => 'Tahun angkatan harus diisi!',
             'nim.required'              => 'NIM harus diisi!',
             'nim.numeric'               => 'NIM harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -93,6 +96,7 @@ class KelolaMahasiswa extends Controller
             'nama_mahasiswa'    => Request()->nama_mahasiswa,
             'prodi'             => Request()->prodi,
             'nomor_telepon'     => Request()->nomor_telepon,
+            'tahun_angkatan'    => Request()->tahun_angkatan,
             'nim'               => Request()->nim,
             'email'             => Request()->email,
             'status_pengajuan'  => Request()->status_pengajuan,
@@ -124,6 +128,7 @@ class KelolaMahasiswa extends Controller
             'subTitle'      => 'Edit Mahasiswa',
             'form'          => 'Edit',
             'user'          => $this->ModelUser->detail(Session()->get('id_user')),
+            'dataProdi'     => $this->ModelMahasiswa->dataProdi(),
             'detail'        => $this->ModelMahasiswa->detail($id_mahasiswa)
         ];
 
@@ -136,6 +141,7 @@ class KelolaMahasiswa extends Controller
             'nama_mahasiswa'    => 'required',
             'prodi'             => 'required',
             'nomor_telepon'     => 'required',
+            'tahun_angkatan'    => 'required',
             'nim'               => 'required|numeric',
             'email'             => 'required|unique:user,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
@@ -144,6 +150,7 @@ class KelolaMahasiswa extends Controller
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
             'prodi.required'            => 'Program studi harus diisi!',
             'nomor_telepon.required'    => 'Nomor telepon harus diisi!',
+            'tahun_angkatan.required'   => 'Tahun angkatan harus diisi!',
             'nim.required'              => 'Nim harus diisi!',
             'nim.numeric'               => 'Nim harus angka!',
             'email.required'            => 'Email harus diisi!',
@@ -172,6 +179,7 @@ class KelolaMahasiswa extends Controller
                     'nama_mahasiswa'    => Request()->nama_mahasiswa,
                     'prodi'             => Request()->prodi,
                     'nomor_telepon'     => Request()->nomor_telepon,
+                    'tahun_angkatan'    => Request()->tahun_angkatan,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
@@ -185,6 +193,7 @@ class KelolaMahasiswa extends Controller
                     'nama_mahasiswa'    => Request()->nama_mahasiswa,
                     'prodi'             => Request()->prodi,
                     'nomor_telepon'     => Request()->nomor_telepon,
+                    'tahun_angkatan'    => Request()->tahun_angkatan,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
@@ -209,6 +218,7 @@ class KelolaMahasiswa extends Controller
                     'nama_mahasiswa'    => Request()->nama_mahasiswa,
                     'prodi'             => Request()->prodi,
                     'nomor_telepon'     => Request()->nomor_telepon,
+                    'tahun_angkatan'    => Request()->tahun_angkatan,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
@@ -221,6 +231,7 @@ class KelolaMahasiswa extends Controller
                     'nama_mahasiswa'    => Request()->nama_mahasiswa,
                     'prodi'             => Request()->prodi,
                     'nomor_telepon'     => Request()->nomor_telepon,
+                    'tahun_angkatan'    => Request()->tahun_angkatan,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,

@@ -67,6 +67,10 @@ class Pengaturan extends Controller
                 'form_penurunan_slip_gaji'      => Request()->form_penurunan_slip_gaji,
                 'form_penurunan_foto_rumah'     => Request()->form_penurunan_foto_rumah,
                 'form_penurunan_surat_pengajuan' => Request()->form_penurunan_surat_pengajuan,
+                'form_penentuan_slip_gaji'      => Request()->form_penentuan_slip_gaji,
+                'form_penentuan_struk_listrik'  => Request()->form_penentuan_struk_listrik,
+                'form_penentuan_struk_air'      => Request()->form_penentuan_struk_air,
+                'form_penentuan_kk'             => Request()->form_penentuan_kk,
                 'tanda_tangan_kabag'            => $fileName
             ];
         } else {
@@ -83,6 +87,10 @@ class Pengaturan extends Controller
                 'form_penurunan_slip_gaji'      => Request()->form_penurunan_slip_gaji,
                 'form_penurunan_foto_rumah'     => Request()->form_penurunan_foto_rumah,
                 'form_penurunan_surat_pengajuan' => Request()->form_penurunan_surat_pengajuan,
+                'form_penentuan_slip_gaji'      => Request()->form_penentuan_slip_gaji,
+                'form_penentuan_struk_listrik'  => Request()->form_penentuan_struk_listrik,
+                'form_penentuan_struk_air'      => Request()->form_penentuan_struk_air,
+                'form_penentuan_kk'             => Request()->form_penentuan_kk,
             ];
         }
 

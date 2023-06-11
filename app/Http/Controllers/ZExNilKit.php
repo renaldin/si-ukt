@@ -27,7 +27,7 @@ class NilaiKriteria extends Controller
         $this->ModelLog = new ModelLog();
     }
 
-    public function index($id_kriteria)
+    public function index()
     {
         if (!Session()->get('status')) {
             return redirect()->route('admin');
@@ -35,41 +35,40 @@ class NilaiKriteria extends Controller
 
         $data = [
             'title'                 => 'Data Nilai Kriteria',
-            'subTitle'              => 'Tambah Nilai Kriteria',
+            'subTitle'              => 'Daftar Nilai Kriteria',
             'daftarNilaiKriteria'   => $this->ModelNilaiKriteria->dataNilaiKriteria(),
-            'kriteria'              => $this->ModelKriteria->detail($id_kriteria),
-            'dataUKT'               => $this->ModelKelompokUKT->dataKelompokUKTPerSelect(),
-            'form'                  => 'Tambah',
             'user'                  => $this->ModelUser->detail(Session()->get('id_user')),
+        ];
+
+        return view('bagianKeuangan.nilaiKriteria.dataNilaiKriteria', $data);
+    }
+
+    public function tambah()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'     => 'Data Nilai Kriteria',
+            'subTitle'  => 'Tambah Nilai Kriteria',
+            'user'      => $this->ModelUser->detail(Session()->get('id_user')),
+            'kriteria'  => $this->ModelKriteria->dataKriteria(),
+            'dataUKT'   => $this->ModelKelompokUKT->dataKelompokUKTPerSelect(),
+            'form'      => 'Tambah',
         ];
 
         return view('bagianKeuangan.nilaiKriteria.form', $data);
     }
 
-    // public function tambah()
-    // {
-    //     if (!Session()->get('status')) {
-    //         return redirect()->route('admin');
-    //     }
-
-    //     $data = [
-    //         'title'     => 'Data Nilai Kriteria',
-    //         'subTitle'  => 'Tambah Nilai Kriteria',
-    //         'user'      => $this->ModelUser->detail(Session()->get('id_user')),
-    //         'kriteria'  => $this->ModelKriteria->dataKriteria(),
-    //         'dataUKT'   => $this->ModelKelompokUKT->dataKelompokUKTPerSelect(),
-    //         'form'      => 'Tambah',
-    //     ];
-
-    //     return view('bagianKeuangan.nilaiKriteria.form', $data);
-    // }
-
     public function prosesTambah()
     {
         Request()->validate([
+            'id_kriteria'       => 'required',
             'nilai_kriteria'    => 'required',
             'ukt'               => 'required|numeric',
         ], [
+            'id_kriteria.required'    => 'Kriteria harus diisi!',
             'nilai_kriteria.required' => 'Nilai Kriteria harus diisi!',
             'ukt.required'            => 'UKT harus diisi!',
             'ukt.numeric'             => 'UKT harus angka!',
@@ -91,7 +90,7 @@ class NilaiKriteria extends Controller
         // end log
 
         $this->ModelNilaiKriteria->tambah($data);
-        return redirect('/daftar-nilai-kriteria/' . Request()->id_kriteria)->with('success', 'Data nilai kriteria berhasil ditambahkan!');
+        return redirect()->route('daftar-nilai-kriteria')->with('success', 'Data nilai kriteria berhasil ditambahkan!');
     }
 
     public function edit($id_nilai_kriteria)
@@ -100,17 +99,14 @@ class NilaiKriteria extends Controller
             return redirect()->route('admin');
         }
 
-        $detail = $this->ModelNilaiKriteria->detail($id_nilai_kriteria);
-
         $data = [
-            'title'                 => 'Data Nilai Kriteria',
-            'subTitle'              => 'Edit Nilai Kriteria',
-            'form'                  => 'Edit',
-            'detail'                => $detail,
-            'user'                  => $this->ModelUser->detail(Session()->get('id_user')),
-            'daftarNilaiKriteria'   => $this->ModelNilaiKriteria->dataNilaiKriteria(),
-            'kriteria'              => $this->ModelKriteria->detail($detail->id_kriteria),
-            'dataUKT'               => $this->ModelKelompokUKT->dataKelompokUKTPerSelect(),
+            'title'         => 'Data Nilai Kriteria',
+            'subTitle'      => 'Edit Nilai Kriteria',
+            'form'          => 'Edit',
+            'user'          => $this->ModelUser->detail(Session()->get('id_user')),
+            'detail'        => $this->ModelNilaiKriteria->detail($id_nilai_kriteria),
+            'kriteria'      => $this->ModelKriteria->dataKriteria(),
+            'dataUKT'       => $this->ModelKelompokUKT->dataKelompokUKTPerSelect(),
         ];
 
         return view('bagianKeuangan.nilaiKriteria.form', $data);
@@ -146,13 +142,11 @@ class NilaiKriteria extends Controller
         // end log
 
         $this->ModelNilaiKriteria->edit($data);
-        return redirect('/daftar-nilai-kriteria/' . Request()->id_kriteria)->with('success', 'Data nilai kriteria berhasil diedit!');
+        return redirect()->route('daftar-nilai-kriteria')->with('success', 'Data nilai kriteria berhasil diedit!');
     }
 
     public function prosesHapus($id_nilai_kriteria)
     {
-
-        $detail = $this->ModelNilaiKriteria->detail($id_nilai_kriteria);
 
         // log
         $dataLog = [
@@ -164,6 +158,6 @@ class NilaiKriteria extends Controller
         // end log
 
         $this->ModelNilaiKriteria->hapus($id_nilai_kriteria);
-        return redirect('/daftar-nilai-kriteria/' . $detail->id_kriteria)->with('success', 'Data nilai kriteria berhasil dihapus!');
+        return redirect()->route('daftar-nilai-kriteria')->with('success', 'Data nilai kriteria berhasil dihapus!');
     }
 }

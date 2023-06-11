@@ -242,7 +242,7 @@
             <div style="margin-top: 10px;">
                 <table style="width: 100%;">
                     <tr>
-                        <td><strong>ika saya tidak memenuhi kesanggupan dalam pembayaran UKT tersebut, maka saya bersedia menerima sanksi sesuai dengan peraturan yang berlaku di Politeknik Negeri Subang.</strong></td>
+                        <td><strong>Jika saya tidak memenuhi kesanggupan dalam pembayaran UKT tersebut, maka saya bersedia menerima sanksi sesuai dengan peraturan yang berlaku di Politeknik Negeri Subang.</strong></td>
                     </tr>
                     <tr>
                         <td>Demikian surat permohonan ini kami buat. Atas perhatian Bapak/Ibu, kami ucapkan terima kasih.</td>

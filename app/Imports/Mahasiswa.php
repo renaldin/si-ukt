@@ -20,9 +20,10 @@ class Mahasiswa implements ToModel, WithStartRow
             'nama_mahasiswa' => $row[0],
             'prodi' => $row[1],
             'nomor_telepon' => $row[2],
-            'nim' => $row[3],
-            'email' => $row[4],
-            'password' => Hash::make($row[5])
+            'tahun_angkatan' => $row[3],
+            'nim' => $row[4],
+            'email' => $row[5],
+            'password' => Hash::make($row[6])
             // 'tanggal_import' => date('Y-m-d H:i:s'),
         ]);
     }

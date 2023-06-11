@@ -43,7 +43,7 @@
                             <th>Foto</th>
                             <th>Nama</th>
                             <th>NIM</th>
-                            <th>Email</th>
+                            <th>Tahun Angkatan</th>
                             <th>Status</th>
                             <th style="min-width: 100px">Aksi</th>
                         </tr>
@@ -56,7 +56,7 @@
                             <td class="text-center"><img class="bg-soft-primary rounded img-fluid avatar-40 me-3" src="@if($item->foto_user === null) {{ asset('foto_user/default1.jpg') }} @else {{ asset('foto_user/'.$item->foto_user) }} @endif" alt="profile"></td>
                             <td>{{$item->nama_mahasiswa}}</td>
                             <td>{{$item->nim}}</td>
-                            <td>{{$item->email}}</td>
+                            <td>{{$item->tahun_angkatan}}</td>
                             <td>{{$item->status}}</td>
                             <td>
                             <div class="flex align-items-center list-user-action">

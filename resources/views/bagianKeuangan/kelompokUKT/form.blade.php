@@ -22,9 +22,13 @@
                                 @elseif ($form === 'Edit' || $form === 'Detail')
                                     <option value="{{$detail->program_studi}}">{{$detail->program_studi}}</option>
                                 @endif
-                                <option>D3 Keperawatan</option>
-                                <option>D3 Sistem Informasi, Agroindustri, Pemeliharaan Mesin</option>
-                                <option>D4</option>
+                                <option value="D3 Keperawatan">D3 Keperawatan</option>
+                                <option value="D3 Sistem Informasi">D3 Sistem Informasi</option>
+                                <option value="D3 Agroindustri">D3 Agroindustri</option>
+                                <option value="D3 Pemeliharaan Mesin">D3 Pemeliharaan Mesin</option>
+                                <option value="D4 Teknologi Produksi Tanaman Pangan">D4 Teknologi Produksi Tanaman Pangan</option>
+                                <option value="D4 Teknologi Rekayasa Manufaktur">D4 Teknologi Rekayasa Manufaktur</option>
+                                <option value="D4 Teknologi Rekayasa Perangkat Lunak">D4 Teknologi Rekayasa Perangkat Lunak</option>
                             </select>
                             @error('program_studi')
                                 <div class="invalid-feedback">
