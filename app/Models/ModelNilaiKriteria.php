@@ -17,6 +17,7 @@ class ModelNilaiKriteria extends Model
             ->get();
     }
 
+    // NOWW
     public function dataNilaiKriteriaByKriteria($id_kriteria)
     {
         return DB::table('nilai_kriteria')
@@ -25,6 +26,7 @@ class ModelNilaiKriteria extends Model
             ->distinct('ukt')
             ->get();
     }
+    // NOWW
 
     public function detail($id_nilai_kriteria)
     {

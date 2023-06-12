@@ -549,7 +549,7 @@ class PenentuanUKT extends Controller
             'detail'            => $detail,
         ];
 
-        $pdf = PDF::loadview('cetak/penentaun/cetakSatuan', $data);
+        $pdf = PDF::loadview('cetak/penentuan/cetakSatuan', $data);
         return $pdf->download($data['title'] . ' ' . $detail->nama_mahasiswa . ' ' . date('d F Y') . '.pdf');
     }
 }

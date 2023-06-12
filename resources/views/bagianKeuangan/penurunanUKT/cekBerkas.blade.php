@@ -45,6 +45,11 @@
                             <td>{{$detail->nim}}</td>
                         </tr>
                         <tr>
+                            <th>Tahun Angkatan</th>
+                            <td>:</td>
+                            <td>{{$detail->tahun_angkatan}}</td>
+                        </tr>
+                        <tr>
                             <th>Program Studi</th>
                             <td>:</td>
                             <td>{{$detail->prodi}}</td>

@@ -146,6 +146,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/kirim-laporan', [PenentuanUKT::class, 'kirimKeLaporan']);
         Route::get('/laporan-penentuan-ukt', [PenentuanUKT::class, 'laporanPenentuanUKT'])->name('laporan-penentuan-ukt');
         Route::post('/cetak-semua-penentuan', [PenentuanUKT::class, 'cetakSemua']);
+        Route::get('/cetak-satuan-penentuan/{id}', [PenentuanUKT::class, 'cetakSatuan']);
 
         // kelola penangguhan UKt
         Route::get('/kelola-penangguhan-ukt', [PenangguhanUKT::class, 'kelolaPenangguhanUKT'])->name('kelola-penangguhan-ukt');
@@ -164,6 +165,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/setuju-bagian-keuangan-penurunan/{id}', [PenurunanUKT::class, 'setujuBagianKeuangan']);
         Route::get('/laporan-penurunan-ukt', [PenurunanUKT::class, 'laporanPenurunanUKT'])->name('laporan-penurunan-ukt');
         Route::post('/cetak-semua-penurunan', [PenurunanUKT::class, 'cetakSemua']);
+        Route::get('/cetak-satuan-penurunan/{id}', [PenurunanUKT::class, 'cetakSatuan']);
 
         // Kelola Admin
         // Route::get('/daftar-admin', [KelolaAdmin::class, 'index'])->name('daftar-admin');

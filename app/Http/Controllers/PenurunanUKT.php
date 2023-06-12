@@ -530,7 +530,7 @@ class PenurunanUKT extends Controller
     public function cetakSatuan($id_penurunan_ukt)
     {
         if (!Session()->get('status')) {
-            return redirect()->route('login');
+            return redirect()->route('admin');
         }
 
         $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);

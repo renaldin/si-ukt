@@ -44,7 +44,7 @@
                             <th>Nama</th>
                             <th>NIM</th>
                             <th>Tahun Angkatan</th>
-                            <th>Status</th>
+                            <th>UKT</th>
                             <th style="min-width: 100px">Aksi</th>
                         </tr>
                     </thead>
@@ -57,7 +57,11 @@
                             <td>{{$item->nama_mahasiswa}}</td>
                             <td>{{$item->nim}}</td>
                             <td>{{$item->tahun_angkatan}}</td>
-                            <td>{{$item->status}}</td>
+                            @if ($item->id_kelompok_ukt)
+                                <td>{{$item->kelompok_ukt}} / {{'Rp '.number_format($item->nominal, 0, ',', '.')}}</td>
+                            @else
+                                <td>Belum Ada</td>
+                            @endif
                             <td>
                             <div class="flex align-items-center list-user-action">
                                 <a class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="Edit Mahasiswa" data-original-title="Edit" href="/edit-mahasiswa/{{$item->id_mahasiswa}}">

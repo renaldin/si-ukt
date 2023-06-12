@@ -18,6 +18,7 @@ class ModelPenentuanUKT extends Model
             ->orderBy('id_penentuan_ukt', 'ASC')->get();
     }
 
+    // NOW
     public function dataPenentuanUKTTanggal($tanggal_mulai, $tanggal_akhir, $tahun_angkatan)
     {
         return DB::table('penentuan_ukt')
@@ -27,7 +28,9 @@ class ModelPenentuanUKT extends Model
             ->where('mahasiswa.tahun_angkatan', $tahun_angkatan)
             ->orderBy('mahasiswa.prodi', 'ASC')->get();
     }
+    // NOW
 
+    // NOW
     public function detailByMahasiswa($id_mahasiswa)
     {
         return DB::table('penentuan_ukt')
@@ -36,6 +39,7 @@ class ModelPenentuanUKT extends Model
             ->where('penentuan_ukt.id_mahasiswa', $id_mahasiswa)
             ->orderBy('id_penentuan_ukt', 'DESC')->first();
     }
+    // NOW
 
     public function detail($id_penentuan_ukt)
     {
