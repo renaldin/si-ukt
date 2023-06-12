@@ -102,7 +102,7 @@
                         <tr class="ligth">
                             <th>No</th>
                             <th>Kriteria</th>
-                            <th>No. Urut</th>
+                            <th>No. UKT</th>
                             <th>Nilai Kriteria</th>
                             <th style="min-width: 100px">Aksi</th>
                         </tr>

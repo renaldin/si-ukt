@@ -7,7 +7,7 @@
             @if ($user->id_kelompok_ukt === null )
             <div class="card-header d-flex justify-content-between mb-4">
                 <div class="header-title text-center">
-                    <h4 class="card-title ">Anda belum mempunyai golongan UKT. Silahkan melakukan penentuan UKT terlebih dahulu!</h4>
+                    <h4 class="card-title ">Anda belum mempunyai kelompok UKT. Silahkan melakukan penentuan UKT terlebih dahulu!</h4>
                 </div>
             </div>
             @elseif ($user->kelompok_ukt < $setting->batas_ukt_penurunan )

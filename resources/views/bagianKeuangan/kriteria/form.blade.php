@@ -37,7 +37,7 @@
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="nama_kriteria">Nama Kriteria</label>
+                            <label class="form-label" for="nama_kriteria">Nama Kriteria <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('nama_kriteria') is-invalid @enderror" id="nama_kriteria" name="nama_kriteria" value="@if($form === 'Tambah'){{ old('nama_kriteria') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->nama_kriteria}}@endif" @if($form === 'Detail') disabled @endif autofocus placeholder="Masukkan Nama Kriteria ">
                             @error('nama_kriteria')
                                 <div class="invalid-feedback">
@@ -46,9 +46,26 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label" for="bobot">Bobot (%)</label>
+                            <label class="form-label" for="bobot">Bobot (%) <span class="text-danger">*</span></label>
                             <input type="number" class="form-control @error('bobot') is-invalid @enderror" id="bobot" name="bobot" value="@if($form === 'Tambah'){{ old('bobot') }}@elseif($form === 'Edit' || $form === 'Detail'){{$detail->bobot * 100}}@endif"  @if($form === 'Detail') disabled @endif placeholder="Masukkan Bobot">
                             @error('bobot')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="bobot">Ideal Positif/Negatif <span class="text-danger">*</span></label>
+                            <select name="ideal" id="ideal" class="selectpicker form-control @error('ideal') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif required>
+                                @if ($form === 'Tambah')
+                                    <option>-- Pilih --</option>    
+                                @elseif ($form === 'Edit' || $form === 'Detail')
+                                    <option value="{{$detail->ideal}}">{{$detail->ideal}}</option>
+                                @endif
+                                <option value="Benefit">Benefit</option>
+                                <option value="Cost">Cost</option>
+                            </select>
+                            @error('ideal')
                                 <div class="invalid-feedback">
                                 {{ $message }}
                                 </div>

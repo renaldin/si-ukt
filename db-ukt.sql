@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2023 at 02:44 PM
+-- Generation Time: Jun 12, 2023 at 02:50 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -105,16 +105,17 @@ INSERT INTO `kelompok_ukt` (`id_kelompok_ukt`, `kelompok_ukt`, `program_studi`, 
 CREATE TABLE `kriteria` (
   `id_kriteria` int(11) NOT NULL,
   `nama_kriteria` varchar(100) DEFAULT NULL,
-  `bobot` varchar(11) DEFAULT NULL
+  `bobot` varchar(11) DEFAULT NULL,
+  `ideal` enum('Benefit','Cost') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `kriteria`
 --
 
-INSERT INTO `kriteria` (`id_kriteria`, `nama_kriteria`, `bobot`) VALUES
-(4, 'Pendapatan Orang Tua', '0.6'),
-(5, 'Pekerjaan Orang Tua', '0.4');
+INSERT INTO `kriteria` (`id_kriteria`, `nama_kriteria`, `bobot`, `ideal`) VALUES
+(4, 'Pendapatan Orang Tua', '0.6', 'Benefit'),
+(5, 'Pekerjaan Orang Tua', '0.4', 'Benefit');
 
 -- --------------------------------------------------------
 
@@ -334,7 +335,57 @@ INSERT INTO `log` (`id_log`, `id_user`, `id_mahasiswa`, `keterangan`, `waktu`, `
 (282, 8, NULL, 'Melakukan edit mahasiswa dengan NIM 10107006', '2023-06-11 19:36:13', 'Akademik'),
 (283, 8, NULL, 'Melakukan edit mahasiswa dengan NIM 10107006', '2023-06-11 19:36:35', 'Akademik'),
 (284, 8, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107042', '2023-06-11 19:39:52', 'Akademik'),
-(285, 8, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107055', '2023-06-11 19:39:57', 'Akademik');
+(285, 8, NULL, 'Melakukan hapus mahasiswa dengan NIM 10107055', '2023-06-11 19:39:57', 'Akademik'),
+(286, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:25:16', 'Bagian Keuangan'),
+(287, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:26:05', 'Bagian Keuangan'),
+(288, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 20:26:21', 'Bagian Keuangan'),
+(289, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:26:47', 'Bagian Keuangan'),
+(290, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:28:57', 'Bagian Keuangan'),
+(291, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 20:29:05', 'Bagian Keuangan'),
+(292, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:33:00', 'Bagian Keuangan'),
+(293, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 20:33:13', 'Bagian Keuangan'),
+(294, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:33:34', 'Bagian Keuangan'),
+(295, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 20:34:17', 'Bagian Keuangan'),
+(296, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:39:09', 'Bagian Keuangan'),
+(297, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:39:36', 'Bagian Keuangan'),
+(298, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 20:40:08', 'Bagian Keuangan'),
+(299, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:40:23', 'Bagian Keuangan'),
+(300, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:41:16', 'Bagian Keuangan'),
+(301, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:41:27', 'Bagian Keuangan'),
+(302, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 20:42:30', 'Bagian Keuangan'),
+(303, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:42:43', 'Bagian Keuangan'),
+(304, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:42:55', 'Bagian Keuangan'),
+(305, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 20:43:31', 'Bagian Keuangan'),
+(306, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:43:40', 'Bagian Keuangan'),
+(307, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:43:54', 'Bagian Keuangan'),
+(308, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:44:30', 'Bagian Keuangan'),
+(309, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:44:43', 'Bagian Keuangan'),
+(310, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 20:51:47', 'Bagian Keuangan'),
+(311, 1, NULL, 'Melakukan tambah Kriteria', '2023-06-11 20:52:04', 'Bagian Keuangan'),
+(312, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:52:16', 'Bagian Keuangan'),
+(313, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 20:52:25', 'Bagian Keuangan'),
+(314, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-06-11 20:58:49', 'Bagian Keuangan'),
+(315, 1, NULL, 'Melakukan edit nilai kriteria', '2023-06-11 20:59:05', 'Bagian Keuangan'),
+(316, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-06-11 21:00:25', 'Bagian Keuangan'),
+(317, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-06-11 21:00:33', 'Bagian Keuangan'),
+(318, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-06-11 21:00:41', 'Bagian Keuangan'),
+(319, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-06-11 21:00:51', 'Bagian Keuangan'),
+(320, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-06-11 21:01:14', 'Bagian Keuangan'),
+(321, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-06-11 21:01:24', 'Bagian Keuangan'),
+(322, 1, NULL, 'Melakukan tambah nilai kriteria', '2023-06-11 21:01:29', 'Bagian Keuangan'),
+(323, 1, NULL, 'Melakukan hapus Kriteria', '2023-06-11 21:05:03', 'Bagian Keuangan'),
+(324, 1, NULL, 'Melakukan edit Kriteria', '2023-06-11 21:05:16', 'Bagian Keuangan'),
+(325, NULL, 30, 'Melakukan penentuan UKT ', '2023-06-12 02:39:38', 'Mahasiswa'),
+(326, NULL, 30, 'Melakukan penentuan UKT ', '2023-06-12 02:42:17', 'Mahasiswa'),
+(327, NULL, 30, 'Melakukan penentuan UKT ', '2023-06-12 02:44:50', 'Mahasiswa'),
+(328, NULL, 30, 'Melakukan proses penentuan UKT ', '2023-06-12 03:20:35', 'Mahasiswa'),
+(329, NULL, 30, 'Mengulangi proses penentuan UKT ', '2023-06-12 03:21:22', 'Mahasiswa'),
+(330, NULL, 30, 'Melakukan proses penentuan UKT ', '2023-06-12 03:33:52', 'Mahasiswa'),
+(331, NULL, 1, 'Memberikan keputusan tidak setuju penentuan UKT kepada Baga', '2023-06-12 04:41:14', 'Bagian Keuangan'),
+(332, NULL, 1, 'Memberikan keputusan tidak setuju penentuan UKT kepada Baga', '2023-06-12 04:42:12', 'Bagian Keuangan'),
+(333, NULL, 30, 'Mengulangi proses penentuan UKT ', '2023-06-12 04:42:57', 'Mahasiswa'),
+(334, NULL, 30, 'Melakukan proses penentuan UKT ', '2023-06-12 05:10:48', 'Mahasiswa'),
+(335, NULL, 1, 'Memberikan keputusan setuju penentuan UKT kepada Baga', '2023-06-12 05:25:51', 'Bagian Keuangan');
 
 -- --------------------------------------------------------
 
@@ -354,7 +405,7 @@ CREATE TABLE `mahasiswa` (
   `status` enum('Mahasiswa') DEFAULT 'Mahasiswa',
   `id_kelompok_ukt` int(11) DEFAULT NULL,
   `foto_user` text DEFAULT NULL,
-  `status_pengajuan` enum('Tidak','Penangguhan','Penurunan') DEFAULT 'Tidak',
+  `status_pengajuan` enum('Tidak','Penangguhan','Penurunan','Penentuan') DEFAULT 'Tidak',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -372,7 +423,7 @@ INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `tahun_angka
 (21, 'Mahasiswa 3', 'D3 Sistem Informasi', '2020', '08989784353', 10107003, 'mahasiswa3@gmail.com', '$2y$10$3..nSR4cOdzururkffmmSedqg4tuhmxhx4xEmO5PRj/kZnGmDEPeS', 'Mahasiswa', 2, '05272023114808 Mahasiswa 3.png', 'Penurunan', NULL, NULL),
 (22, 'Renaldi Noviandi', 'D3 Sistem Informasi', '2020', '08989784353', 10107004, 'renaldinoviandi9@gmail.com', '$2y$10$3..nSR4cOdzururkffmmSedqg4tuhmxhx4xEmO5PRj/kZnGmDEPeS', 'Mahasiswa', 2, '06092023180521Renaldi Noviandi.jpg', 'Tidak', NULL, NULL),
 (29, 'Pengkuh Rangga Nurhidayat', 'Sistem Informasi', '2020', '8923542332', 10107042, 'pengkuh123@gmail.com', '$2y$10$J20et1lrqt5qdgwOXDGY4u0xj2haTDWJuPzc3mlyKSEabKxca3dDK', 'Mahasiswa', NULL, NULL, 'Tidak', '2023-06-07 17:05:32', '2023-06-07 17:05:32'),
-(30, 'Baga', 'D3 Sistem Informasi', '2020', '08989784353', 10107008, 'bagas@gmail.com', '$2y$10$4HD6Vvp2l4lntnsWudOT0uVkPHLd5ZUZOb2pZSzj6S1RYE7zSlj3K', 'Mahasiswa', NULL, '06102023013057 Baga.png', 'Tidak', NULL, NULL),
+(30, 'Baga', 'D3 Sistem Informasi', '2020', '08989784353', 10107008, 'bagas@gmail.com', '$2y$10$4HD6Vvp2l4lntnsWudOT0uVkPHLd5ZUZOb2pZSzj6S1RYE7zSlj3K', 'Mahasiswa', 12, '06102023013057 Baga.png', 'Tidak', NULL, NULL),
 (31, 'Mahasiswa 6', 'D3 Sistem Informasi', '2020', '08989784353', 10107006, 'mahasiswa6@gmail.com', '$2y$10$9lBVj65luy48nhRZ05PssenYX1mM2WwoUHz8.Ok4xYQBns8ze0PI.', 'Mahasiswa', NULL, '06112023123358 Mahasiswa 6.jpg', 'Tidak', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -409,7 +460,15 @@ INSERT INTO `nilai_kriteria` (`id_nilai_kriteria`, `id_kriteria`, `nilai_kriteri
 (20, 5, 'Pegawai Negeri Sipil dengan golongan III atau IV yang sudah memperoleh Tukin/TPP/Tunjangan Profesi', 5),
 (21, 5, 'Pegawai BUMN', 6),
 (22, 5, 'Pejabat negara (maksimal setingkat kepala pemerintahan kabupaten atau kota)', 7),
-(23, 5, 'Pejabat Negara (di atas tingkat kepala pemerintahan kabupaten atau kota)', 8);
+(23, 5, 'Pejabat Negara (di atas tingkat kepala pemerintahan kabupaten atau kota)', 8),
+(24, 15, '>=8', 1),
+(25, 15, '7', 2),
+(26, 15, '6', 3),
+(27, 15, '5', 4),
+(28, 15, '4', 5),
+(29, 15, '3', 6),
+(30, 15, '2', 7),
+(31, 15, '1', 8);
 
 -- --------------------------------------------------------
 
@@ -460,8 +519,12 @@ INSERT INTO `penangguhan_ukt` (`id_penangguhan_ukt`, `id_mahasiswa`, `nama_orang
 CREATE TABLE `penentuan_ukt` (
   `id_penentuan_ukt` int(11) NOT NULL,
   `id_mahasiswa` int(11) NOT NULL,
+  `label_kriteria` text NOT NULL,
+  `value_kriteria` text NOT NULL,
+  `hasil_ukt` varchar(5) NOT NULL,
   `tanggal_penentuan` datetime DEFAULT NULL,
   `status_penentuan` enum('Proses','Setuju','Tidak Setuju') DEFAULT NULL,
+  `status_laporan` enum('Belum','Sudah') NOT NULL DEFAULT 'Belum',
   `slip_gaji` text DEFAULT NULL,
   `struk_listrik` text DEFAULT NULL,
   `struk_air` text DEFAULT NULL,
@@ -472,8 +535,8 @@ CREATE TABLE `penentuan_ukt` (
 -- Dumping data for table `penentuan_ukt`
 --
 
-INSERT INTO `penentuan_ukt` (`id_penentuan_ukt`, `id_mahasiswa`, `tanggal_penentuan`, `status_penentuan`, `slip_gaji`, `struk_listrik`, `struk_air`, `kk`) VALUES
-(0, 22, '2023-06-13 01:23:49', 'Proses', NULL, NULL, NULL, NULL);
+INSERT INTO `penentuan_ukt` (`id_penentuan_ukt`, `id_mahasiswa`, `label_kriteria`, `value_kriteria`, `hasil_ukt`, `tanggal_penentuan`, `status_penentuan`, `status_laporan`, `slip_gaji`, `struk_listrik`, `struk_air`, `kk`) VALUES
+(6, 30, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 2.000.001 - Rp. 4.000.000;Pegawai Negeri Sipil dengan golongan I atau II', '4', '2023-06-12 05:10:47', 'Setuju', 'Sudah', '06122023051047 Slip Gaji Baga.pdf', '06122023051047 Struk Listrik Baga.pdf', '06122023051047 Struk Air Baga.pdf', '06122023051047 Kartu Keluarga Baga.pdf');
 
 -- --------------------------------------------------------
 
@@ -540,7 +603,7 @@ CREATE TABLE `setting` (
 --
 
 INSERT INTO `setting` (`id_setting`, `batas_ukt_penangguhan`, `batas_ukt_penurunan`, `persen_denda`, `persen_angsuran_pertama`, `batas_tanggal_angsuran`, `form_penurunan_sktm`, `form_penurunan_khs`, `form_penurunan_struk_listrik`, `form_penurunan_slip_gaji`, `form_penurunan_foto_rumah`, `form_penurunan_surat_pengajuan`, `tanda_tangan_kabag`, `form_penentuan_slip_gaji`, `form_penentuan_struk_listrik`, `form_penentuan_struk_air`, `form_penentuan_kk`) VALUES
-(1, 2, 2, 5, 50, 60, 1, 1, 1, 1, 1, 1, ' Tanda Tangan Kepala Bagian.png', 0, 0, 0, 0);
+(1, 2, 2, 5, 50, 60, 1, 1, 1, 1, 1, 1, ' Tanda Tangan Kepala Bagian.png', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -609,6 +672,12 @@ ALTER TABLE `penangguhan_ukt`
   ADD PRIMARY KEY (`id_penangguhan_ukt`);
 
 --
+-- Indexes for table `penentuan_ukt`
+--
+ALTER TABLE `penentuan_ukt`
+  ADD PRIMARY KEY (`id_penentuan_ukt`);
+
+--
 -- Indexes for table `penurunan_ukt`
 --
 ALTER TABLE `penurunan_ukt`
@@ -640,13 +709,13 @@ ALTER TABLE `kelompok_ukt`
 -- AUTO_INCREMENT for table `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=286;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=336;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
@@ -658,13 +727,19 @@ ALTER TABLE `mahasiswa`
 -- AUTO_INCREMENT for table `nilai_kriteria`
 --
 ALTER TABLE `nilai_kriteria`
-  MODIFY `id_nilai_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_nilai_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `penangguhan_ukt`
 --
 ALTER TABLE `penangguhan_ukt`
   MODIFY `id_penangguhan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `penentuan_ukt`
+--
+ALTER TABLE `penentuan_ukt`
+  MODIFY `id_penentuan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `penurunan_ukt`

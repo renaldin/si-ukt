@@ -15,6 +15,13 @@ class ModelKelompokUKT extends Model
         return DB::table('kelompok_ukt')->orderBy('id_kelompok_ukt', 'ASC')->get();
     }
 
+    public function dataKelompokUKTByProdi($prodi)
+    {
+        return DB::table('kelompok_ukt')
+            ->where('program_studi', $prodi)
+            ->orderBy('id_kelompok_ukt', 'ASC')->get();
+    }
+
     public function dataKelompokUKTPerSelect()
     {
         return DB::table('kelompok_ukt')

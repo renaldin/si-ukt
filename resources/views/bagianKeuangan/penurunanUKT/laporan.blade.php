@@ -101,7 +101,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Cetak</button>
+                <button type="submit" class="btn btn-primary">Cetak</button>
             </div>
         </div>
     </div>

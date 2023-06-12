@@ -9,6 +9,11 @@
                 <h4 class="card-title">{{$subTitle}}</h4>
                 </div>
             </div>
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#kirimLaporan" class="btn btn-primary">Kirim ke Laporan</button>
+                </div>
+            </div>
             <div class="card-body px-4" style="margin-bottom: -50px;">
                 @if (session('success'))
                     <div class="col-lg-12">
@@ -38,8 +43,9 @@
                         <tr class="ligth">
                             <th>No</th>
                             <th>Nama Mahasiswa</th>
-                            <th>Kelompok UKT</th>
-                            <th>Tanggal Penentuan</th>
+                            <th>Tahun Angkatan</th>
+                            <th>Hasil UKT</th>
+                            <th>Program Studi</th>
                             {{-- <th>Status</th> --}}
                             <th style="min-width: 100px">Aksi</th>
                         </tr>
@@ -47,36 +53,37 @@
                     <tbody>
                         <?php $no = 1;?>
                         @foreach ($dataPenentuanUKT as $item)
-                        @if ($item->status_penentuan == 'Proses')
-                        <tr>
-                            <td>{{$no++}}</td>
-                            <td>{{$item->nama_mahasiswa}}</td>
-                            <td>{{$item->kelompok_ukt}}</td>
-                            <td>{{$item->tanggal_penentuan}}</td>
-                            {{-- <td>{{$item->status_penentuan}}</td> --}}
-                            <td>
-                                <div class="flex align-items-center list-user-action">
-                                    @if($item->status_penentuan === 'Proses')
-                                    <button type="button" class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#kirimData{{$item->id_penentuan_ukt}}" data-placement="top" title="Kirim Data" data-original-title="Kirim Data">
-                                        <span class="btn-inner">
-                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.3345 2.75024H7.66549C4.64449 2.75024 2.75049 4.88924 2.75049 7.91624V16.0842C2.75049 19.1112 4.63549 21.2502 7.66549 21.2502H16.3335C19.3645 21.2502 21.2505 19.1112 21.2505 16.0842V7.91624C21.2505 4.88924 19.3645 2.75024 16.3345 2.75024Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M8.43994 12.0002L10.8139 14.3732L15.5599 9.6272" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                            
-                                        </span>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#detail{{$item->id_penentuan_ukt}}" data-placement="top" title="Detail Pengajuan" data-original-title="Detail Pengajuan">
-                                        <span class="btn-inner">
-                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M22.4541 11.3918C22.7819 11.7385 22.7819 12.2615 22.4541 12.6082C21.0124 14.1335 16.8768 18 12 18C7.12317 18 2.98759 14.1335 1.54586 12.6082C1.21811 12.2615 1.21811 11.7385 1.54586 11.3918C2.98759 9.86647 7.12317 6 12 6C16.8768 6 21.0124 9.86647 22.4541 11.3918Z" stroke="currentColor"></path>                                    <circle cx="12" cy="12" r="5" stroke="currentColor"></circle>                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    <mask mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="6" height="6">                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    </mask>                                    <circle opacity="0.89" cx="13.5" cy="10.5" r="1.5" fill="white"></circle>                                    </svg>                                
-                                        </span>
-                                    </button>
-                                    @else
-                                    <button type="button" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#detail{{$item->id_penentuan_ukt}}" data-placement="top" title="Detail Pengajuan" data-original-title="Delete">
-                                        <span class="btn-inner">
-                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M22.4541 11.3918C22.7819 11.7385 22.7819 12.2615 22.4541 12.6082C21.0124 14.1335 16.8768 18 12 18C7.12317 18 2.98759 14.1335 1.54586 12.6082C1.21811 12.2615 1.21811 11.7385 1.54586 11.3918C2.98759 9.86647 7.12317 6 12 6C16.8768 6 21.0124 9.86647 22.4541 11.3918Z" stroke="currentColor"></path>                                    <circle cx="12" cy="12" r="5" stroke="currentColor"></circle>                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    <mask mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="6" height="6">                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    </mask>                                    <circle opacity="0.89" cx="13.5" cy="10.5" r="1.5" fill="white"></circle>                                    </svg>                                
-                                        </span>
-                                    </button>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
+                        @if ($item->status_laporan == 'Belum')
+                            <tr>
+                                <td>{{$no++}}</td>
+                                <td>{{$item->nama_mahasiswa}}</td>
+                                <td>{{$item->tahun_angkatan}}</td>
+                                <td>{{$item->hasil_ukt}}</td>
+                                <td>{{$item->prodi}}</td>
+                                {{-- <td>{{$item->status_penentuan}}</td> --}}
+                                <td>
+                                    <div class="flex align-items-center list-user-action">
+                                        @if($item->status_penentuan === 'Proses')
+                                        <button type="button" class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#approve{{$item->id_penentuan_ukt}}" data-placement="top" title="Beri Keputusan" data-original-title="Beri Keputusan">
+                                            <span class="btn-inner">
+                                                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.3345 2.75024H7.66549C4.64449 2.75024 2.75049 4.88924 2.75049 7.91624V16.0842C2.75049 19.1112 4.63549 21.2502 7.66549 21.2502H16.3335C19.3645 21.2502 21.2505 19.1112 21.2505 16.0842V7.91624C21.2505 4.88924 19.3645 2.75024 16.3345 2.75024Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M8.43994 12.0002L10.8139 14.3732L15.5599 9.6272" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                            
+                                            </span>
+                                        </button>
+                                        <a href="/cek-berkas-penentuan-ukt/{{$item->id_penentuan_ukt}}" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="Cek Berkas" data-original-title="Cek Berkas">
+                                            <span class="btn-inner">
+                                                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M22.4541 11.3918C22.7819 11.7385 22.7819 12.2615 22.4541 12.6082C21.0124 14.1335 16.8768 18 12 18C7.12317 18 2.98759 14.1335 1.54586 12.6082C1.21811 12.2615 1.21811 11.7385 1.54586 11.3918C2.98759 9.86647 7.12317 6 12 6C16.8768 6 21.0124 9.86647 22.4541 11.3918Z" stroke="currentColor"></path>                                    <circle cx="12" cy="12" r="5" stroke="currentColor"></circle>                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    <mask mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="6" height="6">                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    </mask>                                    <circle opacity="0.89" cx="13.5" cy="10.5" r="1.5" fill="white"></circle>                                    </svg>                                
+                                            </span>
+                                        </a>
+                                        @else
+                                        <a href="/cek-berkas-penentuan-ukt/{{$item->id_penentuan_ukt}}" class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="Cek Berkas" data-original-title="Cek Berkas">
+                                            <span class="btn-inner">
+                                                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M22.4541 11.3918C22.7819 11.7385 22.7819 12.2615 22.4541 12.6082C21.0124 14.1335 16.8768 18 12 18C7.12317 18 2.98759 14.1335 1.54586 12.6082C1.21811 12.2615 1.21811 11.7385 1.54586 11.3918C2.98759 9.86647 7.12317 6 12 6C16.8768 6 21.0124 9.86647 22.4541 11.3918Z" stroke="currentColor"></path>                                    <circle cx="12" cy="12" r="5" stroke="currentColor"></circle>                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    <mask mask-type="alpha" maskUnits="userSpaceOnUse" x="9" y="9" width="6" height="6">                                    <circle cx="12" cy="12" r="3" fill="#130F26"></circle>                                    </mask>                                    <circle opacity="0.89" cx="13.5" cy="10.5" r="1.5" fill="white"></circle>                                    </svg>                                
+                                            </span>
+                                        </a>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
                         @endif
                         @endforeach
                     </tbody>
@@ -87,4 +94,42 @@
     </div>
 </div>
 
+
+@foreach ($dataPenentuanUKT as $item)
+<div class="modal fade" id="approve{{$item->id_penentuan_ukt}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Approve</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin setuju dengan data penentuan UKT ini?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="/tidak-setuju-penentuan/{{$item->id_penentuan_ukt}}" class="btn btn-danger">Tidak Setuju</a>
+                <a href="/setuju-penentuan/{{$item->id_penentuan_ukt}}" class="btn btn-success">Setuju</a>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
+<div class="modal fade" id="kirimLaporan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Kirim ke Laporan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin akan kirim data penentuan UKT ke Laporan?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                <a href="/kirim-laporan" type="button" class="btn btn-primary">Kirim</a>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

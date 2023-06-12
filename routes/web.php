@@ -87,6 +87,8 @@ Route::group(['middleware' => 'revalidate'], function () {
         // penentuan UKT
         Route::get('/penentuan-ukt', [PenentuanUKT::class, 'index'])->name('penentuan-ukt');
         Route::post('/penentuan-ukt', [PenentuanUKT::class, 'prosesPenentuan']);
+        Route::get('/informasi-penentuan-ukt/{id}', [PenentuanUKT::class, 'informasiPenentuanUKT']);
+        Route::get('/ulangi-penentuan-ukt/{id}', [PenentuanUKT::class, 'ulangi']);
     });
 
     Route::group(['middleware' => 'bagiankeuangan'], function () {
@@ -138,6 +140,12 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         // kelola penentuan UKt
         Route::get('/kelola-penentuan-ukt', [PenentuanUKT::class, 'kelolaPenentuanUKT'])->name('kelola-penentuan-ukt');
+        Route::get('/cek-berkas-penentuan-ukt/{id}', [PenentuanUKT::class, 'cekPemberkasan'])->name('cek-berkas-penentuan-ukt');
+        Route::get('/tidak-setuju-penentuan/{id}', [PenentuanUKT::class, 'tidakSetuju']);
+        Route::get('/setuju-penentuan/{id}', [PenentuanUKT::class, 'setuju']);
+        Route::get('/kirim-laporan', [PenentuanUKT::class, 'kirimKeLaporan']);
+        Route::get('/laporan-penentuan-ukt', [PenentuanUKT::class, 'laporanPenentuanUKT'])->name('laporan-penentuan-ukt');
+        Route::post('/cetak-semua-penentuan', [PenentuanUKT::class, 'cetakSemua']);
 
         // kelola penangguhan UKt
         Route::get('/kelola-penangguhan-ukt', [PenangguhanUKT::class, 'kelolaPenangguhanUKT'])->name('kelola-penangguhan-ukt');

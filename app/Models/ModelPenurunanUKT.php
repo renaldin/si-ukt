@@ -17,6 +17,7 @@ class ModelPenurunanUKT extends Model
             ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
             ->orderBy('id_penurunan_ukt', 'DESC')->get();
     }
+
     public function dataPenurunanUKTTanggal($tanggal_mulai, $tanggal_akhir)
     {
         return DB::table('penurunan_ukt')

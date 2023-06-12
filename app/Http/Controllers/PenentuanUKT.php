@@ -10,6 +10,8 @@ use App\Models\ModelPenentuanUKT;
 use App\Models\ModelSetting;
 use App\Models\ModelKriteria;
 use App\Models\ModelNilaiKriteria;
+use App\Models\ModelKelompokUKT;
+use PDF;
 
 class PenentuanUKT extends Controller
 {
@@ -21,6 +23,7 @@ class PenentuanUKT extends Controller
     private $ModelSetting;
     private $ModelKriteria;
     private $ModelNilaiKriteria;
+    private $ModelKelompokUKT;
 
     public function __construct()
     {
@@ -31,6 +34,7 @@ class PenentuanUKT extends Controller
         $this->ModelSetting = new ModelSetting();
         $this->ModelKriteria = new ModelKriteria();
         $this->ModelNilaiKriteria = new ModelNilaiKriteria();
+        $this->ModelKelompokUKT = new ModelKelompokUKT();
         date_default_timezone_set('Asia/Jakarta');
     }
 
@@ -47,6 +51,7 @@ class PenentuanUKT extends Controller
             'setting'           => $this->ModelSetting->dataSetting(),
             'kriteria'          => $this->ModelKriteria->dataKriteria(),
             'nilaiKriteria'     => $this->ModelNilaiKriteria->dataNilaiKriteria(),
+            'dataPenentuanUKT'  => $this->ModelPenentuanUKT->detailByMahasiswa(Session()->get('id_mahasiswa')),
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
         ];
 
@@ -55,17 +60,29 @@ class PenentuanUKT extends Controller
 
     public function prosesPenentuan()
     {
+
+        // TOPSIS
+
         $jumlahKriteria = $this->ModelKriteria->jumlahKriteria();
         for ($i = $jumlahKriteria; $i > 0; $i--) {
             // id_kriteria
             $id_kriteria[$i] = Request()->{"id_kriteria" . $i};
+            // Nilai Kriteria
+            $nama_kriteria[$i] = Request()->{"nama_kriteria" . $i};
             // bobot
             $bobot[$i] = Request()->{"bobot" . $i};
             // bobot
             $ideal[$i] = Request()->{"ideal" . $i};
 
+            // Nilai Kriteria
+            $kriteria[$i] = Request()->{"nilai_kriteria" . $i};
+            $kata = explode(";", $kriteria[$i]);
+
+            // Hasil Nikai Kriteria
+            $data_nilai_kriteria[$i] = $kata[1];
+
             // Nilai Target
-            $nilai_target[$i] = Request()->{"nilai_target" . $i};
+            $nilai_target[$i] = $kata[0];
 
             // Nilai Kriteria
             $nilai_kriteria[$i]   = $this->ModelNilaiKriteria->dataNilaiKriteriaBykriteria($id_kriteria[$i]);
@@ -232,12 +249,138 @@ class PenentuanUKT extends Controller
             $hasil[$i + 1]['Preferensi'] = $hasil_preferensi[0][$i];
             $hasil[$i + 1]['Ranking'] = $ranking_final[$i] + 1;
         }
+
+        // TUTUP TOPSIS
+
+
+        foreach ($hasil as $item) {
+            if ($item['Ranking'] == 1) {
+                $hasil_ukt = $item['Alternatif'];
+            }
+        }
+
+        $setting = $this->ModelSetting->dataSetting();
+        $mahasiswa = $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa'));
+
+        if ($setting->form_penentuan_slip_gaji == 1) {
+            $fileSlipGaji = Request()->slip_gaji;
+            $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
+            $fileSlipGaji->move(public_path('dokumen_penentuan_ukt/slip_gaji'), $fileNameSlipGaji);
+        } else {
+            $fileNameSlipGaji = null;
+        }
+
+        if ($setting->form_penentuan_struk_listrik == 1) {
+            $fileStrukListrik = Request()->struk_listrik;
+            $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
+            $fileStrukListrik->move(public_path('dokumen_penentuan_ukt/rekening_listrik'), $fileNameStrukListrik);
+        } else {
+            $fileNameStrukListrik = null;
+        }
+
+        if ($setting->form_penentuan_struk_air == 1) {
+            $fileStrukAir = Request()->struk_air;
+            $fileNameStrukAir = date('mdYHis') . ' Struk Air ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukAir->extension();
+            $fileStrukAir->move(public_path('dokumen_penentuan_ukt/rekening_air'), $fileNameStrukAir);
+        } else {
+            $fileNameStrukAir = null;
+        }
+
+        if ($setting->form_penentuan_kk == 1) {
+            $fileKk = Request()->kk;
+            $fileNameKk = date('mdYHis') . ' Kartu Keluarga ' . $mahasiswa->nama_mahasiswa . '.' . $fileKk->extension();
+            $fileKk->move(public_path('dokumen_penentuan_ukt/kk'), $fileNameKk);
+        } else {
+            $fileNameKk = null;
+        }
+
+        $string_nama_kriteria = implode(';', $nama_kriteria);
+        $string_data_nilai_kriteria = implode(';', $data_nilai_kriteria);
+
+        $data = [
+            'id_mahasiswa'              => Session()->get('id_mahasiswa'),
+            'label_kriteria'            => $string_nama_kriteria,
+            'value_kriteria'            => $string_data_nilai_kriteria,
+            'tanggal_penentuan'         => date('Y-m-d H:i:s'),
+            'status_penentuan'          => 'Proses',
+            'hasil_ukt'                 => $hasil_ukt,
+            'slip_gaji'                 => $fileNameSlipGaji,
+            'struk_listrik'             => $fileNameStrukListrik,
+            'struk_air'                 => $fileNameStrukAir,
+            'kk'                        => $fileNameKk,
+        ];
+
+        $dataMahasiswa = [
+            'id_mahasiswa'      => Session()->get('id_mahasiswa'),
+            'status_pengajuan'  => 'Penentuan'
+        ];
+        $this->ModelMahasiswa->edit($dataMahasiswa);
+
+
+        // log
+        $dataLog = [
+            'id_mahasiswa'  => Session()->get('id_mahasiswa'),
+            'keterangan'    => 'Melakukan proses penentuan UKT ',
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenentuanUKT->tambah($data);
+        $dataPenentuanUKT = $this->ModelPenentuanUKT->dataTerakhir();
+        return redirect('informasi-penentuan-ukt/' . $dataPenentuanUKT->id_penentuan_ukt)->with('success', 'Anda berhasil melakukan penentuan UKT, silahkan tunggu hasilnya!');
     }
 
-    public function kelolaPenentuanUKT()
+    public function informasiPenentuanUKT($id_penentuan_ukt)
     {
         if (!Session()->get('status')) {
             return redirect()->route('login');
+        }
+
+        $data = [
+            'title'             => 'Penentuan UKT',
+            'subTitle'          => 'Informasi Penentuan UKT',
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'detail'            => $this->ModelPenentuanUKT->detail($id_penentuan_ukt),
+            'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
+        ];
+
+        return view('mahasiswa.penentuanUKT.informasi', $data);
+    }
+
+    public function ulangi($id_penentuan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $detail = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
+
+        $dataMahasiswa = [
+            'id_mahasiswa'      => $detail->id_mahasiswa,
+            'status_pengajuan'  => 'Tidak'
+        ];
+        $this->ModelMahasiswa->edit($dataMahasiswa);
+
+
+        // log
+        $dataLog = [
+            'id_mahasiswa'  => Session()->get('id_mahasiswa'),
+            'keterangan'    => 'Mengulangi proses penentuan UKT ',
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenentuanUKT->hapus($id_penentuan_ukt);
+        return redirect('/penentuan-ukt')->with('success', 'Anda akan mengulangi proses penentuan UKT. Silahkan isi dengan data yang sesuai dengan data yang dimiliki!');
+    }
+
+    // Bagian Keuangan
+    public function kelolaPenentuanUKT()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
         }
 
         $data = [
@@ -249,5 +392,164 @@ class PenentuanUKT extends Controller
         ];
 
         return view('bagianKeuangan.penentuanUKT.kelola', $data);
+    }
+
+    public function cekPemberkasan($id_penentuan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'             => 'Penentuan UKT',
+            'subTitle'          => 'Cek Berkas',
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'detail'            => $this->ModelPenentuanUKT->detail($id_penentuan_ukt),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+        ];
+
+        return view('bagianKeuangan.penentuanUKT.cekBerkas', $data);
+    }
+
+    public function tidakSetuju($id_penentuan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $detail = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
+
+        $data = [
+            'id_penentuan_ukt'  => $detail->id_penentuan_ukt,
+            'status_penentuan'  => 'Tidak Setuju'
+        ];
+
+        $dataMahasiswa = [
+            'id_mahasiswa'      => $detail->id_mahasiswa,
+            'status_pengajuan'  => 'Tidak'
+        ];
+        $this->ModelMahasiswa->edit($dataMahasiswa);
+
+
+        // log
+        $dataLog = [
+            'id_mahasiswa'  => Session()->get('id_user'),
+            'keterangan'    => 'Memberikan keputusan tidak setuju penentuan UKT kepada ' . $detail->nama_mahasiswa,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenentuanUKT->edit($data);
+        return redirect('/kelola-penentuan-ukt')->with('success', 'Berhasil memberikan keputusan tidak setuju.');
+    }
+
+    public function setuju($id_penentuan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $detail = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
+
+        $kelompokUKT = $this->ModelKelompokUKT->dataKelompokUKTByProdi($detail->prodi);
+        foreach ($kelompokUKT as $item) {
+            if ($detail->hasil_ukt == $item->kelompok_ukt) {
+                $id_kelompok_ukt = $item->id_kelompok_ukt;
+            }
+        }
+
+        $data = [
+            'id_penentuan_ukt'  => $detail->id_penentuan_ukt,
+            'status_penentuan'  => 'Setuju'
+        ];
+
+        $dataMahasiswa = [
+            'id_mahasiswa'      => $detail->id_mahasiswa,
+            'status_pengajuan'  => 'Tidak',
+            'id_kelompok_ukt'   => $id_kelompok_ukt
+        ];
+        $this->ModelMahasiswa->edit($dataMahasiswa);
+
+
+        // log
+        $dataLog = [
+            'id_mahasiswa'  => Session()->get('id_user'),
+            'keterangan'    => 'Memberikan keputusan setuju penentuan UKT kepada ' . $detail->nama_mahasiswa,
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenentuanUKT->edit($data);
+        return redirect('/kelola-penentuan-ukt')->with('success', 'Berhasil memberikan keputusan setuju.');
+    }
+
+    public function kirimKeLaporan()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'status_laporan'    => 'Sudah'
+        ];
+
+        $this->ModelPenentuanUKT->editStatusLaporan($data);
+        return redirect('/kelola-penentuan-ukt')->with('success', 'Anda berhasil memindahkan data penentuan UKT ke Laporan.');
+    }
+
+    public function laporanPenentuanUKT()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'             => 'Penentuan UKT',
+            'subTitle'          => 'Laporan Penentuan UKT',
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'dataPenentuanUKT' => $this->ModelPenentuanUKT->dataPenentuanUKT(),
+        ];
+
+        return view('bagianKeuangan.penentuanUKT.laporan', $data);
+    }
+
+    public function cetakSemua()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'             => 'Rekap Penentuan UKT',
+            'tahunAngkatan'     => Request()->tahun_angkatan,
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'dataPenentuanUKT'  => $this->ModelPenentuanUKT->dataPenentuanUKTTanggal(Request()->tanggal_mulai, Request()->tanggal_akhir, Request()->tahun_angkatan),
+        ];
+
+        $pdf = PDF::loadview('cetak/penentuan/cetakSemua', $data);
+        return $pdf->download($data['title'] . ' ' . date('d F Y') . '.pdf');
+    }
+
+    public function cetakSatuan($id_penentuan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $detail = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
+
+        $data = [
+            'title'             => 'Rekap Penentuan UKT',
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'detail'            => $detail,
+        ];
+
+        $pdf = PDF::loadview('cetak/penentaun/cetakSatuan', $data);
+        return $pdf->download($data['title'] . ' ' . $detail->nama_mahasiswa . ' ' . date('d F Y') . '.pdf');
     }
 }

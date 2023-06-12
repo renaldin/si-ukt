@@ -71,10 +71,11 @@ class Kriteria extends Controller
         $kurangBobot = 1 - $totalBobot;
 
         if ($totalBobot < 1) {
-            if ($bobot <= $kurangBobot) {
+            if ($bobot < $kurangBobot + 0.1) {
                 $data = [
                     'nama_kriteria' => Request()->nama_kriteria,
                     'bobot'         => $bobot,
+                    'ideal'         => Request()->ideal,
                 ];
 
                 // log
@@ -130,10 +131,11 @@ class Kriteria extends Controller
         $kurangBobot = 1 - $totalBobot;
 
         if ($totalBobot < 1) {
-            if ($bobot <= $kurangBobot) {
+            if ($bobot < $kurangBobot + 0.1) {
                 $data = [
                     'id_kriteria'   => $id_kriteria,
                     'nama_kriteria' => Request()->nama_kriteria,
+                    'ideal'         => Request()->ideal,
                     'bobot'         => $bobot,
                 ];
 
