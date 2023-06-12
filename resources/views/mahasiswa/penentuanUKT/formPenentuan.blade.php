@@ -111,7 +111,11 @@
                             <input type="hidden" name="bobot{{$no}}" value="{{$row->bobot}}">
                             <input type="hidden" name="ideal{{$no}}" value="{{$row->ideal}}">
                             <select name="nilai_kriteria{{$no}}" id="nilai_kriteria{{$no}}" class="selectpicker form-control" data-style="py-0" required>
-                                <option value="">-- Pilih --</option>
+                                @if ($form == 'Tambah')
+                                    <option value="">-- Pilih --</option>
+                                @else
+                                    <option value="">-- Pilih --</option>
+                                @endif
                                 @foreach ($nilaiKriteria as $item)
                                     @if ($item->id_kriteria == $row->id_kriteria)
                                         <option value="{{$item->ukt}};{{$item->nilai_kriteria}}">{{$item->nilai_kriteria}}</option>
@@ -183,7 +187,7 @@
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <button type="reset" class="btn btn-danger">Reset</button>
                         @if ($form == 'Edit')
-                            <a href="/informasi-pengajuan-penurunan-ukt/{{$detail->id_penurunan_ukt}}"" class="btn btn-secondary">Kembali</a>
+                            <a href="/informasi-penentuan-ukt/{{$detail->id_penentuan_ukt}}"" class="btn btn-secondary">Kembali</a>
                         @endif
                     </form>
                 </div>

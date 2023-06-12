@@ -53,7 +53,7 @@
                     <tbody>
                         <?php $no = 1;?>
                         @foreach ($dataPenentuanUKT as $item)
-                        @if ($item->status_laporan == 'Belum')
+                        @if ($item->status_laporan == 'Belum' && $item->status_penentuan !== 'Belum Dikirim')
                             <tr>
                                 <td>{{$no++}}</td>
                                 <td>{{$item->nama_mahasiswa}}</td>

@@ -66,9 +66,11 @@
                                     <td>:</td>
                                     <td>
                                         @if ($detail->status_penentuan == 'Proses')
-                                            <strong>UKT Anda belum ada. Sedang dilakukan pengecekan berkas terlebih dahulu. Silahkan ditunggu!</strong>
+                                            <strong>UKT Anda belum ada.</strong>
                                         @elseif($detail->status_penentuan == 'Tidak Setuju')    
-                                            <strong>Data penentuan UKT Anda tidak disetujui. Silahkan klik tombol ulangi dan input data yang sesuai!</strong>
+                                            <strong>Data penentuan UKT Anda tidak disetujui.</strong>
+                                        @elseif($detail->status_penentuan == 'Belum Dikirim')    
+                                            <strong>UKT Anda belum ada.!</strong>  
                                         @else
                                             {{$detail->kelompok_ukt}} / {{'Rp '.number_format($detail->nominal, 0, ',', '.')}}
                                         @endif
@@ -81,7 +83,17 @@
             </div>
             <div class="card-header mx-2">
                 @if ($detail->status_penentuan == 'Tidak Setuju')
+                    <p><strong>Keterangan:</strong></p>
+                    <p>Data penentuan UKT Anda <strong>Tidak Disetujui</strong>. Silahkan klik tombol ulangi dan isi sesuai dengan data yang dimiliki!.</p>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#ulangi" class="btn btn-primary">Ulangi</button>
+                @elseif($detail->status_penentuan == 'Proses')
+                    <p><strong>Keterangan:</strong></p>
+                    <p>Data penentuan UKT Anda sedang dilakukan pengecekan berkas terlebih dahulu. Silahkan ditunggu!</p>
+                @elseif($detail->status_penentuan == 'Belum Dikirim')
+                    <p><strong>Keterangan:</strong></p>
+                    <p>Data penentuan UKT Anda <strong>Belum Dikirim</strong>. Silahkan cek data penentaun UKT dengan berkas yang disimpan! Jika sudah sesuai, klik tombol kirim!.</p>
+                    <a href="/edit-penentuan-ukt/{{$detail->id_penentuan_ukt}}" class="btn btn-success">Edit</a>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#kirim" class="btn btn-primary">Kirim</button>
                 @endif
             </div>
             <div class="card-body mx-2">
@@ -293,6 +305,24 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
                 <a href="/ulangi-penentuan-ukt/{{$detail->id_penentuan_ukt}}" type="button" class="btn btn-primary">Ulangi</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="kirim" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Kirim</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin akan mengirim data penentuan UKT ini?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                <a href="/kirim-penentuan-ukt/{{$detail->id_penentuan_ukt}}" type="button" class="btn btn-primary">Kirim</a>
             </div>
         </div>
     </div>

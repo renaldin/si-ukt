@@ -89,6 +89,9 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/penentuan-ukt', [PenentuanUKT::class, 'prosesPenentuan']);
         Route::get('/informasi-penentuan-ukt/{id}', [PenentuanUKT::class, 'informasiPenentuanUKT']);
         Route::get('/ulangi-penentuan-ukt/{id}', [PenentuanUKT::class, 'ulangi']);
+        Route::get('/edit-penentuan-ukt/{id}', [PenentuanUKT::class, 'edit'])->name('edit-penentuan-ukt');
+        Route::post('/edit-penentuan-ukt/{id}', [PenentuanUKT::class, 'prosesEdit']);
+        Route::get('/kirim-penentuan-ukt/{id}', [PenentuanUKT::class, 'kirim']);
     });
 
     Route::group(['middleware' => 'bagiankeuangan'], function () {

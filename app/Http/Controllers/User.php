@@ -348,7 +348,7 @@ class User extends Controller
         ], [
             'password_lama.required'    => 'Password Lama harus diisi!',
             'password_lama.min'         => 'Password Lama minikal 6 karakter!',
-            'password_baru.required'    => 'Passwofd Baru harus diisi!',
+            'password_baru.required'    => 'Password Baru harus diisi!',
             'password_baru.min'         => 'Password Lama minikal 6 karakter!',
         ]);
 

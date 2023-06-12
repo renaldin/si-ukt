@@ -296,13 +296,15 @@ class PenentuanUKT extends Controller
 
         $string_nama_kriteria = implode(';', $nama_kriteria);
         $string_data_nilai_kriteria = implode(';', $data_nilai_kriteria);
+        $stringnilai_target = implode(';', $nilai_target);
 
         $data = [
             'id_mahasiswa'              => Session()->get('id_mahasiswa'),
             'label_kriteria'            => $string_nama_kriteria,
             'value_kriteria'            => $string_data_nilai_kriteria,
+            'target_kriteria'           => $stringnilai_target,
             'tanggal_penentuan'         => date('Y-m-d H:i:s'),
-            'status_penentuan'          => 'Proses',
+            'status_penentuan'          => 'Belum Dikirim',
             'hasil_ukt'                 => $hasil_ukt,
             'slip_gaji'                 => $fileNameSlipGaji,
             'struk_listrik'             => $fileNameStrukListrik,
@@ -328,7 +330,303 @@ class PenentuanUKT extends Controller
 
         $this->ModelPenentuanUKT->tambah($data);
         $dataPenentuanUKT = $this->ModelPenentuanUKT->dataTerakhir();
-        return redirect('informasi-penentuan-ukt/' . $dataPenentuanUKT->id_penentuan_ukt)->with('success', 'Anda berhasil melakukan penentuan UKT, silahkan tunggu hasilnya!');
+        return redirect('informasi-penentuan-ukt/' . $dataPenentuanUKT->id_penentuan_ukt)->with('success', 'Anda berhasil melakukan penentuan UKTa!');
+    }
+
+    public function edit($id_penentuan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $data = [
+            'title'             => 'Penentuan UKT',
+            'subTitle'          => 'Edit Proses Penentuan UKT',
+            'form'              => 'Edit',
+            'detail'            => $this->ModelPenentuanUKT->detail($id_penentuan_ukt),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'kriteria'          => $this->ModelKriteria->dataKriteria(),
+            'nilaiKriteria'     => $this->ModelNilaiKriteria->dataNilaiKriteria(),
+            'dataPenentuanUKT'  => $this->ModelPenentuanUKT->detailByMahasiswa(Session()->get('id_mahasiswa')),
+            'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
+        ];
+
+        return view('mahasiswa.penentuanUKT.formPenentuan', $data);
+    }
+
+    public function prosesEdit($id_penentuan_ukt)
+    {
+
+        // TOPSIS
+
+        $jumlahKriteria = $this->ModelKriteria->jumlahKriteria();
+        for ($i = $jumlahKriteria; $i > 0; $i--) {
+            // id_kriteria
+            $id_kriteria[$i] = Request()->{"id_kriteria" . $i};
+            // Nilai Kriteria
+            $nama_kriteria[$i] = Request()->{"nama_kriteria" . $i};
+            // bobot
+            $bobot[$i] = Request()->{"bobot" . $i};
+            // bobot
+            $ideal[$i] = Request()->{"ideal" . $i};
+
+            // Nilai Kriteria
+            $kriteria[$i] = Request()->{"nilai_kriteria" . $i};
+            $kata = explode(";", $kriteria[$i]);
+
+            // Hasil Nikai Kriteria
+            $data_nilai_kriteria[$i] = $kata[1];
+
+            // Nilai Target
+            $nilai_target[$i] = $kata[0];
+
+            // Nilai Kriteria
+            $nilai_kriteria[$i]   = $this->ModelNilaiKriteria->dataNilaiKriteriaBykriteria($id_kriteria[$i]);
+
+            // hasil gap
+            $gap = [];
+            foreach ($nilai_kriteria[$i] as $item[$i]) {
+                $gap[] = intval($item[$i]->ukt) - intval($nilai_target[$i]);
+            }
+            $hasil_gap[$i] = $gap;
+
+            // nilai bobot dari hasil gap
+            $bobot_hasil_gap = [];
+            foreach ($hasil_gap[$i] as $row) {
+                switch ($row) {
+                    case 0:
+                        $nilai_hasil = 8;
+                        break;
+                    case 1:
+                        $nilai_hasil = 7.5;
+                        break;
+                    case -1:
+                        $nilai_hasil = 7;
+                        break;
+                    case 2:
+                        $nilai_hasil = 6.5;
+                        break;
+                    case -2:
+                        $nilai_hasil = 6;
+                        break;
+                    case 3:
+                        $nilai_hasil = 5.5;
+                        break;
+                    case -3:
+                        $nilai_hasil = 5;
+                        break;
+                    case 4:
+                        $nilai_hasil = 4.5;
+                        break;
+                    case -4:
+                        $nilai_hasil = 4;
+                        break;
+                    case 5:
+                        $nilai_hasil = 3.5;
+                        break;
+                    case -5:
+                        $nilai_hasil = 3;
+                        break;
+                    case 6:
+                        $nilai_hasil = 2.5;
+                        break;
+                    case -6:
+                        $nilai_hasil = 2;
+                        break;
+                    case 7:
+                        $nilai_hasil = 1.5;
+                        break;
+                    case -7:
+                        $nilai_hasil = 1;
+                        break;
+                }
+
+                $bobot_hasil_gap[] = $nilai_hasil;
+            }
+            $nilai_bobot_hasil_gap[$i] = $bobot_hasil_gap;
+
+            // pembagi
+            $pem = null;
+            foreach ($nilai_bobot_hasil_gap[$i] as $row) {
+                $pem = $pem + pow($row, 2);
+            }
+            $pembagi[$i] = sqrt($pem);
+
+            // normalisasi keputusan
+            $normalisasi = [];
+            foreach ($nilai_bobot_hasil_gap[$i] as $row) {
+                $normalisasi[] = $row / $pembagi[$i];
+            }
+            $normalisasi_keputusan[$i] = $normalisasi;
+
+            // normalisasi bobot
+            $bobot_normal = [];
+            foreach ($normalisasi_keputusan[$i] as $row) {
+                $bobot_normal[] = $row * $bobot[$i];
+            }
+            $normalisasi_bobot[$i] = $bobot_normal;
+
+            // ideal positif negatif
+            // $positif = max($normalisasi_bobot[$i]);
+            $positif = [];
+            $negatif = [];
+            if ($ideal[$i] == 'Benefit') {
+                $positif[] = max($normalisasi_bobot[$i]);
+                $negatif[] = min($normalisasi_bobot[$i]);
+            } else {
+                $positif[] = min($normalisasi_bobot[$i]);
+                $negatif[] = max($normalisasi_bobot[$i]);
+            }
+            $ideal_positif[$i] = $positif;
+            $ideal_negatif[$i] = $negatif;
+        }
+
+        $jumlahNormalBobot = count($normalisasi_bobot[1]);
+
+        // keputusan pemisahan = ideal positif = D+
+        for ($i = 0; $i < $jumlahNormalBobot; $i++) {
+            $d = 0;
+            for ($j = $jumlahKriteria; $j > 0; $j--) {
+                $d = $d + pow($ideal_positif[$j][0] - $normalisasi_bobot[$j][$i], 2);
+            }
+            $hasil_ideal_positif[] = sqrt($d);
+        }
+
+        // keputusan pemisahan = ideal positif = D+
+        for ($i = 0; $i < $jumlahNormalBobot; $i++) {
+            $d = 0;
+            for ($j = $jumlahKriteria; $j > 0; $j--) {
+                $d = $d + pow($ideal_negatif[$j][0] - $normalisasi_bobot[$j][$i], 2);
+            }
+            $hasil_ideal_negatif[] = sqrt($d);
+        }
+
+        // PREFERENSI
+        $preferensi = [];
+        for ($i = 0; $i < $jumlahNormalBobot; $i++) {
+            $preferensi[] = $hasil_ideal_negatif[$i] / ($hasil_ideal_negatif[$i] + $hasil_ideal_positif[$i]);
+        }
+        $hasil_preferensi[] = $preferensi;
+
+        $rank[] = $hasil_preferensi[0];
+
+        $n = count($rank[0]);
+
+        // RANKING
+        for ($i = 0; $i < $n - 1; $i++) {
+            for ($j = 0; $j < $n - $i - 1; $j++) {
+                if ($rank[0][$j] > $rank[0][$j + 1]) {
+                    // Swap elements
+                    $temp = $rank[0][$j];
+                    $rank[0][$j] = $rank[0][$j + 1];
+                    $rank[0][$j + 1] = $temp;
+                }
+            }
+        }
+
+        $ranking_ukt = null;
+        for ($i = $jumlahNormalBobot - 1; $i > -1; $i--) {
+            for ($j = 0; $j < $jumlahNormalBobot; $j++) {
+                if ($hasil_preferensi[0][$j] == $rank[0][$i]) {
+                    $ranking_ukt = $j;
+                    break;
+                }
+            }
+            $ranking[] = $ranking_ukt;
+        }
+
+
+        for ($i = 0; $i < $jumlahNormalBobot; $i++) {
+            $ranking_final[$ranking[$i]] = $i;
+        }
+
+        for ($i = 0; $i < $jumlahNormalBobot; $i++) {
+            $hasil[$i + 1]['Alternatif'] = $i + 1;
+            $hasil[$i + 1]['Preferensi'] = $hasil_preferensi[0][$i];
+            $hasil[$i + 1]['Ranking'] = $ranking_final[$i] + 1;
+        }
+
+        // TUTUP TOPSIS
+
+
+        foreach ($hasil as $item) {
+            if ($item['Ranking'] == 1) {
+                $hasil_ukt = $item['Alternatif'];
+            }
+        }
+
+        $setting = $this->ModelSetting->dataSetting();
+        $mahasiswa = $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa'));
+
+        if ($setting->form_penentuan_slip_gaji == 1) {
+            $fileSlipGaji = Request()->slip_gaji;
+            $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
+            $fileSlipGaji->move(public_path('dokumen_penentuan_ukt/slip_gaji'), $fileNameSlipGaji);
+        } else {
+            $fileNameSlipGaji = null;
+        }
+
+        if ($setting->form_penentuan_struk_listrik == 1) {
+            $fileStrukListrik = Request()->struk_listrik;
+            $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
+            $fileStrukListrik->move(public_path('dokumen_penentuan_ukt/rekening_listrik'), $fileNameStrukListrik);
+        } else {
+            $fileNameStrukListrik = null;
+        }
+
+        if ($setting->form_penentuan_struk_air == 1) {
+            $fileStrukAir = Request()->struk_air;
+            $fileNameStrukAir = date('mdYHis') . ' Struk Air ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukAir->extension();
+            $fileStrukAir->move(public_path('dokumen_penentuan_ukt/rekening_air'), $fileNameStrukAir);
+        } else {
+            $fileNameStrukAir = null;
+        }
+
+        if ($setting->form_penentuan_kk == 1) {
+            $fileKk = Request()->kk;
+            $fileNameKk = date('mdYHis') . ' Kartu Keluarga ' . $mahasiswa->nama_mahasiswa . '.' . $fileKk->extension();
+            $fileKk->move(public_path('dokumen_penentuan_ukt/kk'), $fileNameKk);
+        } else {
+            $fileNameKk = null;
+        }
+
+        $string_nama_kriteria = implode(';', $nama_kriteria);
+        $string_data_nilai_kriteria = implode(';', $data_nilai_kriteria);
+        $stringnilai_target = implode(';', $nilai_target);
+
+        $data = [
+            'id_penentuan_ukt'          => $id_penentuan_ukt,
+            'id_mahasiswa'              => Session()->get('id_mahasiswa'),
+            'label_kriteria'            => $string_nama_kriteria,
+            'value_kriteria'            => $string_data_nilai_kriteria,
+            'target_kriteria'           => $stringnilai_target,
+            'tanggal_penentuan'         => date('Y-m-d H:i:s'),
+            'status_penentuan'          => 'Belum Dikirim',
+            'hasil_ukt'                 => $hasil_ukt,
+            'slip_gaji'                 => $fileNameSlipGaji,
+            'struk_listrik'             => $fileNameStrukListrik,
+            'struk_air'                 => $fileNameStrukAir,
+            'kk'                        => $fileNameKk,
+        ];
+
+        $dataMahasiswa = [
+            'id_mahasiswa'      => Session()->get('id_mahasiswa'),
+            'status_pengajuan'  => 'Penentuan'
+        ];
+        $this->ModelMahasiswa->edit($dataMahasiswa);
+
+
+        // log
+        $dataLog = [
+            'id_mahasiswa'  => Session()->get('id_mahasiswa'),
+            'keterangan'    => 'Melakukan edit proses penentuan UKT ',
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenentuanUKT->edit($data);
+        return redirect('informasi-penentuan-ukt/' . $id_penentuan_ukt)->with('success', 'Anda berhasil melakukan edit penentuan UKT!');
     }
 
     public function informasiPenentuanUKT($id_penentuan_ukt)
@@ -374,6 +672,33 @@ class PenentuanUKT extends Controller
 
         $this->ModelPenentuanUKT->hapus($id_penentuan_ukt);
         return redirect('/penentuan-ukt')->with('success', 'Anda akan mengulangi proses penentuan UKT. Silahkan isi dengan data yang sesuai dengan data yang dimiliki!');
+    }
+
+    public function kirim($id_penentuan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $detail = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
+
+        $data = [
+            'id_penentuan_ukt'  => $id_penentuan_ukt,
+            'status_penentuan'  => 'Proses'
+        ];
+
+
+        // log
+        $dataLog = [
+            'id_mahasiswa'  => Session()->get('id_mahasiswa'),
+            'keterangan'    => 'Mengirim data penentuan UKT ',
+            'status_user'   => session()->get('status')
+        ];
+        $this->ModelLog->tambah($dataLog);
+        // end log
+
+        $this->ModelPenentuanUKT->edit($data);
+        return redirect('/informasi-penentuan-ukt/' . $id_penentuan_ukt)->with('success', 'Anda telah mengirim data penentuan UKT. Silahkan ditunggu hasilnya!');
     }
 
     // Bagian Keuangan

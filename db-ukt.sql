@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2023 at 03:53 PM
+-- Generation Time: Jun 12, 2023 at 10:18 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -387,7 +387,12 @@ INSERT INTO `log` (`id_log`, `id_user`, `id_mahasiswa`, `keterangan`, `waktu`, `
 (334, NULL, 30, 'Melakukan proses penentuan UKT ', '2023-06-12 05:10:48', 'Mahasiswa'),
 (335, NULL, 1, 'Memberikan keputusan setuju penentuan UKT kepada Baga', '2023-06-12 05:25:51', 'Bagian Keuangan'),
 (336, NULL, 34, 'Melakukan proses penentuan UKT ', '2023-06-12 13:30:14', 'Mahasiswa'),
-(337, NULL, 1, 'Memberikan keputusan setuju penentuan UKT kepada Mahasiswa 7', '2023-06-12 13:34:51', 'Bagian Keuangan');
+(337, NULL, 1, 'Memberikan keputusan setuju penentuan UKT kepada Mahasiswa 7', '2023-06-12 13:34:51', 'Bagian Keuangan'),
+(338, NULL, 31, 'Melakukan proses penentuan UKT ', '2023-06-13 02:27:23', 'Mahasiswa'),
+(339, NULL, 31, 'Melakukan edit proses penentuan UKT ', '2023-06-13 02:50:13', 'Mahasiswa'),
+(340, NULL, 31, 'Melakukan edit proses penentuan UKT ', '2023-06-13 02:53:31', 'Mahasiswa'),
+(341, NULL, 31, 'Mengirim data penentuan UKT ', '2023-06-13 03:14:58', 'Mahasiswa'),
+(342, NULL, 1, 'Memberikan keputusan setuju penentuan UKT kepada Mahasiswa 6', '2023-06-13 03:15:44', 'Bagian Keuangan');
 
 -- --------------------------------------------------------
 
@@ -426,7 +431,7 @@ INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `tahun_angka
 (22, 'Renaldi Noviandi', 'D3 Sistem Informasi', '2020', '08989784353', 10107004, 'renaldinoviandi9@gmail.com', '$2y$10$3..nSR4cOdzururkffmmSedqg4tuhmxhx4xEmO5PRj/kZnGmDEPeS', 'Mahasiswa', 2, '06092023180521Renaldi Noviandi.jpg', 'Tidak', NULL, NULL),
 (29, 'Pengkuh Rangga Nurhidayat', 'Sistem Informasi', '2020', '8923542332', 10107042, 'pengkuh123@gmail.com', '$2y$10$J20et1lrqt5qdgwOXDGY4u0xj2haTDWJuPzc3mlyKSEabKxca3dDK', 'Mahasiswa', NULL, NULL, 'Tidak', '2023-06-07 17:05:32', '2023-06-07 17:05:32'),
 (30, 'Baga', 'D3 Sistem Informasi', '2020', '08989784353', 10107008, 'bagas@gmail.com', '$2y$10$4HD6Vvp2l4lntnsWudOT0uVkPHLd5ZUZOb2pZSzj6S1RYE7zSlj3K', 'Mahasiswa', 12, '06102023013057 Baga.png', 'Tidak', NULL, NULL),
-(31, 'Mahasiswa 6', 'D3 Sistem Informasi', '2020', '08989784353', 10107006, 'mahasiswa6@gmail.com', '$2y$10$9lBVj65luy48nhRZ05PssenYX1mM2WwoUHz8.Ok4xYQBns8ze0PI.', 'Mahasiswa', NULL, '06112023123358 Mahasiswa 6.jpg', 'Tidak', NULL, NULL),
+(31, 'Mahasiswa 6', 'D3 Sistem Informasi', '2020', '08989784353', 10107006, 'mahasiswa6@gmail.com', '$2y$10$9lBVj65luy48nhRZ05PssenYX1mM2WwoUHz8.Ok4xYQBns8ze0PI.', 'Mahasiswa', 12, '06112023123358 Mahasiswa 6.jpg', 'Tidak', NULL, NULL),
 (34, 'Mahasiswa 7', 'D3 Sistem Informasi', '2020', '08989784353', 10107007, 'mahasiswa7@gmail.com', '$2y$10$9lBVj65luy48nhRZ05PssenYX1mM2WwoUHz8.Ok4xYQBns8ze0PI.', 'Mahasiswa', 12, '', 'Tidak', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -524,9 +529,10 @@ CREATE TABLE `penentuan_ukt` (
   `id_mahasiswa` int(11) NOT NULL,
   `label_kriteria` text NOT NULL,
   `value_kriteria` text NOT NULL,
+  `target_kriteria` text NOT NULL,
   `hasil_ukt` varchar(5) NOT NULL,
   `tanggal_penentuan` datetime DEFAULT NULL,
-  `status_penentuan` enum('Proses','Setuju','Tidak Setuju') DEFAULT NULL,
+  `status_penentuan` enum('Proses','Setuju','Tidak Setuju','Belum Dikirim') DEFAULT NULL,
   `status_laporan` enum('Belum','Sudah') NOT NULL DEFAULT 'Belum',
   `slip_gaji` text DEFAULT NULL,
   `struk_listrik` text DEFAULT NULL,
@@ -538,9 +544,10 @@ CREATE TABLE `penentuan_ukt` (
 -- Dumping data for table `penentuan_ukt`
 --
 
-INSERT INTO `penentuan_ukt` (`id_penentuan_ukt`, `id_mahasiswa`, `label_kriteria`, `value_kriteria`, `hasil_ukt`, `tanggal_penentuan`, `status_penentuan`, `status_laporan`, `slip_gaji`, `struk_listrik`, `struk_air`, `kk`) VALUES
-(6, 30, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 2.000.001 - Rp. 4.000.000;Pegawai Negeri Sipil dengan golongan I atau II', '4', '2023-06-12 05:10:47', 'Setuju', 'Sudah', '06122023051047 Slip Gaji Baga.pdf', '06122023051047 Struk Listrik Baga.pdf', '06122023051047 Struk Air Baga.pdf', '06122023051047 Kartu Keluarga Baga.pdf'),
-(7, 34, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 2.000.001 - Rp. 4.000.000;Pegawai Negeri Sipil dengan golongan I atau II', '4', '2023-06-12 13:30:14', 'Setuju', 'Sudah', '06122023133006 Slip Gaji Mahasiswa 7.pdf', '06122023133014 Struk Listrik Mahasiswa 7.pdf', '06122023133014 Struk Air Mahasiswa 7.pdf', '06122023133014 Kartu Keluarga Mahasiswa 7.pdf');
+INSERT INTO `penentuan_ukt` (`id_penentuan_ukt`, `id_mahasiswa`, `label_kriteria`, `value_kriteria`, `target_kriteria`, `hasil_ukt`, `tanggal_penentuan`, `status_penentuan`, `status_laporan`, `slip_gaji`, `struk_listrik`, `struk_air`, `kk`) VALUES
+(6, 30, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 2.000.001 - Rp. 4.000.000;Pegawai Negeri Sipil dengan golongan I atau II', '', '4', '2023-06-12 05:10:47', 'Setuju', 'Sudah', '06122023051047 Slip Gaji Baga.pdf', '06122023051047 Struk Listrik Baga.pdf', '06122023051047 Struk Air Baga.pdf', '06122023051047 Kartu Keluarga Baga.pdf'),
+(7, 34, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 2.000.001 - Rp. 4.000.000;Pegawai Negeri Sipil dengan golongan I atau II', '', '4', '2023-06-12 13:30:14', 'Setuju', 'Sudah', '06122023133006 Slip Gaji Mahasiswa 7.pdf', '06122023133014 Struk Listrik Mahasiswa 7.pdf', '06122023133014 Struk Air Mahasiswa 7.pdf', '06122023133014 Kartu Keluarga Mahasiswa 7.pdf'),
+(8, 31, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 2.000.001 - Rp. 4.000.000;Pegawai Negeri Sipil dengan golongan I atau II', '3;4', '4', '2023-06-13 02:53:31', 'Setuju', 'Belum', '06132023025331 Slip Gaji Mahasiswa 6.pdf', '06132023025331 Struk Listrik Mahasiswa 6.pdf', '06132023025331 Struk Air Mahasiswa 6.pdf', '06132023025331 Kartu Keluarga Mahasiswa 6.pdf');
 
 -- --------------------------------------------------------
 
@@ -719,7 +726,7 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=338;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=343;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
@@ -743,7 +750,7 @@ ALTER TABLE `penangguhan_ukt`
 -- AUTO_INCREMENT for table `penentuan_ukt`
 --
 ALTER TABLE `penentuan_ukt`
-  MODIFY `id_penentuan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_penentuan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `penurunan_ukt`
