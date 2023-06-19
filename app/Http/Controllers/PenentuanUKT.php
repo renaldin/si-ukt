@@ -330,7 +330,7 @@ class PenentuanUKT extends Controller
 
         $this->ModelPenentuanUKT->tambah($data);
         $dataPenentuanUKT = $this->ModelPenentuanUKT->dataTerakhir();
-        return redirect('informasi-penentuan-ukt/' . $dataPenentuanUKT->id_penentuan_ukt)->with('success', 'Anda berhasil melakukan penentuan UKTa!');
+        return redirect('informasi-penentuan-ukt/' . $dataPenentuanUKT->id_penentuan_ukt)->with('success', 'Anda berhasil menyimpan data penentuan UKT!');
     }
 
     public function edit($id_penentuan_ukt)
@@ -557,8 +557,13 @@ class PenentuanUKT extends Controller
 
         $setting = $this->ModelSetting->dataSetting();
         $mahasiswa = $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa'));
+        $penentuanUKT = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
 
         if ($setting->form_penentuan_slip_gaji == 1) {
+            if ($penentuanUKT->slip_gaji <> "") {
+                unlink(public_path('dokumen_penentuan_ukt/slip_gaji') . '/' . $penentuanUKT->slip_gaji);
+            }
+
             $fileSlipGaji = Request()->slip_gaji;
             $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
             $fileSlipGaji->move(public_path('dokumen_penentuan_ukt/slip_gaji'), $fileNameSlipGaji);
@@ -567,6 +572,10 @@ class PenentuanUKT extends Controller
         }
 
         if ($setting->form_penentuan_struk_listrik == 1) {
+            if ($penentuanUKT->struk_listrik <> "") {
+                unlink(public_path('dokumen_penentuan_ukt/rekening_listrik') . '/' . $penentuanUKT->struk_listrik);
+            }
+
             $fileStrukListrik = Request()->struk_listrik;
             $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
             $fileStrukListrik->move(public_path('dokumen_penentuan_ukt/rekening_listrik'), $fileNameStrukListrik);
@@ -575,6 +584,10 @@ class PenentuanUKT extends Controller
         }
 
         if ($setting->form_penentuan_struk_air == 1) {
+            if ($penentuanUKT->struk_air <> "") {
+                unlink(public_path('dokumen_penentuan_ukt/rekening_air') . '/' . $penentuanUKT->struk_air);
+            }
+
             $fileStrukAir = Request()->struk_air;
             $fileNameStrukAir = date('mdYHis') . ' Struk Air ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukAir->extension();
             $fileStrukAir->move(public_path('dokumen_penentuan_ukt/rekening_air'), $fileNameStrukAir);
@@ -583,6 +596,10 @@ class PenentuanUKT extends Controller
         }
 
         if ($setting->form_penentuan_kk == 1) {
+            if ($penentuanUKT->kk <> "") {
+                unlink(public_path('dokumen_penentuan_ukt/kk') . '/' . $penentuanUKT->kk);
+            }
+
             $fileKk = Request()->kk;
             $fileNameKk = date('mdYHis') . ' Kartu Keluarga ' . $mahasiswa->nama_mahasiswa . '.' . $fileKk->extension();
             $fileKk->move(public_path('dokumen_penentuan_ukt/kk'), $fileNameKk);
@@ -653,6 +670,22 @@ class PenentuanUKT extends Controller
         }
 
         $detail = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
+
+        if ($detail->slip_gaji <> "") {
+            unlink(public_path('dokumen_penentuan_ukt/slip_gaji') . '/' . $detail->slip_gaji);
+        }
+
+        if ($detail->struk_listrik <> "") {
+            unlink(public_path('dokumen_penentuan_ukt/rekening_listrik') . '/' . $detail->struk_listrik);
+        }
+
+        if ($detail->struk_air <> "") {
+            unlink(public_path('dokumen_penentuan_ukt/rekening_air') . '/' . $detail->struk_air);
+        }
+
+        if ($detail->kk <> "") {
+            unlink(public_path('dokumen_penentuan_ukt/kk') . '/' . $detail->kk);
+        }
 
         $dataMahasiswa = [
             'id_mahasiswa'      => $detail->id_mahasiswa,
@@ -730,6 +763,7 @@ class PenentuanUKT extends Controller
             'subTitle'          => 'Cek Berkas',
             'setting'           => $this->ModelSetting->dataSetting(),
             'detail'            => $this->ModelPenentuanUKT->detail($id_penentuan_ukt),
+            'ukt'               => $this->ModelKelompokUKT->dataKelompokUKT(),
             'user'              => $this->ModelUser->detail(Session()->get('id_user')),
         ];
 
@@ -758,7 +792,7 @@ class PenentuanUKT extends Controller
 
         // log
         $dataLog = [
-            'id_mahasiswa'  => Session()->get('id_user'),
+            'id_user'       => Session()->get('id_user'),
             'keterangan'    => 'Memberikan keputusan tidak setuju penentuan UKT kepada ' . $detail->nama_mahasiswa,
             'status_user'   => session()->get('status')
         ];
@@ -799,7 +833,7 @@ class PenentuanUKT extends Controller
 
         // log
         $dataLog = [
-            'id_mahasiswa'  => Session()->get('id_user'),
+            'id_user'       => Session()->get('id_user'),
             'keterangan'    => 'Memberikan keputusan setuju penentuan UKT kepada ' . $detail->nama_mahasiswa,
             'status_user'   => session()->get('status')
         ];
@@ -822,6 +856,21 @@ class PenentuanUKT extends Controller
 
         $this->ModelPenentuanUKT->editStatusLaporan($data);
         return redirect('/kelola-penentuan-ukt')->with('success', 'Anda berhasil memindahkan data penentuan UKT ke Laporan.');
+    }
+
+    public function editHasilUKT($id_penentuan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'id_penentuan_ukt'  => $id_penentuan_ukt,
+            'hasil_ukt'         => Request()->hasil_ukt,
+        ];
+
+        $this->ModelPenentuanUKT->edit($data);
+        return redirect('/cek-berkas-penentuan-ukt/' . $id_penentuan_ukt)->with('success', 'Berhasil edit hasil Uang Kuliah Tunggal (UKT).');
     }
 
     public function laporanPenentuanUKT()

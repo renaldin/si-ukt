@@ -62,6 +62,11 @@
                                     <td>{{$detail->nomor_telepon}}</td>
                                 </tr>
                                 <tr>
+                                    <th>Tahun Angkatan</th>
+                                    <td>:</td>
+                                    <td>{{$detail->tahun_angkatan}}</td>
+                                </tr>
+                                <tr>
                                     <th>Uang Kuliah Tunggal (UKT)</th>
                                     <td>:</td>
                                     <td>

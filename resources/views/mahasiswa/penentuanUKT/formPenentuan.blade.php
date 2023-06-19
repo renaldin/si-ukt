@@ -29,7 +29,7 @@
             @if ($user->id_kelompok_ukt !== null )
             <div class="card-header d-flex justify-content-between mb-4">
                 <div class="header-title text-center">
-                    <h4 class="card-title ">Anda tidak bisa mengakses form penentuan UKT, karena Anda sudah memiliki kelompok UKT.</h4>
+                    <h4 class="card-title ">Anda tidak bisa mengakses form penentuan UKT, karena Anda sudah memiliki kelompok UKT. Kelompok UKT Anda yaitu {{$user->kelompok_ukt}} / {{'Rp '.number_format($user->nominal, 0, ',', '.')}}.</h4>
                     <a href="/informasi-penentuan-ukt/{{$dataPenentuanUKT->id_penentuan_ukt}}" class="btn btn-primary mt-3">Informasi Penentuan UKT</a>
                 </div>
             </div>
@@ -47,6 +47,13 @@
                     <a href="/informasi-penentuan-ukt/{{$dataPenentuanUKT->id_penentuan_ukt}}" class="btn btn-primary mt-3">Informasi Penentuan UKT</a>
                 </div>
             </div>
+            @elseif ($dataPenentuanUKT !== null && $dataPenentuanUKT->status_penentuan === 'Belum Dikirim' && $form !== 'Edit')
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Proses penentuan UKT yang Anda lakukan datanya belum dikirim. Silahkan dicek dan segera kirim!</h4>
+                    <a href="/informasi-penentuan-ukt/{{$dataPenentuanUKT->id_penentuan_ukt}}" class="btn btn-primary mt-3">Informasi Penentuan UKT</a>
+                </div>
+            </div>
             @else
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
@@ -58,6 +65,11 @@
                     <form action="@if($form === 'Tambah') /penentuan-ukt @elseif($form === 'Edit') /edit-penentuan-ukt/{{$detail->id_penentuan_ukt}} @endif" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
+                        @if ($form === 'Edit')
+                        <div class="form-group col-md-12 mt-4">
+                            <label class="form-label"><strong>Silahkan isi ulang dan pastikan data yang akan disimpan sudah sesuai!</strong></label>
+                        </div>
+                        @endif
                         <div class="form-group col-md-6">
                             <label class="form-label" for="nama_mahasiswa">Nama Mahasiswa</label>
                             <input type="text" class="form-control @error('nama_mahasiswa') is-invalid @enderror" id="nama_mahasiswa" name="nama_mahasiswa" value="{{ $user->nama_mahasiswa }}" readonly placeholder="Masukkan Nama Lengkap ">
@@ -140,7 +152,7 @@
                         @endif
                         @if ($setting->form_penentuan_slip_gaji == 1)
                             <div class="form-group col-md-6">
-                                <label class="form-label" for="slip_gaji">Slip Gaji Orang Tua (Opsional) <span class="text-danger">* PDF</span></label>
+                                <label class="form-label" for="slip_gaji">Slip Gaji Orang Tua <span class="text-danger">* PDF</span></label>
                                 <input type="file" class="form-control @error('slip_gaji') is-invalid @enderror" id="slip_gaji" name="slip_gaji" placeholder="Masukkan Foto Rumah" required>
                                 @error('slip_gaji')
                                     <div class="invalid-feedback">

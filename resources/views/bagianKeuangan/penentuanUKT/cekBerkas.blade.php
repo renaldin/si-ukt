@@ -62,13 +62,18 @@
                                     <td>{{$detail->nomor_telepon}}</td>
                                 </tr>
                                 <tr>
+                                    <th>Tahun Angkatan</th>
+                                    <td>:</td>
+                                    <td>{{$detail->tahun_angkatan}}</td>
+                                </tr>
+                                <tr>
                                     <th>Uang Kuliah Tunggal (UKT)</th>
                                     <td>:</td>
                                     <td>
-                                        @if ($detail->status_penentuan == 'Proses')
-                                            <strong>Belum Ada.</strong>
-                                        @elseif($detail->status_penentuan == 'Tidak Setuju')
+                                        @if ($detail->status_penentuan == 'Tidak Setuju')
                                             <strong>Tidak Disetujui, karena data penentuan UKT tidak sesuai.</strong>
+                                        @elseif($detail->id_kelompok_ukt === null)
+                                            <strong>Hasil perhitungan Metode TOPSIS hasil UKT untuk mehasiswa ini adalah UKT {{$detail->hasil_ukt}}.</strong>
                                         @else
                                             {{$detail->kelompok_ukt}} / {{'Rp '.number_format($detail->nominal, 0, ',', '.')}}
                                         @endif
@@ -87,6 +92,13 @@
                     <button type="button" data-bs-toggle="modal" data-bs-target="#ulangi" class="btn btn-primary">Ulangi</button>
                 @endif
             </div> --}}
+            @if ($detail->id_kelompok_ukt === null)
+            <div class="card-header mx-2">
+                <p><strong>Keterangan:</strong></p>
+                <p>Dengan data penentuan UKT dan berkas yang diinput, hasil perhitungan Metode TOPSIS Mahasiswa yang bernama <strong>{{$detail->nama_mahasiswa}}</strong> mendapatkan kelompok UKT <strong>{{$detail->hasil_ukt}}</strong> di Program Studi <strong>{{$detail->prodi}}</strong>. Apakah ingin diedit?</p>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$detail->id_penentuan_ukt}}" class="btn btn-success">Edit</button>
+            </div>
+            @endif
             <div class="card-body mx-2">
                 <p><strong>Data penentuan UKT yang diinput:</strong></p>
                 @php
@@ -210,6 +222,44 @@
                     </tbody>
                 </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit{{$detail->id_penentuan_ukt}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Penentuan UKT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/edit-hasil-ukt/{{$detail->id_penentuan_ukt}}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="hasil_ukt">UKT / Nominal UKT</label>
+                            <select name="hasil_ukt" id="hasil_ukt" class="selectpicker form-control @error('hasil_ukt') is-invalid @enderror" data-style="py-0" required autofocus>
+                                <option value="">-- Pilih --</option>
+                                @foreach ($ukt as $item)
+                                    @if ($item->program_studi == $detail->prodi)
+                                        <option value="{{$item->kelompok_ukt}}">UKT {{$item->kelompok_ukt}} / {{'Rp '.number_format($item->nominal, 0, ',', '.')}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('hasil_ukt')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+                </form>
             </div>
         </div>
     </div>

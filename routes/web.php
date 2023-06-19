@@ -150,6 +150,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/laporan-penentuan-ukt', [PenentuanUKT::class, 'laporanPenentuanUKT'])->name('laporan-penentuan-ukt');
         Route::post('/cetak-semua-penentuan', [PenentuanUKT::class, 'cetakSemua']);
         Route::get('/cetak-satuan-penentuan/{id}', [PenentuanUKT::class, 'cetakSatuan']);
+        Route::post('/edit-hasil-ukt/{id}', [PenentuanUKT::class, 'editHasilUKT']);
 
         // kelola penangguhan UKt
         Route::get('/kelola-penangguhan-ukt', [PenangguhanUKT::class, 'kelolaPenangguhanUKT'])->name('kelola-penangguhan-ukt');
