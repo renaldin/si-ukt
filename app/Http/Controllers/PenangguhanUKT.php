@@ -9,6 +9,7 @@ use App\Models\ModelLog;
 use App\Models\ModelPenangguhanUKT;
 use App\Models\ModelSetting;
 use PDF;
+use Twilio\Rest\Client;
 
 class PenangguhanUKT extends Controller
 {
@@ -260,10 +261,35 @@ class PenangguhanUKT extends Controller
             return redirect()->route('login');
         }
 
+        $detailPenangguhan = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
+        $user = $this->ModelUser->dataUser();
+        // dd($detailPenangguhan);
+
         $data = [
             'id_penangguhan_ukt'    => $id_penangguhan_ukt,
             'status_penangguhan'    => 'Proses di Bagian Keuangan',
         ];
+
+        // WA GATEWAY
+        foreach ($user as $item) {
+            if ($item->status === 'Bagian Keuangan') {
+                $noHp = substr($item->nomor_telepon, 1);
+                $sid    = "AC944f941fef8a459f011bb10c3236df78";
+                $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+                $twilio = new Client($sid, $token);
+
+                $message = $twilio->messages
+                    ->create(
+                        "whatsapp:+62" . $noHp, // to
+                        array(
+                            "from" => "whatsapp:+14155238886",
+                            "body" => "Hallo Bagian Keuangan!\n\nMahasiswa yang bernama {$detailPenangguhan->nama_mahasiswa} dengan NIM {$detailPenangguhan->nim}, ingin melakukan pengajuan penangguhan UKT. Untuk lebih jelasnya Anda bisa kunjungi menu kelola penangguhan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/kelola-penangguhan-ukt \n\nTerima kasih."
+                        )
+                    );
+
+                print($message->sid);
+            }
+        }
 
         // log
         $dataLog = [
@@ -336,6 +362,7 @@ class PenangguhanUKT extends Controller
         }
 
         $user = $this->ModelUser->detail(Session()->get('id_user'));
+        $detailPenangguhan = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
 
         if ($user->status == 'Bagian Keuangan') {
             $data = [
@@ -349,6 +376,22 @@ class PenangguhanUKT extends Controller
                 'status_penangguhan'    => 'Tidak Setuju',
                 'kabag'                 => $user->nama_user
             ];
+
+            $noHp = substr($detailPenangguhan->nomor_telepon, 1);
+            $sid    = "AC944f941fef8a459f011bb10c3236df78";
+            $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+            $twilio = new Client($sid, $token);
+
+            $message = $twilio->messages
+                ->create(
+                    "whatsapp:+62" . $noHp, // to
+                    array(
+                        "from" => "whatsapp:+14155238886",
+                        "body" => "Hallo {$detailPenangguhan->nama_mahasiswa}!\n\nAnda telah menerima hasil pengumuman pengajuan penangguhan UKT yang Anda ajukan. Untuk lebih jelasnya Anda bisa kunjungi menu riwayat penangguhan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/riwayat-penangguhan-ukt \n\nTerima kasih."
+                    )
+                );
+
+            print($message->sid);
         }
 
         $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
@@ -384,15 +427,37 @@ class PenangguhanUKT extends Controller
             return redirect()->route('login');
         }
 
-        $user = $this->ModelUser->detail(Session()->get('id_user'));
+        $bagianKeuangan = $this->ModelUser->detail(Session()->get('id_user'));
+        $user = $this->ModelUser->dataUser();
+        $detailPenangguhan = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
 
         $data = [
             'id_penangguhan_ukt'    => $id_penangguhan_ukt,
             'status_penangguhan'    => 'Proses di Kepala Bagian',
-            'bagian_keuangan'       => $user->nama_user
+            'bagian_keuangan'       => $bagianKeuangan->nama_user
         ];
 
-        $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
+
+        // WA GATEWAY
+        foreach ($user as $item) {
+            if ($item->status === 'Kabag Umum & Akademik') {
+                $noHp = substr($item->nomor_telepon, 1);
+                $sid    = "AC944f941fef8a459f011bb10c3236df78";
+                $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+                $twilio = new Client($sid, $token);
+
+                $message = $twilio->messages
+                    ->create(
+                        "whatsapp:+62" . $noHp, // to
+                        array(
+                            "from" => "whatsapp:+14155238886",
+                            "body" => "Hallo Kepala Bagian Umum & Akademik!\n\nMahasiswa yang bernama {$detailPenangguhan->nama_mahasiswa} dengan NIM {$detailPenangguhan->nim}, ingin melakukan pengajuan penangguhan UKT. Hasil pengecekan data dan wawancara Mahasiswa dan Orang Tua, dari Bagian Keuangan telah menyetujui pengajuan penangguhan UKT ini. Tinggal menunggu persetujuan dari Anda sebagai Kepala Bagian Umum & Akademik. Untuk lebih jelasnya Anda bisa kunjungi menu approve penangguhan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/approve-penangguhan-ukt \n\nTerima kasih."
+                        )
+                    );
+
+                print($message->sid);
+            }
+        }
 
         // log
         $dataLog = [
@@ -487,6 +552,7 @@ class PenangguhanUKT extends Controller
         }
 
         $user = $this->ModelUser->detail(Session()->get('id_user'));
+        $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
 
         $data = [
             'id_penangguhan_ukt'    => $id_penangguhan_ukt,
@@ -494,7 +560,22 @@ class PenangguhanUKT extends Controller
             'kabag'                 => $user->nama_user,
         ];
 
-        $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
+        $noHp = substr($detail->nomor_telepon, 1);
+        $sid    = "AC944f941fef8a459f011bb10c3236df78";
+        $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages
+            ->create(
+                "whatsapp:+62" . $noHp, // to
+                array(
+                    "from" => "whatsapp:+14155238886",
+                    "body" => "Hallo {$detail->nama_mahasiswa}!\n\nAnda telah menerima hasil pengumuman pengajuan penangguhan UKT yang Anda ajukan. Untuk lebih jelasnya Anda bisa kunjungi menu riwayat penangguhan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/riwayat-penangguhan-ukt \n\nTerima kasih."
+                )
+            );
+
+        print($message->sid);
+
 
         // log
         $dataLog = [

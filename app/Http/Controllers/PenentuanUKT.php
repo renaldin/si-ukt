@@ -12,6 +12,7 @@ use App\Models\ModelKriteria;
 use App\Models\ModelNilaiKriteria;
 use App\Models\ModelKelompokUKT;
 use PDF;
+use Twilio\Rest\Client;
 
 class PenentuanUKT extends Controller
 {
@@ -317,6 +318,22 @@ class PenentuanUKT extends Controller
             'status_pengajuan'  => 'Penentuan'
         ];
         $this->ModelMahasiswa->edit($dataMahasiswa);
+
+        // wa gateway
+        // $sid    = "AC944f941fef8a459f011bb10c3236df78";
+        // $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+        // $twilio = new Client($sid, $token);
+
+        // $message = $twilio->messages
+        //     ->create(
+        //         "whatsapp:+62895336928026", // to
+        //         array(
+        //             "from" => "whatsapp:+14155238886",
+        //             "body" => "Your appointment is coming up on July 21 at 3PM",
+        //         )
+        //     );
+
+        // print($message->sid);
 
 
         // log
