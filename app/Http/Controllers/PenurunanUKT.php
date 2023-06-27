@@ -9,6 +9,7 @@ use App\Models\ModelLog;
 use App\Models\ModelPenurunanUKT;
 use App\Models\ModelSetting;
 use PDF;
+use Twilio\Rest\Client;
 
 class PenurunanUKT extends Controller
 {
@@ -340,11 +341,35 @@ class PenurunanUKT extends Controller
             return redirect()->route('login');
         }
 
+        $user = $this->ModelUser->dataUser();
+        $detailPenurunan = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+
         $data = [
             'id_penurunan_ukt'  => $id_penurunan_ukt,
             'tanggal_pengajuan' => date('Y-m-d H:i:s'),
             'status_penurunan'  => 'Proses di Bagian Keuangan',
         ];
+
+        // WA GATEWAY
+        foreach ($user as $item) {
+            if ($item->status === 'Bagian Keuangan') {
+                $noHp = substr($item->nomor_telepon, 1);
+                $sid    = "AC944f941fef8a459f011bb10c3236df78";
+                $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+                $twilio = new Client($sid, $token);
+
+                $message = $twilio->messages
+                    ->create(
+                        "whatsapp:+62" . $noHp, // to
+                        array(
+                            "from" => "whatsapp:+14155238886",
+                            "body" => "Hallo Bagian Keuangan!\n\nMahasiswa yang bernama {$detailPenurunan->nama_mahasiswa} dengan NIM {$detailPenurunan->nim}, ingin melakukan pengajuan penurunan UKT. Untuk lebih jelasnya Anda bisa kunjungi menu kelola penurunan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/kelola-penurunan-ukt \n\nTerima kasih."
+                        )
+                    );
+
+                print($message->sid);
+            }
+        }
 
         // log
         $dataLog = [
@@ -432,15 +457,37 @@ class PenurunanUKT extends Controller
             return redirect()->route('admin');
         }
 
-        $user = $this->ModelUser->detail(Session()->get('id_user'));
+        $detailUser = $this->ModelUser->detail(Session()->get('id_user'));
+        $user = $this->ModelUser->dataUser();
+        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
 
         $data = [
             'id_penurunan_ukt'  => $id_penurunan_ukt,
             'status_penurunan'  => 'Proses di Kepala Bagian',
-            'bagian_keuangan'   => $user->nama_user
+            'bagian_keuangan'   => $detailUser->nama_user
         ];
 
-        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+        // WA GATEWAY
+        foreach ($user as $item) {
+            if ($item->status === 'Kabag Umum & Akademik') {
+                $noHp = substr($item->nomor_telepon, 1);
+                $sid    = "AC944f941fef8a459f011bb10c3236df78";
+                $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+                $twilio = new Client($sid, $token);
+
+                $message = $twilio->messages
+                    ->create(
+                        "whatsapp:+62" . $noHp, // to
+                        array(
+                            "from" => "whatsapp:+14155238886",
+                            "body" => "Hallo Kepala Bagian Umum & Akademik!\n\nMahasiswa yang bernama {$detail->nama_mahasiswa} dengan NIM {$detail->nim}, ingin melakukan pengajuan penurunan UKT. Hasil pengecekan data dan survey ke rumah Orang Tua Mahasiswa, dari Bagian Keuangan telah menyetujui pengajuan penurunan UKT ini. Tinggal menunggu persetujuan dari Anda sebagai Kepala Bagian Umum & Akademik. Untuk lebih jelasnya Anda bisa kunjungi menu approve penurunan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/approve-penurunan-ukt \n\nTerima kasih."
+                        )
+                    );
+
+                print($message->sid);
+            }
+        }
+
 
         // log
         $dataLog = [
@@ -462,6 +509,7 @@ class PenurunanUKT extends Controller
         }
 
         $user = $this->ModelUser->detail(Session()->get('id_user'));
+        $detailPenurunan = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
 
         if ($user->status == 'Bagian Keuangan') {
             $data = [
@@ -476,6 +524,23 @@ class PenurunanUKT extends Controller
                 'kabag'             => $user->nama_user
             ];
         }
+
+        // WA GATEWAY
+        $noHp = substr($detailPenurunan->nomor_telepon, 1);
+        $sid    = "AC944f941fef8a459f011bb10c3236df78";
+        $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages
+            ->create(
+                "whatsapp:+62" . $noHp, // to
+                array(
+                    "from" => "whatsapp:+14155238886",
+                    "body" => "Hallo {$detailPenurunan->nama_mahasiswa}!\n\nAnda telah menerima hasil pengumuman pengajuan penurunan UKT yang Anda ajukan. Untuk lebih jelasnya Anda bisa kunjungi menu penurunan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/penurunan-ukt \n\nTerima kasih."
+                )
+            );
+
+        print($message->sid);
 
 
 
@@ -572,6 +637,7 @@ class PenurunanUKT extends Controller
         }
 
         $user = $this->ModelUser->detail(Session()->get('id_user'));
+        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
 
         $data = [
             'id_penurunan_ukt'  => $id_penurunan_ukt,
@@ -579,7 +645,21 @@ class PenurunanUKT extends Controller
             'kabag'             => $user->nama_user
         ];
 
-        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+        $noHp = substr($detail->nomor_telepon, 1);
+        $sid    = "AC944f941fef8a459f011bb10c3236df78";
+        $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages
+            ->create(
+                "whatsapp:+62" . $noHp, // to
+                array(
+                    "from" => "whatsapp:+14155238886",
+                    "body" => "Hallo {$detail->nama_mahasiswa}!\n\nAnda telah menerima hasil pengumuman pengajuan penurunan UKT yang Anda ajukan. Untuk lebih jelasnya Anda bisa kunjungi menu penurunan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/penurunan-ukt \n\nTerima kasih."
+                )
+            );
+
+        print($message->sid);
 
         // log
         $dataLog = [

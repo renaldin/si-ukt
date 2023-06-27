@@ -806,6 +806,23 @@ class PenentuanUKT extends Controller
         ];
         $this->ModelMahasiswa->edit($dataMahasiswa);
 
+        // WA GATEWAY
+        $noHp = substr($detail->nomor_telepon, 1);
+        $sid    = "AC944f941fef8a459f011bb10c3236df78";
+        $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages
+            ->create(
+                "whatsapp:+62" . $noHp, // to
+                array(
+                    "from" => "whatsapp:+14155238886",
+                    "body" => "Hallo {$detail->nama_mahasiswa}!\n\nAnda telah menerima hasil pengumuman proses penentuan UKT yang telah Anda lakukan. Untuk lebih jelasnya Anda bisa kunjungi menu penentuan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/penentuan-ukt \n\nTerima kasih."
+                )
+            );
+
+        print($message->sid);
+
 
         // log
         $dataLog = [
@@ -847,6 +864,22 @@ class PenentuanUKT extends Controller
         ];
         $this->ModelMahasiswa->edit($dataMahasiswa);
 
+        // WA GATEWAY
+        $noHp = substr($detail->nomor_telepon, 1);
+        $sid    = "AC944f941fef8a459f011bb10c3236df78";
+        $token  = "df97bc683bb53f68b7bb6e2dd0274dc4";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages
+            ->create(
+                "whatsapp:+62" . $noHp, // to
+                array(
+                    "from" => "whatsapp:+14155238886",
+                    "body" => "Hallo {$detail->nama_mahasiswa}!\n\nAnda telah menerima hasil pengumuman proses penentuan UKT yang telah Anda lakukan. Untuk lebih jelasnya Anda bisa kunjungi menu penentuan UKT di website SI UKT atau klik link dibawah ini.\n\nLink:\nhttps://himmi-polsub.com/penentuan-ukt \n\nTerima kasih."
+                )
+            );
+
+        print($message->sid);
 
         // log
         $dataLog = [
