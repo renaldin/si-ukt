@@ -8,7 +8,15 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelLog;
 use App\Models\ModelUser;
+use App\Models\ModelKelompokUKT;
 use Excel;
+// use Response;
+// use Storage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use File;
+use Response;
+use DB;
 
 class KelolaMahasiswa extends Controller
 {
@@ -16,12 +24,14 @@ class KelolaMahasiswa extends Controller
     private $ModelMahasiswa;
     private $ModelLog;
     private $ModelUser;
+    private $ModelKelompokUKT;
 
     public function __construct()
     {
         $this->ModelMahasiswa = new ModelMahasiswa();
         $this->ModelLog = new ModelLog();
         $this->ModelUser = new ModelUser();
+        $this->ModelKelompokUKT = new ModelKelompokUKT();
     }
 
     public function index()
@@ -127,6 +137,7 @@ class KelolaMahasiswa extends Controller
             'title'         => 'Data Mahasiswa',
             'subTitle'      => 'Edit Mahasiswa',
             'form'          => 'Edit',
+            'dataUKT'       => $this->ModelKelompokUKT->dataKelompokUKT(),
             'user'          => $this->ModelUser->detail(Session()->get('id_user')),
             'dataProdi'     => $this->ModelMahasiswa->dataProdi(),
             'detail'        => $this->ModelMahasiswa->detail($id_mahasiswa)
@@ -180,6 +191,7 @@ class KelolaMahasiswa extends Controller
                     'prodi'             => Request()->prodi,
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'tahun_angkatan'    => Request()->tahun_angkatan,
+                    'id_kelompok_ukt'    => Request()->id_kelompok_ukt,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
@@ -194,6 +206,7 @@ class KelolaMahasiswa extends Controller
                     'prodi'             => Request()->prodi,
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'tahun_angkatan'    => Request()->tahun_angkatan,
+                    'id_kelompok_ukt'    => Request()->id_kelompok_ukt,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
@@ -219,6 +232,7 @@ class KelolaMahasiswa extends Controller
                     'prodi'             => Request()->prodi,
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'tahun_angkatan'    => Request()->tahun_angkatan,
+                    'id_kelompok_ukt'    => Request()->id_kelompok_ukt,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
@@ -232,6 +246,7 @@ class KelolaMahasiswa extends Controller
                     'prodi'             => Request()->prodi,
                     'nomor_telepon'     => Request()->nomor_telepon,
                     'tahun_angkatan'    => Request()->tahun_angkatan,
+                    'id_kelompok_ukt'    => Request()->id_kelompok_ukt,
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
@@ -404,5 +419,16 @@ class KelolaMahasiswa extends Controller
         Excel::import(new Mahasiswa, $file);
 
         return redirect()->back()->with('success', 'Data mahasiswa berhasil diimport!');
+    }
+
+    public function unduhFormatExcel()
+    {
+        if (!Session()->get('email')) {
+            return redirect()->route('login');
+        }
+
+        // dd('masuk');
+        $filepath = 'Data Mahasiswa.xlsx';
+        return response()->download(public_path('gambar') . '/' . $filepath);
     }
 }

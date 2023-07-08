@@ -1,6 +1,21 @@
 @extends('layout.main')
 
 @section('content')
+
+@php
+    function downloadExcelFile($filePath, $fileName) {
+    // Mendefinisikan header
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment; filename="' . $fileName . '"');
+
+    // Membaca file dan menuliskannya ke output
+    readfile($filePath);
+
+    // Menghentikan eksekusi skrip
+    exit;
+}
+@endphp
+
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
@@ -9,8 +24,9 @@
                 <h4 class="card-title">{{$subTitle}}</h4>
                 </div>
             </div>
-            <div class="card-header d-flex justify-content-between">
+            <div class="card-header d-flex justify-content-start">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#import">Import</button>>
+                <a href="/unduh-format-excel"" class="btn btn-primary">Unduh Format Excel</a>>
             </div>
             <div class="card-body px-4" style="margin-bottom: -50px;">
                 @if (session('success'))

@@ -19,7 +19,7 @@ class Mahasiswa implements ToModel, WithStartRow
         return new ModelMahasiswa([
             'nama_mahasiswa' => $row[0],
             'prodi' => $row[1],
-            'nomor_telepon' => $row[2],
+            'nomor_telepon' => '0' . $row[2],
             'tahun_angkatan' => $row[3],
             'nim' => $row[4],
             'email' => $row[5],

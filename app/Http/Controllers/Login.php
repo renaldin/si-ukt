@@ -103,14 +103,14 @@ class Login extends Controller
                     Session()->put('status', $cekNik->status);
                     Session()->put('log', true);
 
-                    if ($cekNik->role === 'Bagian Keuangan') {
-                        $route = 'daftar-user';
-                    } elseif ($cekNik->role === 'Kabag Umum & Akademik') {
-                        $route = 'approve-penangguhan-ukt';
-                    } else {
-                        $route = 'daftar-mahasiswa';
-                    }
-                    return redirect()->route($route);
+                    // if ($cekNik->status === 'Bagian Keuangan') {
+                    //     $route = 'daftar-user';
+                    // } elseif ($cekNik->status === 'Kabag Umum & Akademik') {
+                    //     $route = 'approve-penangguhan-ukt';
+                    // } else {
+                    //     $route = 'daftar-mahasiswa';
+                    // }
+                    return redirect()->route('dashboard');
                 } else {
                     return back()->with('fail', 'Login gagal! Password tidak sesuai.');
                 }

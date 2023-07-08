@@ -164,7 +164,7 @@
 
         <section class="sheet padding-10mm" style="margin-top: -10px;">
             <h3>{{$title}}</h3>
-            <h3>Tahun Angkatan {{$tahunAngkatan}}</h3>
+            <h3>Tahun Akademik {{$tahunAngkatan}}</h3>
       
             <table class="table">
                 <thead>

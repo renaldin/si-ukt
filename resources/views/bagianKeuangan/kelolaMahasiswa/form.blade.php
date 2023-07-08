@@ -95,12 +95,12 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label class="form-label" for="foto_user"></label>
                             <div class="profile-img-edit position-relative">
                                 <img src="@if($form === 'Tambah') {{ asset('foto_user/default1.jpg') }} @elseif($form === 'Edit' || $form === 'Detail') {{ asset('foto_user/'.$detail->foto_user) }} @endif" alt="profile-pic" id="load_image" class="theme-color-default-img profile-pic rounded avatar-100">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group col-md-6">
                             <label class="form-label" for="status_pengajuan">Status Pengajuan <span class="text-danger">*</span></label>
                             <select name="status_pengajuan" id="status_pengajuan" class="selectpicker form-control @error('status_pengajuan') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>
@@ -119,6 +119,26 @@
                                 </div>
                             @enderror
                         </div>
+                        @if ($form === 'Edit' && $detail->id_kelompok_ukt !== null)
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="id_kelompok_ukt">Kelompok UKT</label>
+                            <select name="id_kelompok_ukt" id="id_kelompok_ukt" class="selectpicker form-control @error('id_kelompok_ukt') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>  
+                                @if ($form === 'Edit' || $form === 'Detail')
+                                    <option value="{{$detail->id_kelompok_ukt}}">{{$detail->kelompok_ukt}} | {{'Rp '.number_format($detail->nominal, 0, ',', '.')}}</option>
+                                @endif
+                                @foreach ($dataUKT as $item)
+                                    @if ($item->program_studi == $detail->prodi)
+                                        <option value="{{$item->id_kelompok_ukt}}">{{$item->kelompok_ukt}} | {{'Rp '.number_format($item->nominal, 0, ',', '.')}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('kelompok_ukt')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        @endif
                     </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>

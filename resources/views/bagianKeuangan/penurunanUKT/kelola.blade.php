@@ -103,7 +103,7 @@
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label class="form-label" for="tanggal_survey">Tanggal Wawancara <span class="text-danger">*</span></label>
+                            <label class="form-label" for="tanggal_survey">Tanggal Survey <span class="text-danger">*</span></label>
                             <input type="date" class="form-control @error('tanggal_survey') is-invalid @enderror" id="tanggal_survey" name="tanggal_survey" value="{{$item->tanggal_survey}}" placeholder="Masukkan Tanggal Wawancara.">
                             @error('tanggal_survey')
                             <div class="invalid-feedback">

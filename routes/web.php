@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/unduh-format-excel', [KelolaMahasiswa::class, 'unduhFormatExcel']);
+
 Route::group(['middleware' => 'revalidate'], function () {
 
     // Home
