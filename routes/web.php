@@ -94,6 +94,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/edit-penentuan-ukt/{id}', [PenentuanUKT::class, 'edit'])->name('edit-penentuan-ukt');
         Route::post('/edit-penentuan-ukt/{id}', [PenentuanUKT::class, 'prosesEdit']);
         Route::get('/kirim-penentuan-ukt/{id}', [PenentuanUKT::class, 'kirim']);
+        Route::get('/download-pengumuman-ukt/{tahun_angkatan}', [PenentuanUKT::class, 'downloadPengumumanUKT']);
     });
 
     Route::group(['middleware' => 'bagiankeuangan'], function () {

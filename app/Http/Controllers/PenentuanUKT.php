@@ -976,4 +976,22 @@ class PenentuanUKT extends Controller
         $pdf = PDF::loadview('cetak/penentuan/cetakSatuan', $data);
         return $pdf->download($data['title'] . ' ' . $detail->nama_mahasiswa . ' ' . date('d F Y') . '.pdf');
     }
+
+    public function downloadPengumumanUKT($tahunAngkatan)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('login');
+        }
+
+        $data = [
+            'title'             => 'Rekap Penentuan UKT',
+            'tahunAngkatan'     => $tahunAngkatan,
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+            'setting'           => $this->ModelSetting->dataSetting(),
+            'dataPenentuanUKT'  => $this->ModelPenentuanUKT->dataPenentuanUKTAngkatan($tahunAngkatan),
+        ];
+
+        $pdf = PDF::loadview('cetak/penentuan/cetakSemua', $data);
+        return $pdf->download($data['title'] . ' ' . date('d F Y') . '.pdf');
+    }
 }

@@ -43,6 +43,12 @@
                     <h4 class="card-title ">Anda tidak dapat mengisi form penangguhan UKT, karena Anda sedang melakukan proses penurunan UKT!</h4>
                 </div>
             </div>
+            @elseif ($penentuan!== null && $penentuan->status_laporan === 'Belum')
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Anda tidak dapat mengisi form penangguhan UKT, karena proses penentuan UKT masih dilakukan!</h4>
+                </div>
+            </div>
             @elseif ($user->status_pengajuan === 'Tidak' || $form === 'Edit')
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">

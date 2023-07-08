@@ -26,11 +26,11 @@
                     </div>
                 @endif
             </div>
-            @if ($user->id_kelompok_ukt !== null )
+            @if ($user->id_kelompok_ukt !== null && $dataPenentuanUKT!== null && $dataPenentuanUKT->status_laporan === 'Sudah' )
             <div class="card-header d-flex justify-content-between mb-4">
                 <div class="header-title text-center">
                     <h4 class="card-title ">Anda tidak bisa mengakses form penentuan UKT, karena Anda sudah memiliki kelompok UKT. Kelompok UKT Anda yaitu {{$user->kelompok_ukt}} / {{'Rp '.number_format($user->nominal, 0, ',', '.')}}.</h4>
-                    <a href="/informasi-penentuan-ukt/{{$dataPenentuanUKT->id_penentuan_ukt}}" class="btn btn-primary mt-3">Informasi Penentuan UKT</a>
+                    <a href="/download-pengumuman-ukt/{{$dataPenentuanUKT->tahun_angkatan}}" class="btn btn-primary mt-3">Download Pengumuman UKT</a>
                 </div>
             </div>
             @elseif ($dataPenentuanUKT !== null && $dataPenentuanUKT->status_penentuan === 'Proses' )
@@ -52,6 +52,12 @@
                 <div class="header-title text-center">
                     <h4 class="card-title ">Proses penentuan UKT yang Anda lakukan datanya belum dikirim. Silahkan dicek dan segera kirim!</h4>
                     <a href="/informasi-penentuan-ukt/{{$dataPenentuanUKT->id_penentuan_ukt}}" class="btn btn-primary mt-3">Informasi Penentuan UKT</a>
+                </div>
+            </div>
+            @elseif ($user->id_kelompok_ukt !== null && $dataPenentuanUKT!== null && $dataPenentuanUKT->status_laporan === 'Belum')
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Anda tidak bisa mengakses form penentuan UKT, karena proses penentuan UKT masih sedang dilakukan. Silahkan ditunggu!</h4>
                 </div>
             </div>
             @else

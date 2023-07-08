@@ -63,7 +63,7 @@
                               </div>
                            </div>
                         </div>
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center  mt-5">
                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                      </form>

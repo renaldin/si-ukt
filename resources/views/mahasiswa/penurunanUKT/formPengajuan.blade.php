@@ -29,6 +29,12 @@
                     <a href="/informasi-pengajuan-penurunan-ukt/{{$dataPenurunanUKT->id_penurunan_ukt}}" class="btn btn-primary mt-3">Informasi Pengajuan Penurunan UKT</a>
                 </div>
             </div>
+            @elseif ($penentuan!== null && $penentuan->status_laporan === 'Belum')
+            <div class="card-header d-flex justify-content-between mb-4">
+                <div class="header-title text-center">
+                    <h4 class="card-title ">Anda tidak dapat mengisi form penangguhan UKT, karena proses penentuan UKT masih dilakukan!</h4>    
+                </div>
+            </div>
             @elseif ($user->status_pengajuan === 'Tidak' && $dataPenurunanUKT === null || $form === 'Edit')
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">

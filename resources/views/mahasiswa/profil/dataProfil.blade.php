@@ -133,7 +133,7 @@
                         <div class="form-group col-md-6">
                             <label class="form-label" for="foto_user"></label>
                             <div class="profile-img-edit position-relative">
-                                <img src="{{ asset('foto_user/'.$user->foto_user) }}" alt="profile-pic" id="load_image" class="theme-color-default-img profile-pic rounded avatar-100">
+                                <img src="@if($user->foto_user){{ asset('foto_user/'.$user->foto_user) }}@else{{ asset('foto_user/default1.jpg') }}@endif" alt="profile-pic" id="load_image" class="theme-color-default-img profile-pic rounded avatar-100">
                             </div>
                         </div>
                     </div>

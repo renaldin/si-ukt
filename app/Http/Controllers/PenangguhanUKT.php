@@ -8,6 +8,7 @@ use App\Models\ModelUser;
 use App\Models\ModelLog;
 use App\Models\ModelPenangguhanUKT;
 use App\Models\ModelSetting;
+use App\Models\ModelPenentuanUKT;
 use PDF;
 use Twilio\Rest\Client;
 
@@ -19,6 +20,7 @@ class PenangguhanUKT extends Controller
     private $ModelLog;
     private $ModelPenangguhanUKT;
     private $ModelSetting;
+    private $ModelPenentuanUKT;
 
     public function __construct()
     {
@@ -26,6 +28,7 @@ class PenangguhanUKT extends Controller
         $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
         $this->ModelPenangguhanUKT = new ModelPenangguhanUKT();
+        $this->ModelPenentuanUKT = new ModelPenENTUANukt();
         $this->ModelSetting = new ModelSetting();
         date_default_timezone_set('Asia/Jakarta');
     }
@@ -42,6 +45,7 @@ class PenangguhanUKT extends Controller
             'form'              => 'Tambah',
             'setting'           => $this->ModelSetting->dataSetting(),
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
+            'penentuan'         => $this->ModelPenentuanUKT->detailByMahasiswa(Session()->get('id_mahasiswa'))
         ];
 
         return view('mahasiswa.penangguhanUKT.formPengajuan', $data);
@@ -140,6 +144,7 @@ class PenangguhanUKT extends Controller
             'setting'           => $this->ModelSetting->dataSetting(),
             'user'              => $this->ModelMahasiswa->detail(Session()->get('id_mahasiswa')),
             'detail'            => $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt),
+            'penentuan'         => $this->ModelPenentuanUKT->detailByMahasiswa(Session()->get('id_mahasiswa'))
         ];
 
         return view('mahasiswa.penangguhanUKT.formPengajuan', $data);

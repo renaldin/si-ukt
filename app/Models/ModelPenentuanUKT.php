@@ -28,6 +28,15 @@ class ModelPenentuanUKT extends Model
             ->where('mahasiswa.tahun_angkatan', $tahun_angkatan)
             ->orderBy('mahasiswa.prodi', 'ASC')->get();
     }
+
+    public function dataPenentuanUKTAngkatan($tahun_angkatan)
+    {
+        return DB::table('penentuan_ukt')
+            ->join('mahasiswa', 'mahasiswa.id_mahasiswa', '=', 'penentuan_ukt.id_mahasiswa', 'left')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
+            ->where('mahasiswa.tahun_angkatan', $tahun_angkatan)
+            ->orderBy('mahasiswa.prodi', 'ASC')->get();
+    }
     // NOW
 
     // NOW
