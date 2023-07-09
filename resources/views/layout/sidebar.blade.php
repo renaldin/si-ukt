@@ -440,6 +440,19 @@
                                     <span class="item-name">Daftar Mahasiswa</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if($subTitle === 'Daftar Alumni' || $subTitle === 'Edit Alumni') active @endif" href="/daftar-alumni">
+                                    <i class="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i class="sidenav-mini-icon"> U </i>
+                                    <span class="item-name">Daftar Alumni</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @elseif($user->status === 'Kabag Umum & Akademik')

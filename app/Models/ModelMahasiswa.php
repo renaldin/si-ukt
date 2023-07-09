@@ -19,6 +19,15 @@ class ModelMahasiswa extends Model
             ->orderBy('id_mahasiswa', 'DESC')->get();
     }
 
+    public function dataMahasiswaByTahun($tahun_angkatan)
+    {
+        return DB::table('mahasiswa')
+            ->join('kelompok_ukt', 'kelompok_ukt.id_kelompok_ukt', '=', 'mahasiswa.id_kelompok_ukt', 'left')
+            ->orderBy('id_mahasiswa', 'DESC')
+            ->where('tahun_angkatan', $tahun_angkatan)
+            ->get();
+    }
+
     public function dataProdi()
     {
         return DB::table('kelompok_ukt')
@@ -53,5 +62,18 @@ class ModelMahasiswa extends Model
     public function jumlahMahasiswa()
     {
         return DB::table('mahasiswa')->count();
+    }
+
+    public function dataTahunAngkatan()
+    {
+        return DB::table('mahasiswa')
+            ->select('tahun_angkatan', 'status_mahasiswa')
+            ->distinct()
+            ->orderBy('tahun_angkatan', 'DESC')->get();
+    }
+
+    public function jumlah($status)
+    {
+        return DB::table('mahasiswa')->where('status_mahasiswa', $status)->count();
     }
 }

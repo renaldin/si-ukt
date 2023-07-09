@@ -78,4 +78,9 @@ class ModelPenurunanUKT extends Model
             ->limit(1)
             ->orderBy('id_penurunan_ukt', 'DESC')->first();
     }
+
+    public function jumlah($status)
+    {
+        return DB::table('penurunan_ukt')->where('status_penurunan', $status)->count();
+    }
 }

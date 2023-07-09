@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ModelUser;
 use App\Models\ModelMahasiswa;
 use App\Models\ModelPenurunanUKT;
+use App\Models\ModelPenangguhanUKT;
+use App\Models\ModelKelompokUKT;
 
 class Dashboard extends Controller
 {
@@ -13,12 +15,16 @@ class Dashboard extends Controller
     private $ModelMahasiswa;
     private $ModelUser;
     private $ModelPenurunanUKT;
+    private $ModelPenangguhanUKT;
+    private $ModelKelompokUKT;
 
     public function __construct()
     {
         $this->ModelMahasiswa = new ModelMahasiswa();
         $this->ModelUser = new ModelUser();
         $this->ModelPenurunanUKT = new ModelPenurunanUKT();
+        $this->ModelPenangguhanUKT = new ModelPenangguhanUKT();
+        $this->ModelKelompokUKT = new ModelKelompokUKT();
     }
 
     public function index()
@@ -56,6 +62,9 @@ class Dashboard extends Controller
             $data = [
                 'title'                 => null,
                 'user'                  => $user,
+                'totalAlumni'           => $this->ModelMahasiswa->jumlah('Tidak Aktif'),
+                'totalMahasiswa'        => $this->ModelMahasiswa->jumlah('Aktif'),
+                'totalKelompokUKT'      => 8,
                 'subTitle'              => 'Dashboard',
             ];
         } elseif ($status === 'Kabag Umum & Akademik') {
@@ -65,6 +74,9 @@ class Dashboard extends Controller
             $data = [
                 'title'                 => null,
                 'user'                  => $user,
+                'totalApprovePenurunan' => $this->ModelPenurunanUKT->jumlah('Proses di Kepala Bagian'),
+                'totalApprovePenangguhan' => $this->ModelPenangguhanUKT->jumlah('Proses di Kepala Bagian'),
+                'totalKelompokUKT'      => 8,
                 'subTitle'              => 'Dashboard',
             ];
         }

@@ -43,11 +43,41 @@ class KelolaMahasiswa extends Controller
         $data = [
             'title'             => 'Data Mahasiswa',
             'subTitle'          => 'Daftar Mahasiswa',
+            'tahunAngkatan'     => null,
             'daftarMahasiswa'   => $this->ModelMahasiswa->dataMahasiswa(),
+            'dataTahunAngkatan' => $this->ModelMahasiswa->dataTahunAngkatan(),
             'user'              => $this->ModelUser->detail(Session()->get('id_user')),
         ];
 
         return view('bagianKeuangan.kelolaMahasiswa.dataMahasiswa', $data);
+    }
+
+    public function filter()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        if (Request()->status_mahasiswa === 'Aktif') {
+            $title = 'Data Mahasiswa';
+            $subTitle = 'Edit Mahasiswa';
+            $view = 'bagianKeuangan.kelolaMahasiswa.dataMahasiswa';
+        } else {
+            $title = 'Data Alumni';
+            $subTitle = 'Edit Alumni';
+            $view = 'bagianKeuangan.kelolaMahasiswa.dataAlumni';
+        }
+
+        $data = [
+            'title'             => $title,
+            'subTitle'          => $subTitle,
+            'tahunAngkatan'     => Request()->tahun_angkatan,
+            'daftarMahasiswa'   => $this->ModelMahasiswa->dataMahasiswaByTahun(Request()->tahun_angkatan),
+            'dataTahunAngkatan' => $this->ModelMahasiswa->dataTahunAngkatan(),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+        ];
+
+        return view($view, $data);
     }
 
     public function tambah()
@@ -133,14 +163,23 @@ class KelolaMahasiswa extends Controller
             return redirect()->route('admin');
         }
 
+        $detail = $this->ModelMahasiswa->detail($id_mahasiswa);
+        if ($detail->status_mahasiswa === 'Aktif') {
+            $title = 'Data Mahasiswa';
+            $subTitle = 'Edit Mahasiswa';
+        } else {
+            $title = 'Data Alumni';
+            $subTitle = 'Edit Alumni';
+        }
+
         $data = [
-            'title'         => 'Data Mahasiswa',
-            'subTitle'      => 'Edit Mahasiswa',
+            'title'         => $title,
+            'subTitle'      => $subTitle,
             'form'          => 'Edit',
             'dataUKT'       => $this->ModelKelompokUKT->dataKelompokUKT(),
             'user'          => $this->ModelUser->detail(Session()->get('id_user')),
             'dataProdi'     => $this->ModelMahasiswa->dataProdi(),
-            'detail'        => $this->ModelMahasiswa->detail($id_mahasiswa)
+            'detail'        => $detail
         ];
 
         return view('bagianKeuangan.kelolaMahasiswa.form', $data);
@@ -157,6 +196,7 @@ class KelolaMahasiswa extends Controller
             'email'             => 'required|unique:user,email|email',
             'foto_user'         => 'mimes:jpeg,png,jpg|max:2048',
             'status_pengajuan'  => 'required',
+            'status_mahasiswa'  => 'required',
         ], [
             'nama_mahasiswa.required'   => 'Nama lengkap harus diisi!',
             'prodi.required'            => 'Program studi harus diisi!',
@@ -170,6 +210,7 @@ class KelolaMahasiswa extends Controller
             'foto_user.mimes'           => 'Format Foto Anda harus jpg/jpeg/png!',
             'foto_user.max'             => 'Ukuran Foto Anda maksimal 2 mb',
             'status_pengajuan.required' => 'Status pengajuan harus diisi!',
+            'status_mahasiswa.required' => 'Status mahasiswa harus diisi!',
         ]);
 
         if (Request()->password) {
@@ -195,6 +236,7 @@ class KelolaMahasiswa extends Controller
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
+                    'status_mahasiswa'  => Request()->status_mahasiswa,
                     'foto_user'         => $fileUser,
                     'password'          => Hash::make(Request()->password),
                 ];
@@ -210,6 +252,7 @@ class KelolaMahasiswa extends Controller
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
+                    'status_mahasiswa'  => Request()->status_mahasiswa,
                     'password'          => Hash::make(Request()->password),
                 ];
                 $this->ModelMahasiswa->edit($data);
@@ -236,6 +279,7 @@ class KelolaMahasiswa extends Controller
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
+                    'status_mahasiswa'  => Request()->status_mahasiswa,
                     'foto_user'         => $fileUser,
                 ];
                 $this->ModelMahasiswa->edit($data);
@@ -250,6 +294,7 @@ class KelolaMahasiswa extends Controller
                     'nim'               => Request()->nim,
                     'email'             => Request()->email,
                     'status_pengajuan'  => Request()->status_pengajuan,
+                    'status_mahasiswa'  => Request()->status_mahasiswa,
                 ];
                 $this->ModelMahasiswa->edit($data);
             }
@@ -275,6 +320,12 @@ class KelolaMahasiswa extends Controller
             unlink(public_path('foto_user') . '/' . $user->foto_user);
         }
 
+        if ($user->status_mahasiswa === 'Aktif') {
+            $route = 'daftar-mahasiswa';
+        } else {
+            $route = 'daftar-alumni';
+        }
+
         // log
         $dataLog = [
             'id_user'      => Session()->get('id_user'),
@@ -285,7 +336,7 @@ class KelolaMahasiswa extends Controller
         // end log
 
         $this->ModelMahasiswa->hapus($id_mahasiswa);
-        return redirect()->route('daftar-mahasiswa')->with('success', 'Data mahasiswa berhasil dihapus !');
+        return redirect()->route($route)->with('success', 'Data mahasiswa berhasil dihapus !');
     }
 
     public function profil()
@@ -430,5 +481,23 @@ class KelolaMahasiswa extends Controller
         // dd('masuk');
         $filepath = 'Data Mahasiswa.xlsx';
         return response()->download(public_path('gambar') . '/' . $filepath);
+    }
+
+    public function alumni()
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $data = [
+            'title'             => 'Data Mahasiswa',
+            'subTitle'          => 'Daftar Alumni',
+            'tahunAngkatan'     => null,
+            'daftarMahasiswa'   => $this->ModelMahasiswa->dataMahasiswa(),
+            'dataTahunAngkatan' => $this->ModelMahasiswa->dataTahunAngkatan(),
+            'user'              => $this->ModelUser->detail(Session()->get('id_user')),
+        ];
+
+        return view('bagianKeuangan.kelolaMahasiswa.dataAlumni', $data);
     }
 }

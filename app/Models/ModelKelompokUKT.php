@@ -49,4 +49,12 @@ class ModelKelompokUKT extends Model
     {
         DB::table('kelompok_ukt')->where('id_kelompok_ukt', $id_kelompok_ukt)->delete();
     }
+
+    public function jumlah()
+    {
+        return DB::table('kelompok_ukt')
+            ->select('kelompok_ukt')
+            ->distinct()
+            ->count();
+    }
 }

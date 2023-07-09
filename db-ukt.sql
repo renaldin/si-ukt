@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2023 at 03:41 AM
+-- Generation Time: Jul 09, 2023 at 07:10 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -132,6 +132,13 @@ CREATE TABLE `log` (
   `status_user` enum('Bagian Keuangan','Mahasiswa','Akademik','Kabag Umum & Akademik') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `log`
+--
+
+INSERT INTO `log` (`id_log`, `id_user`, `id_mahasiswa`, `keterangan`, `waktu`, `status_user`) VALUES
+(1, 8, NULL, 'Melakukan edit mahasiswa dengan NIM 10110003', '2023-07-10 00:10:08', 'Akademik');
+
 -- --------------------------------------------------------
 
 --
@@ -151,9 +158,18 @@ CREATE TABLE `mahasiswa` (
   `id_kelompok_ukt` int(11) DEFAULT NULL,
   `foto_user` text DEFAULT NULL,
   `status_pengajuan` enum('Tidak','Penangguhan','Penurunan','Penentuan') DEFAULT 'Tidak',
+  `status_mahasiswa` enum('Aktif','Tidak Aktif') NOT NULL DEFAULT 'Aktif',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mahasiswa`
+--
+
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `tahun_angkatan`, `nomor_telepon`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`, `status_pengajuan`, `status_mahasiswa`, `created_at`, `updated_at`) VALUES
+(1, 'Renaldi Noviandi', 'D3 Sistem Informasi', '2023', '0895336928026', 10110003, 'renaldinoviandi9@gmail.com', '$2y$10$aH/0.LmvaxpSVU8ilwloauQL2MY0GF/8j//43PGwiDwD/pnlo3ISe', 'Mahasiswa', NULL, NULL, 'Tidak', 'Tidak Aktif', '2023-07-09 17:09:55', '2023-07-09 17:09:55'),
+(2, 'Pengkuh Rangga Nurhidayat', 'D3 Sistem Informasi', '2023', '0895336928026', 10110004, 'pengkuh123@gmail.com', '$2y$10$21URYSM0Zd4fQKOZ7fCJ9O3psXnKi6MANQO9jz1GgANHhK/2cB2Fe', 'Mahasiswa', NULL, NULL, 'Tidak', 'Aktif', '2023-07-09 17:09:55', '2023-07-09 17:09:55');
 
 -- --------------------------------------------------------
 
@@ -418,13 +434,13 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `nilai_kriteria`

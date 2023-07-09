@@ -5,6 +5,9 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>SI UKT | {{ $subTitle }}</title>
       
       <!-- Favicon -->
@@ -51,13 +54,7 @@
           <div class="container-fluid navbar-inner">
             <a href="#" class="navbar-brand">
                 <!--Logo start-->
-                <svg width="30" class="text-primary" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor"/>
-                    <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor"/>
-                    <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor"/>
-                    <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor"/>
-                </svg>
-                <!--logo End-->        <h4 class="logo-title">Hope UI</h4>
+                <!--logo End-->        <h4 class="logo-title">SI UKT</h4>
             </a>
             <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
                 <i class="icon">
@@ -108,7 +105,7 @@
                                   <p>Silahkan Jelajahi {{$subTitle}}.</p>
                                 @endif
                               </div>
-                              <div>
+                              <div >
                                   <a href="" class="btn btn-link btn-soft-light">
                                       @if($title === null)
                                         {{$subTitle}}
@@ -230,5 +227,16 @@
         });
         }, 6000);
      </script>
+
+{{-- <script>
+  $(function() {
+      $("#tahun_angkatan").on("change", function() {
+          var tahun_angkatan = $(this).val();
+          if (tahun_angkatan != '') {
+             console.log('masuk')
+          }
+      });
+  });
+</script> --}}
   </body>
 </html>

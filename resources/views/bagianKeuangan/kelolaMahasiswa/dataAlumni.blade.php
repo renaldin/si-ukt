@@ -25,8 +25,6 @@
                 </div>
             </div>
             <div class="card-header d-flex justify-content-start">
-                <button type="button" class="btn btn-primary" style="margin-right: 5px;" data-bs-toggle="modal" data-bs-target="#import">Import</button>
-                <a href="/unduh-format-excel" class="btn btn-primary" style="margin-right: 5px;">Unduh Format Excel</a>
                 <button type="button" class="btn btn-primary" style="margin-right: 5px;" data-bs-toggle="modal" data-bs-target="#filter">Filter</button>
             </div>
             {{-- <div class="card-header d-flex justify-content-start" style="margin-right: 5px;">
@@ -77,7 +75,7 @@
                     <tbody>
                         <?php $no = 1;?>
                         @foreach ($daftarMahasiswa as $item)
-                        @if ($item->status_mahasiswa === 'Aktif')
+                        @if ($item->status_mahasiswa === 'Tidak Aktif')
                             <tr>
                                 <td>{{$no++}}</td>
                                 <td class="text-center"><img class="bg-soft-primary rounded img-fluid avatar-40 me-3" src="@if($item->foto_user === null) {{ asset('foto_user/default1.jpg') }} @else {{ asset('foto_user/'.$item->foto_user) }} @endif" alt="profile"></td>
@@ -143,32 +141,6 @@
 </div>
 @endforeach
 
-<div class="modal fade" id="import" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/import-mahasiswa" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="input-box">
-                        <label class="label-text">File Excel</label>
-                        <div class="form-group">
-                            <input class="form-control" type="file" name="file" placeholder="Masukkan File Excel" required>
-                        </div>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-                <button type="submit" class="btn btn-primary">Import</button>
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -182,7 +154,7 @@
                     @csrf
                     <div class="form-group">
                         <label class="form-label" for="tahun_angkatan">Tahun Angkatan <span class="text-danger">*</span></label>
-                        <input type="hidden" name="status_mahasiswa" value="Aktif"> 
+                        <input type="hidden" name="status_mahasiswa" value="Tidak Aktif"> 
                         <select name="tahun_angkatan" id="tahun_angkatan" class="selectpicker form-control" data-style="py-0" required>
                             @if ($tahunAngkatan !== NULL)
                             <option value="{{$tahunAngkatan}}">{{$tahunAngkatan}}</option>
@@ -190,7 +162,7 @@
                             <option value="">-- Pilih --</option>
                             @endif
                             @foreach ($dataTahunAngkatan as $item)
-                            @if ($item->status_mahasiswa == 'Aktif')
+                            @if ($item->status_mahasiswa == 'Tidak Aktif')
                                 <option value="{{$item->tahun_angkatan}}">{{$item->tahun_angkatan}}</option>
                             @endif
                             @endforeach

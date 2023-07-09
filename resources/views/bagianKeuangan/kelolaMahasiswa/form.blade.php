@@ -119,6 +119,25 @@
                                 </div>
                             @enderror
                         </div>
+                        @if ($form === 'Edit')
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="status_mahasiswa">Status Mahasiswa <span class="text-danger">*</span></label>
+                            <select name="status_mahasiswa" id="status_mahasiswa" class="selectpicker form-control @error('status_mahasiswa') is-invalid @enderror" data-style="py-0" @if($form === 'Detail') disabled @endif>
+                                @if ($form === 'Tambah')
+                                    <option>-- Pilih --</option>    
+                                @elseif ($form === 'Edit' || $form === 'Detail')
+                                    <option value="{{$detail->status_mahasiswa}}">{{$detail->status_mahasiswa}}</option>
+                                @endif
+                                <option value="Aktif">Aktif</option>
+                                <option value="Tidak Aktif">Tidak Aktif</option>
+                            </select>
+                            @error('status_mahasiswa')
+                                <div class="invalid-feedback">
+                                {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        @endif
                         @if ($form === 'Edit' && $detail->id_kelompok_ukt !== null)
                         <div class="form-group col-md-6">
                             <label class="form-label" for="id_kelompok_ukt">Kelompok UKT</label>

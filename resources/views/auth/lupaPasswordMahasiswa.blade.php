@@ -52,7 +52,7 @@
                               </div>
                            </div>
                            <div class="col-lg-12 d-flex justify-content-end">
-                              <a href="/login">Login?</a>
+                              <a href="/">Login?</a>
                            </div>
                         </div>
                         <div class="d-flex justify-content-center  mt-5">

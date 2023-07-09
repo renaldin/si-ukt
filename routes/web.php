@@ -203,6 +203,9 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/edit-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesEdit']);
         Route::get('/hapus-mahasiswa/{id}', [KelolaMahasiswa::class, 'prosesHapus']);
         Route::post('/import-mahasiswa', [KelolaMahasiswa::class, 'prosesImport']);
+        Route::POST('/filter-data-mahasiswa', [KelolaMahasiswa::class, 'filter'])->name('filter-data-mahasiswa');
+
+        Route::get('/daftar-alumni', [KelolaMahasiswa::class, 'alumni'])->name('daftar-alumni');
     });
 
     Route::group(['middleware' => 'kepalabagian'], function () {
