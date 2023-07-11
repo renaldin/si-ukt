@@ -173,6 +173,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/laporan-penurunan-ukt', [PenurunanUKT::class, 'laporanPenurunanUKT'])->name('laporan-penurunan-ukt');
         Route::post('/cetak-semua-penurunan', [PenurunanUKT::class, 'cetakSemua']);
         Route::get('/cetak-satuan-penurunan/{id}', [PenurunanUKT::class, 'cetakSatuan']);
+        Route::post('/ubah-kelompok-ukt/{id}', [PenurunanUKT::class, 'ubahKelompokUKT']);
 
         // Kelola Admin
         // Route::get('/daftar-admin', [KelolaAdmin::class, 'index'])->name('daftar-admin');

@@ -42,7 +42,7 @@
                            <div class="col-lg-12">
                               <div class="form-group">
                                  <label for="nik" class="form-label">NIK/NIP</label>
-                                 <input type="number" class="form-control @error('nik') is-invalid @enderror" name="nik" id="nik" aria-describedby="nik" placeholder=" " autofocus>
+                                 <input type="text" onkeydown="return hanyaAngka(event)" class="form-control @error('nik') is-invalid @enderror" name="nik" id="nik" aria-describedby="nik" placeholder=" " autofocus>
                                  <input type="hidden" class="form-control" name="status"  value="Admin">
                                  @error('nik')
                                  <div class="invalid-feedback">

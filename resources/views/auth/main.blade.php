@@ -27,6 +27,15 @@
       <!-- RTL Css -->
       <link rel="stylesheet" href="{{ asset('template/html/assets/css/rtl.min.css') }}"/>
       
+      <script>
+        function hanyaAngka(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+      </script>
   </head>
   <body class=" " data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
     <!-- loader Start -->

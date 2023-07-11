@@ -87,4 +87,9 @@ class ModelPenentuanUKT extends Model
     {
         DB::table('penentuan_ukt')->where('id_penentuan_ukt', $id_penentuan_ukt)->delete();
     }
+
+    public function jumlah($status)
+    {
+        return DB::table('penentuan_ukt')->where('status_penentuan', $status)->count();
+    }
 }

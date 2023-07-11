@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2023 at 07:10 PM
+-- Generation Time: Jul 12, 2023 at 12:08 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -137,7 +137,14 @@ CREATE TABLE `log` (
 --
 
 INSERT INTO `log` (`id_log`, `id_user`, `id_mahasiswa`, `keterangan`, `waktu`, `status_user`) VALUES
-(1, 8, NULL, 'Melakukan edit mahasiswa dengan NIM 10110003', '2023-07-10 00:10:08', 'Akademik');
+(1, 8, NULL, 'Melakukan edit mahasiswa dengan NIM 10110003', '2023-07-10 00:10:08', 'Akademik'),
+(2, NULL, 1, 'Melakukan proses penentuan UKT ', '2023-07-12 04:28:41', 'Mahasiswa'),
+(3, NULL, 1, 'Mengirim data penentuan UKT ', '2023-07-12 04:28:53', 'Mahasiswa'),
+(4, 1, NULL, 'Memberikan keputusan setuju penentuan UKT kepada Renaldi Noviandi', '2023-07-12 04:29:08', 'Bagian Keuangan'),
+(5, NULL, 1, 'Melakukan pengajuan penurunan UKT ', '2023-07-12 04:30:21', 'Mahasiswa'),
+(6, NULL, 1, 'Melakukan kirim pengajuan penurunan UKT Mahasiswa dengan NIM 10110003', '2023-07-12 04:30:29', 'Mahasiswa'),
+(7, 1, NULL, 'Memberikan jadwal survey pengajuan penurunan UKT Renaldi Noviandi', '2023-07-12 04:31:15', 'Bagian Keuangan'),
+(8, 1, NULL, 'Memberikan keputusan setuju dan kirim data ke Kabag Umum & Akademik untuk pengajuan penurunan UKT Renaldi Noviandi', '2023-07-12 04:54:37', 'Bagian Keuangan');
 
 -- --------------------------------------------------------
 
@@ -168,7 +175,7 @@ CREATE TABLE `mahasiswa` (
 --
 
 INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `tahun_angkatan`, `nomor_telepon`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`, `status_pengajuan`, `status_mahasiswa`, `created_at`, `updated_at`) VALUES
-(1, 'Renaldi Noviandi', 'D3 Sistem Informasi', '2023', '0895336928026', 10110003, 'renaldinoviandi9@gmail.com', '$2y$10$aH/0.LmvaxpSVU8ilwloauQL2MY0GF/8j//43PGwiDwD/pnlo3ISe', 'Mahasiswa', NULL, NULL, 'Tidak', 'Tidak Aktif', '2023-07-09 17:09:55', '2023-07-09 17:09:55'),
+(1, 'Renaldi Noviandi', 'D3 Sistem Informasi', '2023', '0895336928026', 10110003, 'renaldinoviandi9@gmail.com', '$2y$10$aH/0.LmvaxpSVU8ilwloauQL2MY0GF/8j//43PGwiDwD/pnlo3ISe', 'Mahasiswa', 10, NULL, 'Penurunan', 'Tidak Aktif', '2023-07-09 17:09:55', '2023-07-09 17:09:55'),
 (2, 'Pengkuh Rangga Nurhidayat', 'D3 Sistem Informasi', '2023', '0895336928026', 10110004, 'pengkuh123@gmail.com', '$2y$10$21URYSM0Zd4fQKOZ7fCJ9O3psXnKi6MANQO9jz1GgANHhK/2cB2Fe', 'Mahasiswa', NULL, NULL, 'Tidak', 'Aktif', '2023-07-09 17:09:55', '2023-07-09 17:09:55');
 
 -- --------------------------------------------------------
@@ -267,6 +274,13 @@ CREATE TABLE `penentuan_ukt` (
   `kk` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `penentuan_ukt`
+--
+
+INSERT INTO `penentuan_ukt` (`id_penentuan_ukt`, `id_mahasiswa`, `label_kriteria`, `value_kriteria`, `target_kriteria`, `hasil_ukt`, `tanggal_penentuan`, `status_penentuan`, `status_laporan`, `slip_gaji`, `struk_listrik`, `struk_air`, `kk`) VALUES
+(1, 1, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 1.000.001 - Rp. 2.000.000;Buruh Pabrik', '2;3', '3', '2023-07-12 04:28:41', 'Setuju', 'Sudah', '07122023042840 Slip Gaji Renaldi Noviandi.pdf', '07122023042841 Struk Listrik Renaldi Noviandi.pdf', '07122023042841 Struk Air Renaldi Noviandi.pdf', '07122023042841 Kartu Keluarga Renaldi Noviandi.pdf');
+
 -- --------------------------------------------------------
 
 --
@@ -290,6 +304,13 @@ CREATE TABLE `penurunan_ukt` (
   `bagian_keuangan` varchar(30) DEFAULT NULL,
   `kabag` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penurunan_ukt`
+--
+
+INSERT INTO `penurunan_ukt` (`id_penurunan_ukt`, `id_mahasiswa`, `alamat_rumah`, `semester`, `tanggal_survey`, `status_penurunan`, `tanggal_pengajuan`, `surat_pengajuan`, `sktm`, `khs`, `struk_listrik`, `foto_rumah`, `slip_gaji`, `bagian_keuangan`, `kabag`) VALUES
+(1, 1, 'Jl. Mayjen Sutoyo No.46, Karanganyar, Kec. Subang, Kab. Subang, Jawa Barat 41211', 2, '2023-07-26', 'Proses di Kepala Bagian', '2023-07-12 04:30:28', '07122023043021 Surat Pengajuan Renaldi Noviandi.pdf', '07122023043021 SKTM Renaldi Noviandi.pdf', '07122023043021 KHS Renaldi Noviandi.pdf', '07122023043021 Struk Listrik Renaldi Noviandi.pdf', '07122023043021 Foto Rumah Renaldi Noviandi.pdf', '07122023043021 Slip Gaji Renaldi Noviandi.pdf', 'Bagian Keuangan Polsub', NULL);
 
 -- --------------------------------------------------------
 
@@ -434,7 +455,7 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
@@ -458,13 +479,13 @@ ALTER TABLE `penangguhan_ukt`
 -- AUTO_INCREMENT for table `penentuan_ukt`
 --
 ALTER TABLE `penentuan_ukt`
-  MODIFY `id_penentuan_ukt` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_penentuan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `penurunan_ukt`
 --
 ALTER TABLE `penurunan_ukt`
-  MODIFY `id_penurunan_ukt` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_penurunan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `setting`

@@ -9,6 +9,7 @@ use App\Models\ModelLog;
 use App\Models\ModelPenurunanUKT;
 use App\Models\ModelPenentuanUKT;
 use App\Models\ModelSetting;
+use App\Models\ModelKelompokUKT;
 use PDF;
 use Twilio\Rest\Client;
 
@@ -21,6 +22,7 @@ class PenurunanUKT extends Controller
     private $ModelPenurunanUKT;
     private $ModelPenentuanUKT;
     private $ModelSetting;
+    private $ModelKelompokUKT;
 
     public function __construct()
     {
@@ -30,6 +32,7 @@ class PenurunanUKT extends Controller
         $this->ModelPenurunanUKT = new ModelPenurunanUKT();
         $this->ModelPenentuanUKT = new ModelPenentuanUKT();
         $this->ModelSetting = new ModelSetting();
+        $this->ModelKelompokUKT = new ModelKelompokUKT();
         date_default_timezone_set('Asia/Jakarta');
     }
 
@@ -400,10 +403,28 @@ class PenurunanUKT extends Controller
             'title'             => 'Penurunan UKT',
             'subTitle'          => 'Kelola Penurunan UKT',
             'dataPenurunanUKT'  => $this->ModelPenurunanUKT->dataPenurunanUKT(),
+            'ukt'               => $this->ModelKelompokUKT->dataKelompokUKT(),
             'user'              => $this->ModelUser->detail(Session()->get('id_user')),
         ];
 
         return view('bagianKeuangan.penurunanUKT.kelola', $data);
+    }
+
+    public function ubahKelompokUKT($id_penurunan_ukt)
+    {
+        if (!Session()->get('status')) {
+            return redirect()->route('admin');
+        }
+
+        $detail = $this->ModelPenurunanUKT->detail($id_penurunan_ukt);
+
+        $data = [
+            'id_mahasiswa'      => $detail->id_mahasiswa,
+            'id_kelompok_ukt'   => Request()->hasil_ukt,
+        ];
+
+        $this->ModelMahasiswa->edit($data);
+        return redirect('kelola-penurunan-ukt')->with('success', 'Berhasil edit Uang Kuliah Tunggal (UKT).');
     }
 
     public function cekPemberkasan($id_penurunan_ukt)
