@@ -12,11 +12,13 @@ class User extends Controller
 
     private $ModelUser;
     private $ModelLog;
+    private $public_path;
 
     public function __construct()
     {
         $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
+        $this->public_path = 'foto_user';
     }
 
     public function index()
@@ -80,7 +82,7 @@ class User extends Controller
 
         $file1 = Request()->foto_user;
         $fileUser = date('mdYHis') . ' ' . Request()->nama_user . '.' . $file1->extension();
-        $file1->move(public_path('foto_user'), $fileUser);
+        $file1->move(public_path($this->public_path), $fileUser);
 
         $data = [
             'nama_user'         => Request()->nama_user,
@@ -150,12 +152,12 @@ class User extends Controller
 
             if (Request()->foto_user <> "") {
                 if ($user->foto_user <> "") {
-                    unlink(public_path('foto_user') . '/' . $user->foto_user);
+                    unlink(public_path($this->public_path) . '/' . $user->foto_user);
                 }
 
                 $file = Request()->foto_user;
                 $fileUser = date('mdYHis') . Request()->nama_user . '.' . $file->extension();
-                $file->move(public_path('foto_user'), $fileUser);
+                $file->move(public_path($this->public_path), $fileUser);
 
                 $data = [
                     'id_user'           => $id_user,
@@ -185,12 +187,12 @@ class User extends Controller
 
             if (Request()->foto_user <> "") {
                 if ($user->foto_user <> "") {
-                    unlink(public_path('foto_user') . '/' . $user->foto_user);
+                    unlink(public_path($this->public_path) . '/' . $user->foto_user);
                 }
 
                 $file = Request()->foto_user;
                 $fileUser = date('mdYHis') . Request()->nama_user . '.' . $file->extension();
-                $file->move(public_path('foto_user'), $fileUser);
+                $file->move(public_path($this->public_path), $fileUser);
 
                 $data = [
                     'id_user'           => $id_user,
@@ -232,7 +234,7 @@ class User extends Controller
         $user = $this->ModelUser->detail($id_user);
 
         if ($user->foto_user <> "") {
-            unlink(public_path('foto_user') . '/' . $user->foto_user);
+            unlink(public_path($this->public_path) . '/' . $user->foto_user);
         }
 
         // log
@@ -287,12 +289,12 @@ class User extends Controller
         if (Request()->foto_user <> "") {
             $user = $this->ModelUser->detail($id_user);
             if ($user->foto_user <> "") {
-                unlink(public_path('foto_user') . '/' . $user->foto_user);
+                unlink(public_path($this->public_path) . '/' . $user->foto_user);
             }
 
             $file = Request()->foto_user;
             $fileName = date('mdYHis') . ' ' . Request()->nama_user . '.' . $file->extension();
-            $file->move(public_path('foto_user'), $fileName);
+            $file->move(public_path($this->public_path), $fileName);
 
             $data = [
                 'id_user'          => $id_user,

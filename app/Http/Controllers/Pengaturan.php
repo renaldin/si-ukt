@@ -13,12 +13,14 @@ class Pengaturan extends Controller
     private $ModelUser;
     private $ModelLog;
     private $ModelSetting;
+    private $public_path;
 
     public function __construct()
     {
         $this->ModelUser = new ModelUser();
         $this->ModelLog = new ModelLog();
         $this->ModelSetting = new ModelSetting();
+        $this->public_path = 'gambar';
     }
 
     public function index()
@@ -47,12 +49,12 @@ class Pengaturan extends Controller
         if (Request()->tanda_tangan_kabag <> "") {
             $detail = $this->ModelSetting->dataSetting();
             if ($detail->tanda_tangan_kabag <> "") {
-                unlink(public_path('gambar') . '/' . $detail->tanda_tangan_kabag);
+                unlink(public_path($this->public_path) . '/' . $detail->tanda_tangan_kabag);
             }
 
             $file = Request()->tanda_tangan_kabag;
             $fileName = ' Tanda Tangan Kepala Bagian' . '.' . $file->extension();
-            $file->move(public_path('gambar'), $fileName);
+            $file->move(public_path($this->public_path), $fileName);
 
             $data = [
                 'id_setting'                    => $id_setting,

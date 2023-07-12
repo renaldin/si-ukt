@@ -10,13 +10,6 @@ use App\Models\ModelLog;
 use App\Models\ModelUser;
 use App\Models\ModelKelompokUKT;
 use Excel;
-// use Response;
-// use Storage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use File;
-use Response;
-use DB;
 
 class KelolaMahasiswa extends Controller
 {
@@ -25,6 +18,7 @@ class KelolaMahasiswa extends Controller
     private $ModelLog;
     private $ModelUser;
     private $ModelKelompokUKT;
+    private $public_path;
 
     public function __construct()
     {
@@ -32,6 +26,7 @@ class KelolaMahasiswa extends Controller
         $this->ModelLog = new ModelLog();
         $this->ModelUser = new ModelUser();
         $this->ModelKelompokUKT = new ModelKelompokUKT();
+        $this->public_path = 'foto_user';
     }
 
     public function index()
@@ -130,7 +125,7 @@ class KelolaMahasiswa extends Controller
 
         $file1 = Request()->foto_user;
         $fileUser = date('mdYHis') . ' ' . Request()->nama_mahasiswa . '.' . $file1->extension();
-        $file1->move(public_path('foto_user'), $fileUser);
+        $file1->move(public_path($this->public_path), $fileUser);
 
         $data = [
             'nama_mahasiswa'    => Request()->nama_mahasiswa,
@@ -219,12 +214,12 @@ class KelolaMahasiswa extends Controller
 
             if (Request()->foto_user <> "") {
                 if ($user->foto_user <> "") {
-                    unlink(public_path('foto_user') . '/' . $user->foto_user);
+                    unlink(public_path($this->public_path) . '/' . $user->foto_user);
                 }
 
                 $file = Request()->foto_user;
                 $fileUser = date('mdYHis') . Request()->nama_mahasiswa . '.' . $file->extension();
-                $file->move(public_path('foto_user'), $fileUser);
+                $file->move(public_path($this->public_path), $fileUser);
 
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
@@ -262,12 +257,12 @@ class KelolaMahasiswa extends Controller
 
             if (Request()->foto_user <> "") {
                 if ($user->foto_user <> "") {
-                    unlink(public_path('foto_user') . '/' . $user->foto_user);
+                    unlink(public_path($this->public_path) . '/' . $user->foto_user);
                 }
 
                 $file = Request()->foto_user;
                 $fileUser = date('mdYHis') . Request()->nama_mahasiswa . '.' . $file->extension();
-                $file->move(public_path('foto_user'), $fileUser);
+                $file->move(public_path($this->public_path), $fileUser);
 
                 $data = [
                     'id_mahasiswa'      => $id_mahasiswa,
@@ -317,7 +312,7 @@ class KelolaMahasiswa extends Controller
         $user = $this->ModelMahasiswa->detail($id_mahasiswa);
 
         if ($user->foto_user <> "") {
-            unlink(public_path('foto_user') . '/' . $user->foto_user);
+            unlink(public_path($this->public_path) . '/' . $user->foto_user);
         }
 
         if ($user->status_mahasiswa === 'Aktif') {
@@ -378,12 +373,12 @@ class KelolaMahasiswa extends Controller
 
             $mahasiswa = $this->ModelMahasiswa->detail($id_mahasiswa);
             if ($mahasiswa->foto_user <> "") {
-                unlink(public_path('foto_user') . '/' . $mahasiswa->foto_user);
+                unlink(public_path($this->public_path) . '/' . $mahasiswa->foto_user);
             }
 
             $file = Request()->foto_user;
             $fileName = date('mdYHis') . Request()->nama_mahasiswa . '.' . $file->extension();
-            $file->move(public_path('foto_user'), $fileName);
+            $file->move(public_path($this->public_path), $fileName);
 
             $data = [
                 'id_mahasiswa'      => $id_mahasiswa,

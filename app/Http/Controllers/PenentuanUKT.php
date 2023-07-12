@@ -25,6 +25,7 @@ class PenentuanUKT extends Controller
     private $ModelKriteria;
     private $ModelNilaiKriteria;
     private $ModelKelompokUKT;
+    private $public_path_gaji, $public_path_listrik, $public_path_air, $public_path_kk;
 
     public function __construct()
     {
@@ -36,6 +37,10 @@ class PenentuanUKT extends Controller
         $this->ModelKriteria = new ModelKriteria();
         $this->ModelNilaiKriteria = new ModelNilaiKriteria();
         $this->ModelKelompokUKT = new ModelKelompokUKT();
+        $this->public_path_gaji = 'dokumen_penentuan_ukt/slip_gaji';
+        $this->public_path_listrik = 'dokumen_penentuan_ukt/rekening_listrik';
+        $this->public_path_air = 'dokumen_penentuan_ukt/rekening_air';
+        $this->public_path_kk = 'dokumen_penentuan_ukt/kk';
         date_default_timezone_set('Asia/Jakarta');
     }
 
@@ -266,7 +271,7 @@ class PenentuanUKT extends Controller
         if ($setting->form_penentuan_slip_gaji == 1) {
             $fileSlipGaji = Request()->slip_gaji;
             $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
-            $fileSlipGaji->move(public_path('dokumen_penentuan_ukt/slip_gaji'), $fileNameSlipGaji);
+            $fileSlipGaji->move(public_path($this->public_path_gaji), $fileNameSlipGaji);
         } else {
             $fileNameSlipGaji = null;
         }
@@ -274,7 +279,7 @@ class PenentuanUKT extends Controller
         if ($setting->form_penentuan_struk_listrik == 1) {
             $fileStrukListrik = Request()->struk_listrik;
             $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
-            $fileStrukListrik->move(public_path('dokumen_penentuan_ukt/rekening_listrik'), $fileNameStrukListrik);
+            $fileStrukListrik->move(public_path($this->public_path_listrik), $fileNameStrukListrik);
         } else {
             $fileNameStrukListrik = null;
         }
@@ -282,7 +287,7 @@ class PenentuanUKT extends Controller
         if ($setting->form_penentuan_struk_air == 1) {
             $fileStrukAir = Request()->struk_air;
             $fileNameStrukAir = date('mdYHis') . ' Struk Air ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukAir->extension();
-            $fileStrukAir->move(public_path('dokumen_penentuan_ukt/rekening_air'), $fileNameStrukAir);
+            $fileStrukAir->move(public_path($this->public_path_air), $fileNameStrukAir);
         } else {
             $fileNameStrukAir = null;
         }
@@ -290,7 +295,7 @@ class PenentuanUKT extends Controller
         if ($setting->form_penentuan_kk == 1) {
             $fileKk = Request()->kk;
             $fileNameKk = date('mdYHis') . ' Kartu Keluarga ' . $mahasiswa->nama_mahasiswa . '.' . $fileKk->extension();
-            $fileKk->move(public_path('dokumen_penentuan_ukt/kk'), $fileNameKk);
+            $fileKk->move(public_path($this->public_path_kk), $fileNameKk);
         } else {
             $fileNameKk = null;
         }
@@ -578,48 +583,48 @@ class PenentuanUKT extends Controller
 
         if ($setting->form_penentuan_slip_gaji == 1) {
             if ($penentuanUKT->slip_gaji <> "") {
-                unlink(public_path('dokumen_penentuan_ukt/slip_gaji') . '/' . $penentuanUKT->slip_gaji);
+                unlink(public_path($this->public_path_gaji) . '/' . $penentuanUKT->slip_gaji);
             }
 
             $fileSlipGaji = Request()->slip_gaji;
             $fileNameSlipGaji = date('mdYHis') . ' Slip Gaji ' . $mahasiswa->nama_mahasiswa . '.' . $fileSlipGaji->extension();
-            $fileSlipGaji->move(public_path('dokumen_penentuan_ukt/slip_gaji'), $fileNameSlipGaji);
+            $fileSlipGaji->move(public_path($this->public_path_gaji), $fileNameSlipGaji);
         } else {
             $fileNameSlipGaji = null;
         }
 
         if ($setting->form_penentuan_struk_listrik == 1) {
             if ($penentuanUKT->struk_listrik <> "") {
-                unlink(public_path('dokumen_penentuan_ukt/rekening_listrik') . '/' . $penentuanUKT->struk_listrik);
+                unlink(public_path($this->public_path_listrik) . '/' . $penentuanUKT->struk_listrik);
             }
 
             $fileStrukListrik = Request()->struk_listrik;
             $fileNameStrukListrik = date('mdYHis') . ' Struk Listrik ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukListrik->extension();
-            $fileStrukListrik->move(public_path('dokumen_penentuan_ukt/rekening_listrik'), $fileNameStrukListrik);
+            $fileStrukListrik->move(public_path($this->public_path_listrik), $fileNameStrukListrik);
         } else {
             $fileNameStrukListrik = null;
         }
 
         if ($setting->form_penentuan_struk_air == 1) {
             if ($penentuanUKT->struk_air <> "") {
-                unlink(public_path('dokumen_penentuan_ukt/rekening_air') . '/' . $penentuanUKT->struk_air);
+                unlink(public_path($this->public_path_air) . '/' . $penentuanUKT->struk_air);
             }
 
             $fileStrukAir = Request()->struk_air;
             $fileNameStrukAir = date('mdYHis') . ' Struk Air ' . $mahasiswa->nama_mahasiswa . '.' . $fileStrukAir->extension();
-            $fileStrukAir->move(public_path('dokumen_penentuan_ukt/rekening_air'), $fileNameStrukAir);
+            $fileStrukAir->move(public_path($this->public_path_air), $fileNameStrukAir);
         } else {
             $fileNameStrukAir = null;
         }
 
         if ($setting->form_penentuan_kk == 1) {
             if ($penentuanUKT->kk <> "") {
-                unlink(public_path('dokumen_penentuan_ukt/kk') . '/' . $penentuanUKT->kk);
+                unlink(public_path($this->public_path_kk) . '/' . $penentuanUKT->kk);
             }
 
             $fileKk = Request()->kk;
             $fileNameKk = date('mdYHis') . ' Kartu Keluarga ' . $mahasiswa->nama_mahasiswa . '.' . $fileKk->extension();
-            $fileKk->move(public_path('dokumen_penentuan_ukt/kk'), $fileNameKk);
+            $fileKk->move(public_path($this->public_path_kk), $fileNameKk);
         } else {
             $fileNameKk = null;
         }
@@ -689,19 +694,19 @@ class PenentuanUKT extends Controller
         $detail = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
 
         if ($detail->slip_gaji <> "") {
-            unlink(public_path('dokumen_penentuan_ukt/slip_gaji') . '/' . $detail->slip_gaji);
+            unlink(public_path($this->public_path_gaji) . '/' . $detail->slip_gaji);
         }
 
         if ($detail->struk_listrik <> "") {
-            unlink(public_path('dokumen_penentuan_ukt/rekening_listrik') . '/' . $detail->struk_listrik);
+            unlink(public_path($this->public_path_listrik) . '/' . $detail->struk_listrik);
         }
 
         if ($detail->struk_air <> "") {
-            unlink(public_path('dokumen_penentuan_ukt/rekening_air') . '/' . $detail->struk_air);
+            unlink(public_path($this->public_path_air) . '/' . $detail->struk_air);
         }
 
         if ($detail->kk <> "") {
-            unlink(public_path('dokumen_penentuan_ukt/kk') . '/' . $detail->kk);
+            unlink(public_path($this->public_path_kk) . '/' . $detail->kk);
         }
 
         $dataMahasiswa = [
