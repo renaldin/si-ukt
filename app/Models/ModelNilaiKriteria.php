@@ -14,6 +14,7 @@ class ModelNilaiKriteria extends Model
     {
         return DB::table('nilai_kriteria')
             ->join('kriteria', 'kriteria.id_kriteria', '=', 'nilai_kriteria.id_kriteria', 'left')
+            ->orderBy('nilai_kriteria.ukt', 'ASC')
             ->get();
     }
 
@@ -24,6 +25,7 @@ class ModelNilaiKriteria extends Model
             ->select('ukt')
             ->where('nilai_kriteria.id_kriteria', $id_kriteria)
             ->distinct('ukt')
+            ->orderBy('nilai_kriteria.ukt', 'ASC')
             ->get();
     }
     // NOWW

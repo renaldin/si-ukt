@@ -185,7 +185,7 @@
                             <td>{{$item->nama_mahasiswa}}</td>
                             <td>{{$item->nim}}</td>
                             <td>{{$item->prodi}}</td>
-                            <td>{{$item->kelompok_ukt}}/{{'Rp '.number_format($item->nominal, 0, ',', '.')}}</td>
+                            <td>UKT {{$item->kelompok_ukt}}</td>
 						</tr>
 						@endforeach
 					@else

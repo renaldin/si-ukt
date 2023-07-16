@@ -521,7 +521,7 @@ class PenangguhanUKT extends Controller
         $detail = $this->ModelPenangguhanUKT->detail($id_penangguhan_ukt);
 
         $data = [
-            'title'             => 'Rekap Penangguhan UKT',
+            'title'             => 'Detail Penangguhan UKT',
             'user'              => $this->ModelUser->detail(Session()->get('id_user')),
             'setting'           => $this->ModelSetting->dataSetting(),
             'detail'            => $detail,

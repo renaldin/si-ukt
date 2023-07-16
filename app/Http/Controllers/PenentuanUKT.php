@@ -972,7 +972,7 @@ class PenentuanUKT extends Controller
         $detail = $this->ModelPenentuanUKT->detail($id_penentuan_ukt);
 
         $data = [
-            'title'             => 'Rekap Penentuan UKT',
+            'title'             => 'Detail Penentuan UKT',
             'user'              => $this->ModelUser->detail(Session()->get('id_user')),
             'setting'           => $this->ModelSetting->dataSetting(),
             'detail'            => $detail,
