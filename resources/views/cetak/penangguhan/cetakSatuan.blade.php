@@ -263,7 +263,7 @@
                         <td style="width: 200px;">Orang tua/Wali Mahasiswa</td>
                     </tr>
                     <tr>
-                        <td style="padding-top: 5px; padding-bottom: 5px;" @if($detail->kabag && $detail->status_penangguhan === 'Setuju') @else style="height: 80px;"@endif>@if($detail->kabag && $detail->status_penangguhan === 'Setuju') <img src="https://himmi-polsub.com/gambar/qr-code.png" width="29%" alt=""> @endif</td>
+                        <td style="padding-top: 5px; padding-bottom: 5px;" @if($detail->kabag && $detail->status_penangguhan === 'Setuju') @else style="height: 80px;"@endif>@if($detail->kabag && $detail->status_penangguhan === 'Setuju') <img src="https://ukt.elearningpolsub.com/gambar/{{$setting->tanda_tangan_kabag}}" width="33%" alt=""> @endif</td>
                         <td></td>
                         <td>Materai 10.0000</td>
                     </tr>

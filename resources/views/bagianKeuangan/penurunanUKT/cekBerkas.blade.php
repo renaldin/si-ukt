@@ -215,7 +215,7 @@
                     @endif
                     @if ($detail->slip_gaji != null)
                     <tr>
-                        <td>Slip Gaji</td>
+                        <td>Slip Gaji / Keterangan Penghasilan Orang Tua</td>
                         <td>
                             @if ($detail->slip_gaji)
                                 Terlampir
@@ -313,7 +313,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Slip Gaji</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Slip Gaji / Keterangan Penghasilan Orang Tua</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

@@ -46,6 +46,22 @@
                               <img src="@if($detail->tanda_tangan_kabag){{ asset('gambar/'.$detail->tanda_tangan_kabag) }}@else{{ asset('gambar/default1.jpg') }}@endif" alt="Tanda Tangan Kabag" id="load_image" class="theme-color-default-img profile-pic rounded avatar-100">
                         </div>
                      </div>
+                     <div class="col-sm-12 col-lg-6">
+                        <label class="form-label">Edit Penentuan UKT</label>
+                        <div class="form-check">
+                           <input type="radio" class="form-check-input" id="validationFormCheck2" @if($detail->penentuan_edit_ukt == 1) checked @endif name="penentuan_edit_ukt" value="1" required>
+                           <label class="form-check-label" for="validationFormCheck2">Show</label>
+                        </div>
+                        <div class="form-check form-group">
+                           <input type="radio" class="form-check-input" id="validationFormCheck3" name="penentuan_edit_ukt" @if($detail->penentuan_edit_ukt == 0) checked @endif value="0" required>
+                           <label class="form-check-label" for="validationFormCheck3">Hide</label>
+                           @error('penentuan_edit_ukt')
+                              <div class="invalid-feedback">
+                                 {{ $message }}
+                              </div>
+                           @enderror
+                        </div>
+                     </div>
                   </div>
 
                   <br>
@@ -57,7 +73,7 @@
                         </div>
                      </div>
                      <div class="col-sm-12 col-lg-6">
-                        <label class="form-label">Berkas Slip Gaji</label>
+                        <label class="form-label">Berkas Slip Gaji / Keterangan Penghasilan Orang Tua</label>
                         <div class="form-check">
                            <input type="radio" class="form-check-input" id="validationFormCheck2" @if($detail->form_penentuan_slip_gaji == 1) checked @endif name="form_penentuan_slip_gaji" value="1" required>
                            <label class="form-check-label" for="validationFormCheck2">Show</label>
@@ -260,7 +276,7 @@
                         </div>
                      </div>
                      <div class="col-sm-12 col-lg-6">
-                        <label class="form-label">Berkas Slip Gaji</label>
+                        <label class="form-label">Berkas Slip Gaji / Keterangan Penghasilan Orang Tua</label>
                         <div class="form-check">
                            <input type="radio" class="form-check-input" id="validationFormCheck2" @if($detail->form_penurunan_slip_gaji == 1) checked @endif name="form_penurunan_slip_gaji" value="1" required>
                            <label class="form-check-label" for="validationFormCheck2">Show</label>

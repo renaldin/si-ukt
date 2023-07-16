@@ -73,7 +73,8 @@ class Pengaturan extends Controller
                 'form_penentuan_struk_listrik'  => Request()->form_penentuan_struk_listrik,
                 'form_penentuan_struk_air'      => Request()->form_penentuan_struk_air,
                 'form_penentuan_kk'             => Request()->form_penentuan_kk,
-                'tanda_tangan_kabag'            => $fileName
+                'tanda_tangan_kabag'            => $fileName,
+                'penentuan_edit_ukt'            => Request()->penentuan_edit_ukt,
             ];
         } else {
             $data = [
@@ -93,6 +94,7 @@ class Pengaturan extends Controller
                 'form_penentuan_struk_listrik'  => Request()->form_penentuan_struk_listrik,
                 'form_penentuan_struk_air'      => Request()->form_penentuan_struk_air,
                 'form_penentuan_kk'             => Request()->form_penentuan_kk,
+                'penentuan_edit_ukt'            => Request()->penentuan_edit_ukt,
             ];
         }
 

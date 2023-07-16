@@ -158,7 +158,7 @@
                         @endif
                         @if ($setting->form_penentuan_slip_gaji == 1)
                             <div class="form-group col-md-6">
-                                <label class="form-label" for="slip_gaji">Slip Gaji Orang Tua <span class="text-danger">* PDF</span></label>
+                                <label class="form-label" for="slip_gaji">Slip Gaji / Keterangan Penghasilan Orang Tua<span class="text-danger">* PDF</span></label>
                                 <input type="file" class="form-control @error('slip_gaji') is-invalid @enderror" id="slip_gaji" name="slip_gaji" placeholder="Masukkan Foto Rumah" required>
                                 @error('slip_gaji')
                                     <div class="invalid-feedback">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2023 at 03:19 AM
+-- Generation Time: Jul 16, 2023 at 05:30 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -132,6 +132,21 @@ CREATE TABLE `log` (
   `status_user` enum('Bagian Keuangan','Mahasiswa','Akademik','Kabag Umum & Akademik') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `log`
+--
+
+INSERT INTO `log` (`id_log`, `id_user`, `id_mahasiswa`, `keterangan`, `waktu`, `status_user`) VALUES
+(1, NULL, 1, 'Melakukan proses penentuan UKT ', '2023-07-12 14:43:36', 'Mahasiswa'),
+(2, NULL, 1, 'Mengirim data penentuan UKT ', '2023-07-12 14:43:45', 'Mahasiswa'),
+(3, 1, NULL, 'Memberikan keputusan setuju penentuan UKT kepada Renaldi Noviandi', '2023-07-12 15:03:54', 'Bagian Keuangan'),
+(4, 1, NULL, 'Melakukan edit pengaturan', '2023-07-16 22:10:02', 'Bagian Keuangan'),
+(5, 1, NULL, 'Melakukan edit pengaturan', '2023-07-16 22:10:11', 'Bagian Keuangan'),
+(6, 8, NULL, 'Melakukan tambah mahasiswa dengan NIM 10107050', '2023-07-16 22:12:39', 'Akademik'),
+(7, NULL, 3, 'Melakukan proses penentuan UKT ', '2023-07-16 22:14:05', 'Mahasiswa'),
+(8, NULL, 3, 'Mengirim data penentuan UKT ', '2023-07-16 22:14:21', 'Mahasiswa'),
+(9, 1, NULL, 'Melakukan edit pengaturan', '2023-07-16 22:21:08', 'Bagian Keuangan');
+
 -- --------------------------------------------------------
 
 --
@@ -155,6 +170,15 @@ CREATE TABLE `mahasiswa` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mahasiswa`
+--
+
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama_mahasiswa`, `prodi`, `tahun_angkatan`, `nomor_telepon`, `nim`, `email`, `password`, `status`, `id_kelompok_ukt`, `foto_user`, `status_pengajuan`, `status_mahasiswa`, `created_at`, `updated_at`) VALUES
+(1, 'Renaldi Noviandi', 'D3 Sistem Informasi', '2023', '0895336928026', 10110003, 'renaldinoviandi9@gmail.com', '$2y$10$9aJMcuhSDDYdyLOzMeVqFuorb2PGWU3CO425x6R2A8Z9N5GPF22FW', 'Mahasiswa', 11, NULL, 'Tidak', 'Aktif', '2023-07-12 07:41:39', '2023-07-12 07:41:39'),
+(2, 'Pengkuh Rangga Nurhidayat', 'D3 Sistem Informasi', '2023', '0895336928026', 10110004, 'pengkuh123@gmail.com', '$2y$10$HRqi3pr3/KEGDhgJ6ONPeefCKoC0RJR77OBKwdS0XJb9odUsLQ1aO', 'Mahasiswa', NULL, NULL, 'Tidak', 'Aktif', '2023-07-12 07:41:39', '2023-07-12 07:41:39'),
+(3, 'Mahasiswa 5', 'D3 Sistem Informasi', '2023', '08989784353', 10107050, 'renaldinoviandi@gmail.com', '$2y$10$SeXuKTbe5e/5xs7g0gMIHu6HQatJNzZS32o9bUzBdY1mgfviFa9y6', 'Mahasiswa', NULL, '07162023151239 Mahasiswa 5.png', 'Penentuan', 'Aktif', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -252,6 +276,14 @@ CREATE TABLE `penentuan_ukt` (
   `kk` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `penentuan_ukt`
+--
+
+INSERT INTO `penentuan_ukt` (`id_penentuan_ukt`, `id_mahasiswa`, `label_kriteria`, `value_kriteria`, `target_kriteria`, `hasil_ukt`, `tanggal_penentuan`, `status_penentuan`, `status_laporan`, `slip_gaji`, `struk_listrik`, `struk_air`, `kk`) VALUES
+(1, 1, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 2.000.001 - Rp. 4.000.000;Buruh Pabrik', '3;3', '3', '2023-07-12 14:43:36', 'Setuju', 'Sudah', '07122023144333 Slip Gaji Renaldi Noviandi.pdf', '07122023144336 Struk Listrik Renaldi Noviandi.pdf', '07122023144336 Struk Air Renaldi Noviandi.pdf', '07122023144336 Kartu Keluarga Renaldi Noviandi.pdf'),
+(2, 3, 'Pendapatan Orang Tua;Pekerjaan Orang Tua', 'Rp. 2.000.001 - Rp. 4.000.000;Buruh Pabrik', '3;3', '2', '2023-07-16 22:14:05', 'Proses', 'Belum', '07162023221404 Slip Gaji Mahasiswa 5.pdf', '07162023221405 Struk Listrik Mahasiswa 5.pdf', '07162023221405 Struk Air Mahasiswa 5.pdf', '07162023221405 Kartu Keluarga Mahasiswa 5.pdf');
+
 -- --------------------------------------------------------
 
 --
@@ -299,15 +331,16 @@ CREATE TABLE `setting` (
   `form_penentuan_slip_gaji` int(11) NOT NULL,
   `form_penentuan_struk_listrik` int(11) NOT NULL,
   `form_penentuan_struk_air` int(11) NOT NULL,
-  `form_penentuan_kk` int(11) NOT NULL
+  `form_penentuan_kk` int(11) NOT NULL,
+  `penentuan_edit_ukt` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `setting`
 --
 
-INSERT INTO `setting` (`id_setting`, `batas_ukt_penangguhan`, `batas_ukt_penurunan`, `persen_denda`, `persen_angsuran_pertama`, `batas_tanggal_angsuran`, `form_penurunan_sktm`, `form_penurunan_khs`, `form_penurunan_struk_listrik`, `form_penurunan_slip_gaji`, `form_penurunan_foto_rumah`, `form_penurunan_surat_pengajuan`, `tanda_tangan_kabag`, `form_penentuan_slip_gaji`, `form_penentuan_struk_listrik`, `form_penentuan_struk_air`, `form_penentuan_kk`) VALUES
-(1, 2, 2, 5, 50, 60, 1, 1, 1, 1, 1, 1, ' Tanda Tangan Kepala Bagian.png', 1, 1, 1, 1);
+INSERT INTO `setting` (`id_setting`, `batas_ukt_penangguhan`, `batas_ukt_penurunan`, `persen_denda`, `persen_angsuran_pertama`, `batas_tanggal_angsuran`, `form_penurunan_sktm`, `form_penurunan_khs`, `form_penurunan_struk_listrik`, `form_penurunan_slip_gaji`, `form_penurunan_foto_rumah`, `form_penurunan_surat_pengajuan`, `tanda_tangan_kabag`, `form_penentuan_slip_gaji`, `form_penentuan_struk_listrik`, `form_penentuan_struk_air`, `form_penentuan_kk`, `penentuan_edit_ukt`) VALUES
+(1, 2, 2, 5, 50, 60, 1, 1, 1, 1, 1, 1, ' Tanda Tangan Kepala Bagian.png', 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -419,13 +452,13 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `nilai_kriteria`
@@ -443,7 +476,7 @@ ALTER TABLE `penangguhan_ukt`
 -- AUTO_INCREMENT for table `penentuan_ukt`
 --
 ALTER TABLE `penentuan_ukt`
-  MODIFY `id_penentuan_ukt` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_penentuan_ukt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `penurunan_ukt`

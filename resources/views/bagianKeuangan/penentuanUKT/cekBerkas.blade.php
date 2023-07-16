@@ -73,7 +73,11 @@
                                         @if ($detail->status_penentuan == 'Tidak Setuju')
                                             <strong>Tidak Disetujui, karena data penentuan UKT tidak sesuai.</strong>
                                         @elseif($detail->id_kelompok_ukt === null)
-                                            <strong>Hasil perhitungan Metode TOPSIS hasil UKT untuk mehasiswa ini adalah UKT {{$detail->hasil_ukt}}.</strong>
+                                            @if ($setting->penentuan_edit_ukt == 1)
+                                                <strong>Hasil perhitungan Metode TOPSIS hasil UKT untuk mehasiswa ini adalah UKT {{$detail->hasil_ukt}}.</strong>
+                                            @else  
+                                                <strong>Hasil penentuan UKT untuk mehasiswa ini adalah UKT {{$detail->hasil_ukt}}.</strong>
+                                            @endif
                                         @else
                                             {{$detail->kelompok_ukt}} / {{'Rp '.number_format($detail->nominal, 0, ',', '.')}}
                                         @endif
@@ -93,11 +97,18 @@
                 @endif
             </div> --}}
             @if ($detail->id_kelompok_ukt === null)
-            <div class="card-header mx-2">
-                <p><strong>Keterangan:</strong></p>
-                <p>Dengan data penentuan UKT dan berkas yang diinput, hasil perhitungan Metode TOPSIS Mahasiswa yang bernama <strong>{{$detail->nama_mahasiswa}}</strong> mendapatkan kelompok UKT <strong>{{$detail->hasil_ukt}}</strong> di Program Studi <strong>{{$detail->prodi}}</strong>. Apakah ingin diedit?</p>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$detail->id_penentuan_ukt}}" class="btn btn-success">Edit</button>
-            </div>
+                @if ($setting->penentuan_edit_ukt == 1)
+                    <div class="card-header mx-2">
+                        <p><strong>Keterangan:</strong></p>
+                        <p>Dengan data penentuan UKT dan berkas yang diinput, hasil perhitungan Metode TOPSIS Mahasiswa yang bernama <strong>{{$detail->nama_mahasiswa}}</strong> mendapatkan kelompok UKT <strong>{{$detail->hasil_ukt}}</strong> di Program Studi <strong>{{$detail->prodi}}</strong>. Apakah ingin diedit?</p>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$detail->id_penentuan_ukt}}" class="btn btn-success">Edit</button>
+                    </div>
+                @else
+                    <div class="card-header mx-2">
+                        <p><strong>Keterangan:</strong></p>
+                        <p>Dengan data penentuan UKT dan berkas yang diinput, hasil penentuan UKT Mahasiswa yang bernama <strong>{{$detail->nama_mahasiswa}}</strong> mendapatkan kelompok UKT <strong>{{$detail->hasil_ukt}}</strong> di Program Studi <strong>{{$detail->prodi}}</strong>.</p>
+                    </div>
+                @endif
             @endif
             <div class="card-body mx-2">
                 <p><strong>Data penentuan UKT yang diinput:</strong></p>
@@ -137,7 +148,7 @@
                     <tbody>
                         @if ($detail->slip_gaji != null)
                         <tr>
-                            <td>Slip Gaji</td>
+                            <td>Slip Gaji / Keterangan Penghasilan Orang Tua</td>
                             <td>
                                 @if ($detail->slip_gaji)
                                     Terlampir
@@ -269,7 +280,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Slip Gaji</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Slip Gaji / Keterangan Penghasilan Orang Tua</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
